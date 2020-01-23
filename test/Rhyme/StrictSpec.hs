@@ -1,6 +1,7 @@
 module Rhyme.StrictSpec
-  ( spec
-  ) where
+  ( spec,
+  )
+where
 
 import qualified Rhyme.Strict as Strict
 import Sound.Sound
@@ -33,31 +34,35 @@ spec = do
 demoSylTik :: Syl.Syl
 demoSylTik =
   Syl.Syl
-    { Syl.onset = Sound <$> ["t"]
-    , Syl.nucleus = Sound <$> ["ɪ"]
-    , Syl.coda = Sound <$> ["k"]
-    , Syl.stress = NullStress
+    { Syl.onset = Sound <$> ["t"],
+      Syl.nucleus = Sound <$> ["ɪ"],
+      Syl.coda = Sound <$> ["k"],
+      Syl.stress = NullStress
     }
 
 demoSylTok :: Syl.Syl
 demoSylTok =
   Syl.Syl
-    { Syl.onset = Sound <$> ["t"]
-    , Syl.nucleus = Sound <$> ["ɔ"]
-    , Syl.coda = Sound <$> ["k"]
-    , Syl.stress = NullStress
+    { Syl.onset = Sound <$> ["t"],
+      Syl.nucleus = Sound <$> ["ɔ"],
+      Syl.coda = Sound <$> ["k"],
+      Syl.stress = NullStress
     }
 
 demoSylShift :: Syl.Syl
 demoSylShift =
   Syl.Syl
-    { Syl.onset = Sound <$> ["ʃ"]
-    , Syl.nucleus = Sound <$> ["ɪ"]
-    , Syl.coda = Sound <$> ["f", "t"]
-    , Syl.stress = NullStress
+    { Syl.onset = Sound <$> ["ʃ"],
+      Syl.nucleus = Sound <$> ["ɪ"],
+      Syl.coda = Sound <$> ["f", "t"],
+      Syl.stress = NullStress
     }
 
 demoSylEmpty :: Syl.Syl
 demoSylEmpty =
   Syl.Syl
-    {Syl.onset = [], Syl.nucleus = [], Syl.coda = [], Syl.stress = NullStress}
+    { Syl.onset = [],
+      Syl.nucleus = [],
+      Syl.coda = [],
+      Syl.stress = NullStress
+    }

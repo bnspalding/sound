@@ -1,6 +1,7 @@
 module Sound.SoundSpec
-  ( spec
-  ) where
+  ( spec,
+  )
+where
 
 import Test.Hspec
 

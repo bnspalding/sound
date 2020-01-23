@@ -1,6 +1,7 @@
 module Sound.SylSpec
-  ( spec
-  ) where
+  ( spec,
+  )
+where
 
 import Sound.Sound
 import Sound.Stress
@@ -25,8 +26,8 @@ spec =
 demoSyl :: Syl
 demoSyl =
   Syl
-    { onset = Sound <$> ["p", "l"]
-    , nucleus = Sound <$> ["ɔ"]
-    , coda = Sound <$> ["p", "s"]
-    , stress = Stressed
+    { onset = Sound <$> ["p", "l"],
+      nucleus = Sound <$> ["ɔ"],
+      coda = Sound <$> ["p", "s"],
+      stress = Stressed
     }

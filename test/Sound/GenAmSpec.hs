@@ -1,6 +1,7 @@
 module Sound.GenAmSpec
-  ( spec
-  ) where
+  ( spec,
+  )
+where
 
 import qualified Data.Set as Set
 import qualified Sound.GenAm as GenAm
@@ -19,8 +20,8 @@ spec =
     it "does not contain common mistypes: e a o r g ɑ͡ɪ ɛ˞ y" $
       GenAm.sounds `shouldSatisfy` Set.disjoint mistypes
     it "contains no duplicate sounds (by feature set)" $
-      GenAm.sounds `shouldSatisfy`
-      foldl (\acc x -> acc && uniqueFeatureSet GenAm.sounds x) True
+      GenAm.sounds
+        `shouldSatisfy` foldl (\acc x -> acc && uniqueFeatureSet GenAm.sounds x) True
 
 allSounds :: Set.Set Sound
 allSounds = Set.union vowels consonants
@@ -34,56 +35,58 @@ uniqueFeatureSet set s =
 consonants :: Set.Set Sound
 consonants =
   Set.fromList
-    (Sound <$>
-     [ "m"
-     , "n"
-     , "ŋ"
-     , "p"
-     , "b"
-     , "t"
-     , "d"
-     , "k"
-     , "ɡ"
-     , "t͡ʃ"
-     , "d͡ʒ"
-     , "f"
-     , "v"
-     , "θ"
-     , "ð"
-     , "s"
-     , "z"
-     , "ʃ"
-     , "ʒ"
-     , "h"
-     , "l"
-     , "ɹ"
-     , "j"
-     , "ʍ"
-     , "w"
-     ])
+    ( Sound
+        <$> [ "m",
+              "n",
+              "ŋ",
+              "p",
+              "b",
+              "t",
+              "d",
+              "k",
+              "ɡ",
+              "t͡ʃ",
+              "d͡ʒ",
+              "f",
+              "v",
+              "θ",
+              "ð",
+              "s",
+              "z",
+              "ʃ",
+              "ʒ",
+              "h",
+              "l",
+              "ɹ",
+              "j",
+              "ʍ",
+              "w"
+            ]
+    )
 
 vowels :: Set.Set Sound
 vowels =
   Set.fromList
-    (Sound <$>
-     [ "i"
-     , "ɪ"
-     , "ɛ"
-     , "æ"
-     , "ə"
-     , "ʌ"
-     , "ɑ"
-     , "u"
-     , "ʊ"
-     , "ɔ"
-     , "e͡ɪ"
-     , "a͡ɪ"
-     , "a͡ʊ"
-     , "o͡ʊ"
-     , "ɔ͡ɪ"
-     , "ɜ˞"
-     , "ə˞"
-     ])
+    ( Sound
+        <$> [ "i",
+              "ɪ",
+              "ɛ",
+              "æ",
+              "ə",
+              "ʌ",
+              "ɑ",
+              "u",
+              "ʊ",
+              "ɔ",
+              "e͡ɪ",
+              "a͡ɪ",
+              "a͡ʊ",
+              "o͡ʊ",
+              "ɔ͡ɪ",
+              "ɜ˞",
+              "ə˞"
+            ]
+    )
 
 mistypes :: Set.Set Sound
 mistypes = Set.fromList (Sound <$> ["e", "a", "o", "r", "g", "ɑ͡ɪ", "ɛ˞", "y"])
