@@ -2,9 +2,9 @@ name: Sound
 version: 0.0
 author: "bnspalding"
 copyright: "Copyright (c) 2019 Ben Spalding"
-synopsis: "project description for seq-sel/sound"
-
-description: Please see the README on GitHub at <https://github.com/bnspalding/seq-sel#readme>
+synopsis: "project description for Sound"
+#TODO: add synopsis for package
+description: Please see the README on GitHub at <https://github.com/bnspalding/sound#readme>
 
 dependencies:
   - base >= 4.9 && < 5
