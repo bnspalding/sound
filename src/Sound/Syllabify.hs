@@ -1,6 +1,7 @@
 module Sound.Syllabify
-  ( syllabify
-  ) where
+  ( syllabify,
+  )
+where
 
 import Data.List
 import Data.Maybe
@@ -25,7 +26,7 @@ _syllabify result currentSyl prevDir [current] =
           else result ++ [currentSyl ++ [current]]
    in makeSyl <$> filter (not . null) final
 -- Recursive Case: break the sound list into sublists at breakpoints
-_syllabify result currentSyl prevDir (current:next:ss) =
+_syllabify result currentSyl prevDir (current : next : ss) =
   let currentDir =
         case current of
           (Sound "ˈ") -> Nothing
@@ -83,10 +84,10 @@ makeSyl :: [Sound] -> Syl
 makeSyl [] = error "no sounds passed to makeSyl"
 makeSyl soundList =
   Syl
-    { onset = before
-    , nucleus = [mostSonorous]
-    , coda = after
-    , stress = stressFromMaybe stressSymMaybe
+    { onset = before,
+      nucleus = [mostSonorous],
+      coda = after,
+      stress = stressFromMaybe stressSymMaybe
     }
   where
     (stressSymMaybe, ss) = extractStressSym soundList
@@ -95,7 +96,7 @@ makeSyl soundList =
     (before, after) =
       case splitAt mostSonorousI ss of
         (_before, []) -> (_before, [])
-        (_before, _:_after) -> (_before, _after)
+        (_before, _ : _after) -> (_before, _after)
 
 stressSymsIPA :: [String]
 stressSymsIPA = [stressSymbolIPA, secondaryStressSymbolIPA]

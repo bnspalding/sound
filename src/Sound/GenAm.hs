@@ -1,7 +1,8 @@
 module Sound.GenAm
-  ( sounds
-  , features
-  ) where
+  ( sounds,
+    features,
+  )
+where
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set

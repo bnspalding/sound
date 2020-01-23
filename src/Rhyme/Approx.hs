@@ -1,9 +1,10 @@
 module Rhyme.Approx
-  ( rhyme
-  , assonance
-  , alliteration
-  , similarity
-  ) where
+  ( rhyme,
+    assonance,
+    alliteration,
+    similarity,
+  )
+where
 
 import qualified Data.Set as Set
 import Sound
@@ -22,8 +23,8 @@ alliteration = _similarity Syl.onset
 
 similarity :: [Sound] -> [Sound] -> Float
 similarity ss1 ss2 =
-  fromIntegral (Set.size $ Set.intersection fs1 fs2) /
-  fromIntegral (Set.size $ Set.union fs1 fs2)
+  fromIntegral (Set.size $ Set.intersection fs1 fs2)
+    / fromIntegral (Set.size $ Set.union fs1 fs2)
   where
     fs1 = _merge $ _featuresOf ss1
     fs2 = _merge $ _featuresOf ss2

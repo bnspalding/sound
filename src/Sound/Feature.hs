@@ -63,8 +63,8 @@ featureSet = Set.fromList
 
 isStop :: FeatureSet -> Bool
 isStop =
-  ((&&) . contains (featureSet [MINUS_SONORANT, MINUS_CONTINUANT])) <*>
-  (not . contains1 DELREL)
+  ((&&) . contains (featureSet [MINUS_SONORANT, MINUS_CONTINUANT]))
+    <*> (not . contains1 DELREL)
 
 isVoiced :: FeatureSet -> Bool
 isVoiced = contains1 PLUS_VOICE
