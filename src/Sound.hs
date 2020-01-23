@@ -10,3 +10,5 @@ import Sound.Sound (Sound (..))
 import Sound.Stress (Stress (..))
 import Sound.Syl (Syl (..))
 import Sound.Word (Word)
+
+-- TODO: add hackage documentation to all files
