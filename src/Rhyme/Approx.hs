@@ -1,3 +1,14 @@
+-- |
+-- Module: Rhyme.Approx
+-- Description: approximate rhyme
+-- Copyright: (c) 2020 Ben Spalding (bnspalding.com)
+-- License: MIT
+-- Stability: Experimental
+--
+-- Rhyme.Approx provides tools for determing (approximately) how close two
+-- syllables are by measure of rhyme, assonance, or alliteration. In all cases,
+-- similarity between syllables is based on what fraction of the total features
+-- of the two syllables' sounds overlap
 module Rhyme.Approx
   ( rhyme,
     assonance,

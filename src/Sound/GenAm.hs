@@ -1,3 +1,11 @@
+-- |
+-- Module: N
+-- Description: Short Description
+-- Copyright: (c) 2020 Ben Spalding (bnspalding.com)
+-- License: MIT
+-- Stability: Experimental
+--
+-- Longer description
 module Sound.GenAm
   ( sounds,
     features,
