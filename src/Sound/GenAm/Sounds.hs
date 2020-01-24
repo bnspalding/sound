@@ -1,14 +1,35 @@
-module Sound.GenAm.Sounds where
+-- |
+-- Module Sound.GenAm.Sounds
+-- Description: GenAm data
+-- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
+-- License: MIT
+-- Stability: experimental
+--
+-- Sound.GenAm.Sounds includes the actual mappings from symbols to FeatureSets.
+-- Use "Sound.GenAm" for working with these mappings. There shouldn't be any
+-- reason to import this module directly instead of using "Sound.GenAm".
+module Sound.GenAm.Sounds
+  ( _sounds,
+  )
+where
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
 import Sound.Feature
 import Sound.Sound
 
---- Private: GenAm definitions ----------------
+-- | _sounds is a map from IPA symbols to phonological features, based on the
+-- \'General American English\' accent. This means that some symbols do not
+-- correspond to the actual IPA meanings for those symbols, but instead are
+-- generalized to the GenAm interpretation/representation of sounds.
+--
+-- For example, there are fewer vowels here than the total set of IPA vowels,
+-- and some vowels, like ɛ, have slightly different meanings. GenAm diphthongs
+-- are represented as single sounds.
 _sounds :: Map.Map Sound FeatureSet
 _sounds = Map.union consonants vowels
 
+--- Private: GenAm definitions ----------------
 consonants :: Map.Map Sound FeatureSet
 consonants =
   Map.fromList
