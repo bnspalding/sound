@@ -1,7 +1,7 @@
 -- |
 -- Module: Sound
 -- Description: top-level types
--- Copyright: (c) 2020 Ben Spalding (bnspalding.com)
+-- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
 -- Stability: experimental
 --
@@ -20,5 +20,3 @@ import Sound.Sound (Sound (..))
 import Sound.Stress (Stress (..))
 import Sound.Syl (Syl (..))
 import Sound.Word (Word)
-
--- TODO: add hackage documentation to all files
