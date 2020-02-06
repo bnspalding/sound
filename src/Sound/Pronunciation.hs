@@ -23,8 +23,8 @@ type Pronunciation = Sound.Word
 
 -- | makePronunciation converts a string of characters into a particular
 -- pronunciation. This can produce errors if the symbols passed into the
--- function cannot be properly parsed.
+-- function cannot be properly parsed. (And that's a good thing. The choice to
+-- fail instead of adding the complexity of something like an Either is fine for
+-- the sort of generative work that this library is being used for)
 makePronunciation :: String -> Pronunciation
 makePronunciation = syllabify . stringToIPASounds
--- TODO: change the output type to Either, to better represent capacity for
--- errors

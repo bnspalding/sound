@@ -33,8 +33,6 @@ stringToIPASounds s =
           (sound, remaining) = nextSound xs ipaSymbols
    in toIPAIter [] (normalize s)
 
--- | TODO: use Either to represent capacity for errors
-
 -- | normalize performs a series of replacements on a string to simplify the IPA
 -- symbols present in the string. Multi-character symbols (like tʃ or eɪ) are
 -- joined with tie (becoming t͡ʃ and e͡ɪ respectively). A separate rhotic mark
