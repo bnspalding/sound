@@ -2,8 +2,7 @@ name: sound
 version: 0.0
 author: "bnspalding"
 copyright: "Copyright (c) 2019 Ben Spalding"
-synopsis: "project description for sound"
-#TODO: add synopsis for package
+synopsis: "working with sounds: features, syllables, IPA, rhyme"
 description: Please see the README on GitHub at <https://github.com/bnspalding/sound#readme>
 
 dependencies:
