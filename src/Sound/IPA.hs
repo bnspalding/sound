@@ -1,11 +1,17 @@
 -- |
--- Module: N
--- Description: Short Description
--- Copyright: (c) 2020 Ben Spalding (bnspalding.com)
+-- Module: Sound.IPA
+-- Description: working with IPA symbols
+-- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
--- Stability: Experimental
+-- Stability: experimental
 --
--- Longer description
+-- Sound.IPA provides tools for converting strings of IPA symbols into sounds.
+-- This is currently very much embedded in the "Sound.GenAm" mapping, which
+-- means that certain symbols mean different things than they would in IPA
+-- (mostly the symbols used for vowels).
+--
+-- TODO: move all the GenAm specific stuff over to GenAm (which is pretty much
+-- everything here)
 module Sound.IPA
   ( stringToIPASounds,
     normalize,
@@ -20,6 +26,8 @@ import qualified Sound.GenAm as GenAm
 import Sound.Stress
 import Text.Replace
 
+-- | stringToIPASounds converts a string into GenAm sounds. Non-IPA symbols
+-- passed to stringToIPASounds will produce errors
 stringToIPASounds :: String -> [Sound]
 stringToIPASounds s =
   let toIPAIter sounds [] = sounds
@@ -28,6 +36,13 @@ stringToIPASounds s =
           (sound, remaining) = nextSound xs ipaSymbols
    in toIPAIter [] (normalize s)
 
+-- | TODO: use Either to represent capacity for errors
+
+-- | normalize performs a series of replacements on a string to simplify the IPA
+-- symbols present in the string. Multi-character symbols (like tʃ or eɪ) are
+-- joined with tie (becoming t͡ʃ and e͡ɪ respectively). A separate rhotic mark
+-- (ə˞) is preferred over single symbols (ɚ) or an inverted r (əɹ) to mark
+-- r-colored vowels. Whitespace is removed from the string.
 normalize :: String -> String
 normalize = replaceWithTrie repls . replaceWithTrie repls
 

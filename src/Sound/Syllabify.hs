@@ -1,11 +1,16 @@
 -- |
--- Module: N
--- Description: Short Description
--- Copyright: (c) 2020 Ben Spalding (bnspalding.com)
+-- Module: Sound.Syllabify
+-- Description: automatic syllabification
+-- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
--- Stability: Experimental
+-- Stability: experimental
 --
--- Longer description
+-- Sound.Syllabify automatically breaks a sequence of sounds into syllables,
+-- according to the differences in sonority between sounds. The rules used to
+-- break syllables are language specific (in this case English), and they work
+-- __most__ of the time.
+--
+-- See <https://en.wikipedia.org/wiki/Sonority_hierarchy> for more information.
 module Sound.Syllabify
   ( syllabify,
   )
@@ -19,6 +24,9 @@ import Sound.Feature
 import Sound.GenAm
 import Sound.Stress
 
+-- | syllabify breaks a sequence of sounds into syllables. Syllabify should be
+-- given a single word's worth of sounds, as syllable boundaries don't hold up
+-- across multiple words.
 syllabify :: [Sound] -> Sound.Word
 syllabify [] = []
 syllabify ss = _syllabify [] [] Nothing ss
