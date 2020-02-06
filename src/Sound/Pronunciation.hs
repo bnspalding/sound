@@ -15,7 +15,7 @@
 module Sound.Pronunciation where
 
 import Sound
-import Sound.IPA
+import Sound.GenAm.IPA
 import Sound.Syllabify
 
 -- | Pronunciation is a more contextual naming for Sound.Word

@@ -1,6 +1,6 @@
 -- |
--- Module: Sound.IPA
--- Description: working with IPA symbols
+-- Module: Sound.GenAm.IPA
+-- Description: convert IPA symbols to GenAm sounds
 -- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
 -- Stability: experimental
@@ -9,10 +9,7 @@
 -- This is currently very much embedded in the "Sound.GenAm" mapping, which
 -- means that certain symbols mean different things than they would in IPA
 -- (mostly the symbols used for vowels).
---
--- TODO: move all the GenAm specific stuff over to GenAm (which is pretty much
--- everything here)
-module Sound.IPA
+module Sound.GenAm.IPA
   ( stringToIPASounds,
     normalize,
   )

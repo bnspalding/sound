@@ -1,10 +1,10 @@
-module Sound.IPASpec
+module Sound.GenAm.IPASpec
   ( spec,
   )
 where
 
 import Sound
-import Sound.IPA
+import Sound.GenAm.IPA
 import Test.Hspec
 
 spec :: Spec

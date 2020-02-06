@@ -41,4 +41,3 @@ sounds = Map.keysSet GenAm._sounds
 -- no mapping for the given symbol.
 features :: Sound -> Maybe FeatureSet
 features s = Map.lookup s GenAm._sounds
--- TODO: move GenAm specific code from IPA over here to GenAm
