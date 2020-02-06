@@ -12,17 +12,17 @@ Sound contains a collection of tools for working with:
 in Haskell.
 I'm using this library for computer generated poetry.
 
-## Usage
+## Uses
 
-TODO: add a section summarizing the usage of this package
+- convert IPA symbols into sounds using Sound.GenAm.IPA
+- represent sounds as sets of phonological features using Sound.Feature
+- automatically syllabify words using Sound.Syllabify
+- measure rhyme, assonance, alliteration (including approximate measures) using
+  Sound.Rhyme
 
 ## Types
 
-TODO: add a section summarizing the data types that this package provides
-
-## Syllabification
-
-TODO: add a brief summary of the syllabification process
+Documentation can be generated using haddock.
 
 ## License
 
