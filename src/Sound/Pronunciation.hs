@@ -12,8 +12,13 @@
 --
 -- Some elements, like the conversion into sounds done by 'makePronunciation'
 -- are based on the mappings from "Sound.GenAm".
-module Sound.Pronunciation where
+module Sound.Pronunciation
+  ( Pronunciation,
+    makePronunciation,
+  )
+where
 
+import qualified Data.Text as T
 import Sound
 import Sound.GenAm.IPA
 import Sound.Syllabify
@@ -26,5 +31,5 @@ type Pronunciation = Sound.Word
 -- function cannot be properly parsed. (And that's a good thing. The choice to
 -- fail instead of adding the complexity of something like an Either is fine for
 -- the sort of generative work that this library is being used for)
-makePronunciation :: String -> Pronunciation
-makePronunciation = syllabify . stringToIPASounds
+makePronunciation :: T.Text -> Pronunciation
+makePronunciation = syllabify . textToIPASounds

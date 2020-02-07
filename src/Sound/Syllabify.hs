@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- |
 -- Module: Sound.Syllabify
 -- Description: automatic syllabification
@@ -19,6 +21,7 @@ where
 import Data.List
 import Data.Maybe
 import Data.Ord
+import qualified Data.Text as T
 import Sound
 import Sound.Feature
 import Sound.GenAm
@@ -114,7 +117,7 @@ makeSyl soundList =
         (_before, []) -> (_before, [])
         (_before, _ : _after) -> (_before, _after)
 
-stressSymsIPA :: [String]
+stressSymsIPA :: [T.Text]
 stressSymsIPA = [stressSymbolIPA, secondaryStressSymbolIPA]
 
 extractStressSym :: [Sound] -> (Maybe Sound, [Sound])

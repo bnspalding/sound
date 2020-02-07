@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- |
 -- Module: Sound.Stress
 -- Description: syllable stress
@@ -16,6 +18,8 @@
 -- greatest number of options open. The CMU Pronouncing Dictionary uses 3
 -- levels, which map 0-Unstressed 1-Stressed 2-SecondaryStress.
 module Sound.Stress where
+
+import qualified Data.Text as T
 
 -- | Stress comes in 4 levels, as well as NullStress, which can be used when
 -- stress information is not available.
@@ -44,10 +48,10 @@ maybeStress NullStress = Nothing
 maybeStress s = Just s
 
 -- | stressSymbolIPA is the lexical stress marker used by IPA to mark stress
-stressSymbolIPA :: String
+stressSymbolIPA :: T.Text
 stressSymbolIPA = "ˈ" -- 02C8
 
 -- | secondaryStressSymbolIPA is the lexical stress marker used by IPA to mark
 -- secondary stress.
-secondaryStressSymbolIPA :: String
+secondaryStressSymbolIPA :: T.Text
 secondaryStressSymbolIPA = "ˌ" --02CC

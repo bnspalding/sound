@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Rhyme.ApproxSpec
   ( spec,
   )
@@ -14,7 +16,7 @@ spec = do
   describe "rhyme" $ do
     it "measures the feature similarity between the rhymes of two syls" $
       Approx.rhyme demoSylTruck demoSylTorque
-        `shouldSatisfy` (> (Approx.rhyme demoSylTruck demoSylShaft))
+        `shouldSatisfy` (> Approx.rhyme demoSylTruck demoSylShaft)
     it "is normalized between the numbers 0 and 1" $
       Approx.rhyme demoSylTruck demoSylTorque
         `shouldSatisfy` (\x -> x >= 0 && x <= 1)
@@ -25,7 +27,7 @@ spec = do
   describe "assonance" $ do
     it "measures the feature similarity between the nuclei of two syls" $
       Approx.assonance demoSylTruck demoSylTorque
-        `shouldSatisfy` (> (Approx.assonance demoSylTruck demoSylShaft))
+        `shouldSatisfy` (> Approx.assonance demoSylTruck demoSylShaft)
     it "is normalized between the numbers 0 and 1" $
       Approx.assonance demoSylTruck demoSylTorque
         `shouldSatisfy` (\x -> x >= 0 && x <= 1)
@@ -36,7 +38,7 @@ spec = do
   describe "alliteration" $ do
     it "measures the feature similarity between the onsets of two syls" $
       Approx.alliteration demoSylTruck demoSylTorque
-        `shouldSatisfy` (> (Approx.alliteration demoSylTruck demoSylShaft))
+        `shouldSatisfy` (> Approx.alliteration demoSylTruck demoSylShaft)
     it "is normalized between the numbers 0 and 1" $
       Approx.alliteration demoSylTruck demoSylTorque
         `shouldSatisfy` (\x -> x >= 0 && x <= 1)

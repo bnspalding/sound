@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- |
 -- Module Sound.GenAm.Sounds
 -- Description: GenAm data

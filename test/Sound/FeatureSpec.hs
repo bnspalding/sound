@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Sound.FeatureSpec
   ( spec,
   )
@@ -5,6 +7,7 @@ where
 
 import Data.Maybe
 import qualified Data.Set as Set
+import qualified Data.Text as T
 import Sound.Feature
 import qualified Sound.GenAm as GenAm
 import Sound.Sound
@@ -45,7 +48,7 @@ spec =
 -- occasionally useful measure.
 -- it "all features in use" $ allFeaturesInUse `shouldBe` allFeatures
 
-_filter :: (FeatureSet -> Bool) -> Set.Set String
+_filter :: (FeatureSet -> Bool) -> Set.Set T.Text
 _filter f =
   Set.map (\(Sound x) -> x) $ Set.filter (f . getFeatures) GenAm.sounds
 
@@ -101,11 +104,11 @@ _filter f =
 getFeatures :: Sound -> FeatureSet
 getFeatures s = fromMaybe Set.empty (GenAm.features s)
 
-allVoicedString :: [String]
+allVoicedString :: [T.Text]
 allVoicedString =
   ["m", "b", "v", "ð", "n", "d", "z", "l", "d͡ʒ", "ʒ", "ɹ", "j", "ŋ", "ɡ", "w"]
 
-allVowelsString :: [String]
+allVowelsString :: [T.Text]
 allVowelsString =
   [ "i",
     "ɪ",
