@@ -11,6 +11,7 @@
 -- (mostly the symbols used for vowels).
 module Sound.GenAm.IPA
   ( stringToIPASounds,
+    textToIPASounds,
     normalize,
   )
 where
@@ -18,6 +19,7 @@ where
 import Data.List
 import Data.Ord
 import qualified Data.Set as Set
+import qualified Data.Text as T
 import Sound
 import qualified Sound.GenAm as GenAm
 import Sound.Stress
@@ -32,6 +34,11 @@ stringToIPASounds s =
         where
           (sound, remaining) = nextSound xs ipaSymbols
    in toIPAIter [] (normalize s)
+
+-- | textToIPASounds converts text into GenAm sounds. Non-IPA symbols passed to
+-- textToIPASounds will produce errors
+textToIPASounds :: T.Text -> [Sound]
+textToIPASounds t = stringToIPASounds $ T.unpack t
 
 -- | normalize performs a series of replacements on a string to simplify the IPA
 -- symbols present in the string. Multi-character symbols (like tʃ or eɪ) are
@@ -65,14 +72,14 @@ repls =
     s = string'fromString
 
 stressSymbols :: [String]
-stressSymbols = [stressSymbolIPA, secondaryStressSymbolIPA]
+stressSymbols = T.unpack <$> [stressSymbolIPA, secondaryStressSymbolIPA]
 
 ipaSymbols :: [String]
 ipaSymbols =
   ( sortOn (Down . length)
       . (++) stressSymbols
       . Set.toList
-      . Set.map (\(Sound x) -> x)
+      . Set.map (\(Sound x) -> T.unpack x)
   )
     GenAm.sounds
 
@@ -81,5 +88,5 @@ nextSound [] _ = error "empty list given to nextSound in Sound.IPA"
 nextSound (x : xs) [] = error $ "unknown symbol " ++ [x] ++ " in " ++ xs
 nextSound xs (sym : syms) =
   if sym `isPrefixOf` xs
-    then (Sound sym, drop (length sym) xs)
+    then (Sound (T.pack sym), drop (length sym) xs)
     else nextSound xs syms

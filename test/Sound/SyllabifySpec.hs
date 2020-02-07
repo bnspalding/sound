@@ -1,8 +1,11 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Sound.SyllabifySpec
   ( spec,
   )
 where
 
+import qualified Data.Text as T
 import Sound.Sound
 import Sound.Stress
 import Sound.Syl
@@ -74,7 +77,7 @@ spec =
       $ syllabify (Sound <$> ["p", "2", "ɑ"])
         `shouldBe` [s [] ["p"] [], s ["2"] ["ɑ"] []]
 
-s :: [String] -> [String] -> [String] -> Syl
+s :: [T.Text] -> [T.Text] -> [T.Text] -> Syl
 s _onset _nucleus _coda =
   Syl
     { onset = Sound <$> _onset,
