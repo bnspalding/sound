@@ -66,7 +66,8 @@ repls =
       Replace (s " ") "",
       Replace (s "\r") "",
       Replace (s "\t") "",
-      Replace (s "\n") ""
+      Replace (s "\n") "",
+      Replace (s "/") ""
     ]
   where
     s = string'fromString
