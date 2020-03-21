@@ -48,6 +48,7 @@ textToIPASounds t = stringToIPASounds $ T.unpack t
 normalize :: String -> String
 normalize = replaceWithTrie repls . replaceWithTrie repls
 
+-- Are these ordered? make a note explaining the logic of ordering here
 repls :: Trie
 repls =
   listToTrie
@@ -56,6 +57,7 @@ repls =
       Replace (s "aɪ") "a͡ɪ",
       Replace (s "ɔɪ") "ɔ͡ɪ",
       Replace (s "aʊ") "a͡ʊ",
+      Replace (s "ː") "",
       Replace (s "(ɹ)") "ɹ",
       Replace (s "ɚ") "ə˞",
       Replace (s "ɝ") "ɜ˞",
@@ -63,6 +65,7 @@ repls =
       Replace (s "əɹ") "ə˞",
       Replace (s "tʃ") "t͡ʃ",
       Replace (s "dʒ") "d͡ʒ",
+      Replace (s "ɜ") "ə", -- This is an uncertain judgement
       Replace (s " ") "",
       Replace (s "\r") "",
       Replace (s "\t") "",
