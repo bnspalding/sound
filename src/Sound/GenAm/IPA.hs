@@ -62,7 +62,8 @@ normalize =
 replZero :: Trie
 replZero =
   listToTrie
-    [ Replace (s "r") "ɹ"
+    [ Replace (s "r") "ɹ",
+      Replace (s "ɾ") "ɹ"
     ]
 
 replFst :: Trie
