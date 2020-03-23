@@ -28,12 +28,12 @@ import Text.Replace
 -- | stringToIPASounds converts a string into GenAm sounds. Non-IPA symbols
 -- passed to stringToIPASounds will produce errors
 stringToIPASounds :: String -> [Sound]
-stringToIPASounds s =
+stringToIPASounds str =
   let toIPAIter sounds [] = sounds
       toIPAIter sounds xs = toIPAIter (sounds ++ [sound]) remaining
         where
           (sound, remaining) = nextSound xs ipaSymbols
-   in toIPAIter [] (normalize s)
+   in toIPAIter [] (normalize str)
 
 -- | textToIPASounds converts text into GenAm sounds. Non-IPA symbols passed to
 -- textToIPASounds will produce errors
@@ -46,46 +46,67 @@ textToIPASounds t = stringToIPASounds $ T.unpack t
 -- (ə˞) is preferred over single symbols (ɚ) or an inverted r (əɹ) to mark
 -- r-colored vowels. Whitespace is removed from the string.
 normalize :: String -> String
-normalize = replaceWithTrie repls . replaceWithTrie repls . replaceWithTrie repls
+normalize =
+  let r = replaceWithTrie
+   in r replNonChar . r replThrd . r replSnd . r replFst
 
 -- NOTE: the string is searched for replacements left to right, and longer
 -- replacements are preferred over shorter ones. In some cases (r's, ɜ's) a certain
 -- number of successive replacements (see "normalize") is required to get things
--- right. This is not the greatest, and should be replaced in the future.
+-- right. This is not the greatest, and should be perhaps reworked later.
 -- NOTE: really, instead of replacing on symbols, we should be replacing on
 -- sounds in order to reduce to GenAm. However, that requires that we recognize
 -- all of the IPA sounds and then reduce, which is a good bit more work.
 -- TODO: Something is breaking with rhotics after doing the reverse epsilon
 -- replacement. Run tests to see issues.
-repls :: Trie
-repls =
+replFst :: Trie
+replFst =
   listToTrie
     [ Replace (s "ɒ") "ɑ",
+      Replace (s "e") "ə", -- partially reversed later [a]
+      Replace (s "ɜ") "ɛ", -- partially reversed later [b]
       Replace (s "n̩") "ən",
-      Replace (s "oʊ") "o͡ʊ",
+      Replace (s "ː") "",
+      Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
+      Replace (s "(ɹ)") "ɹ",
+      Replace (s "/") ""
+    ]
+
+replSnd :: Trie
+replSnd =
+  listToTrie
+    [ Replace (s "əɪ") "eɪ", -- reversing the e swap above [a]
+      Replace (s "ɛ˞") "ɜ˞", -- reversing the epsilon swap above [b]
+      Replace (s "ɛɹ") "ɜ˞"
+    ]
+
+replThrd :: Trie
+replThrd =
+  listToTrie
+    [ Replace (s "oʊ") "o͡ʊ",
       Replace (s "eɪ") "e͡ɪ",
       Replace (s "aɪ") "a͡ɪ",
       Replace (s "ɔɪ") "ɔ͡ɪ",
       Replace (s "aʊ") "a͡ʊ",
-      Replace (s "ː") "",
-      Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
-      Replace (s "(ɹ)") "ɹ",
       Replace (s "ɚ") "ə˞",
       Replace (s "ɝ") "ɜ˞",
       Replace (s "ɜɹ") "ɜ˞",
       Replace (s "əɹ") "ə˞",
       Replace (s "tʃ") "t͡ʃ",
-      Replace (s "dʒ") "d͡ʒ",
-      Replace (s "ɜ") "ɛ",
-      Replace (s "ɛ˞") "ɜ˞",
-      Replace (s " ") "",
+      Replace (s "dʒ") "d͡ʒ"
+    ]
+
+replNonChar :: Trie
+replNonChar =
+  listToTrie
+    [ Replace (s " ") "",
       Replace (s "\r") "",
       Replace (s "\t") "",
-      Replace (s "\n") "",
-      Replace (s "/") ""
+      Replace (s "\n") ""
     ]
-  where
-    s = string'fromString
+
+s :: String -> String'
+s = string'fromString
 
 -- Note [1]: in the normalizing of r-colored vowels, it's possible to overreach
 -- and affect ɹ's on the other side of a syllable divide (ex. derivate :

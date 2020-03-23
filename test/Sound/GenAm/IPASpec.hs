@@ -32,8 +32,8 @@ spec =
         stringToIPASounds "pə(ɹ)" `shouldBe` Sound <$> ["p", "ə˞"]
       it "case: tʃ -> t͡ʃ" $
         stringToIPASounds "tʃiz" `shouldBe` Sound <$> ["t͡ʃ", "i", "z"]
-      it "case: dʒ -> d͡ʒ" $
+      it "case: dʒ -> d͡ʒ (dʒinz)" $
         stringToIPASounds "dʒinz" `shouldBe` Sound <$> ["d͡ʒ", "i", "n", "z"]
-      it "case: ɛɹ -> ɛ.ɹ" $
+      it "case: ɛɹ -> ɛ.ɹ (dɛɹɪveɪt)" $
         stringToIPASounds "dɛɹɪveɪt"
           `shouldBe` Sound <$> ["d", "ɛ", ".", "ɹ", "ɪ", "v", "e͡ɪ", "t"]
