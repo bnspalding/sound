@@ -74,6 +74,7 @@ replFst =
       Replace (s "e") "ə", -- partially reversed later [a]
       Replace (s "ɜ") "ɛ", -- partially reversed later [b]
       Replace (s "a") "æ", -- partially reversed later [c]
+      Replace (s "ɵ") "ə", -- quick judgement
       Replace (s "n̩") "ən",
       Replace (s "l̩") "əl",
       Replace (s "m̩") "əm",
