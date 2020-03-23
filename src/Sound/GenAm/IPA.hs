@@ -48,7 +48,7 @@ textToIPASounds t = stringToIPASounds $ T.unpack t
 normalize :: String -> String
 normalize =
   let r = replaceWithTrie
-   in r replNonChar . r replThrd . r replSnd . r replFst
+   in r replNonChar . r replThrd . r replSnd . r replFst . r replZero
 
 -- NOTE: the string is searched for replacements left to right, and longer
 -- replacements are preferred over shorter ones. In some cases (r's, ɜ's) a certain
@@ -59,6 +59,12 @@ normalize =
 -- all of the IPA sounds and then reduce, which is a good bit more work.
 -- TODO: Something is breaking with rhotics after doing the reverse epsilon
 -- replacement. Run tests to see issues.
+replZero :: Trie
+replZero =
+  listToTrie
+    [ Replace (s "r") "ɹ"
+    ]
+
 replFst :: Trie
 replFst =
   listToTrie
