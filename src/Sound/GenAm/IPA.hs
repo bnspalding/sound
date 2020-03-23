@@ -57,7 +57,8 @@ normalize = replaceWithTrie repls . replaceWithTrie repls
 repls :: Trie
 repls =
   listToTrie
-    [ Replace (s "oʊ") "o͡ʊ",
+    [ Replace (s "ɒ") "ɑ",
+      Replace (s "oʊ") "o͡ʊ",
       Replace (s "eɪ") "e͡ɪ",
       Replace (s "aɪ") "a͡ɪ",
       Replace (s "ɔɪ") "ɔ͡ɪ",
