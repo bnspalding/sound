@@ -75,6 +75,7 @@ replFst =
       Replace (s "ɨ") "ɪ",
       Replace (s "ɾ̃") "d",
       Replace (s "ː") "",
+      Replace (s "ʁ") "", -- alternatively, this could possibly be syllablized as ə
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
       Replace (s "(ɹ)") "ɹ",
       Replace (s "(t)") "t",
