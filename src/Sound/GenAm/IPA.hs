@@ -65,6 +65,7 @@ replFst =
     [ Replace (s "ɒ") "ɑ",
       Replace (s "e") "ə", -- partially reversed later [a]
       Replace (s "ɜ") "ɛ", -- partially reversed later [b]
+      Replace (s "a") "æ", -- partially reversed later [c]
       Replace (s "n̩") "ən",
       Replace (s "l̩") "əl",
       Replace (s "m̩") "əm",
@@ -91,8 +92,11 @@ replSnd =
   listToTrie
     [ Replace (s "əɪ") "eɪ", -- reversing the e swap above [a]
       Replace (s "ɛ˞") "ɜ˞", -- reversing the epsilon swap above [b]
+      Replace (s "æɪ") "aɪ", -- reversing the ash swap above [c]
+      Replace (s "æu") "aʊ", -- [c]
+      Replace (s "æʊ") "aʊ", -- [c]
       Replace (s "ɛɹ") "ɜ˞",
-      Replace (s "au") "aʊ"
+      Replace (s "au") "aʊ" -- old replacement, should be redundant, see [c]
     ]
 
 replThrd :: Trie
@@ -100,7 +104,7 @@ replThrd =
   listToTrie
     [ Replace (s "oʊ") "o͡ʊ",
       Replace (s "eɪ") "e͡ɪ",
-      Replace (s "aɪ") "a͡ɪ",
+      Replace (s "aɪ") "a͡ɪ", -- note some ligatures render a+͡ as ɑ, it is a+͡
       Replace (s "ɔɪ") "ɔ͡ɪ",
       Replace (s "aʊ") "a͡ʊ",
       Replace (s "ɚ") "ə˞",
