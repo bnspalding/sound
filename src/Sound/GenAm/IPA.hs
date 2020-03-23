@@ -82,6 +82,7 @@ replFst =
       Replace (s "ʊ̯") "ʊ",
       Replace (s "ɪ̯") "ɪ",
       Replace (s "ɨ") "ɪ",
+      Replace (s "ĭ") "ɪ", -- quick judgement
       Replace (s "ɫ") "l",
       Replace (s "ɾ̃") "d",
       Replace (s "ʍ") "w",
