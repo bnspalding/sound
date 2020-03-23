@@ -86,6 +86,9 @@ replFst =
       Replace (s "ʍ") "w",
       Replace (s "ː") "",
       Replace (s "ʷ") "", -- quick judgement
+      Replace (s "ɔ̃") "ɔ",
+      Replace (s "ɒ̃") "ɑ",
+      Replace (s "ã") "æ",
       Replace (s " ̃") "",
       Replace (s "ʁ") "", -- alternatively, this could possibly be syllablized as ə
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
