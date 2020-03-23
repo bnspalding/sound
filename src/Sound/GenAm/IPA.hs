@@ -71,6 +71,8 @@ repls =
       Replace (s "əɹ") "ə˞",
       Replace (s "tʃ") "t͡ʃ",
       Replace (s "dʒ") "d͡ʒ",
+      Replace (s "ɜ") "ɛ",
+      Replace (s "ɛ˞") "ɜ˞",
       Replace (s " ") "",
       Replace (s "\r") "",
       Replace (s "\t") "",
