@@ -94,6 +94,7 @@ replFst =
       Replace (s " ̃") "",
       Replace (s "χ") "h", -- quick judgement. consider relation to ʁ
       Replace (s "ʁ") "", -- alternatively, this could possibly be syllablized as ə
+      Replace (s "x") "h",
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
       Replace (s "(ɹ)") "ɹ",
       Replace (s "(t)") "t",
