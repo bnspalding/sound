@@ -67,8 +67,11 @@ replFst =
       Replace (s "ɜ") "ɛ", -- partially reversed later [b]
       Replace (s "n̩") "ən",
       Replace (s "l̩") "əl",
+      Replace (s "m̩") "əm",
       Replace (s "ʊ̯") "ʊ",
       Replace (s "ɪ̯") "ɪ",
+      Replace (s "ɨ") "ɪ",
+      Replace (s "ɾ̃") "d",
       Replace (s "ː") "",
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
       Replace (s "(ɹ)") "ɹ",
