@@ -80,6 +80,8 @@ replFst =
       Replace (s "(t)") "t",
       Replace (s "/") "",
       Replace (s "ʔ") "",
+      Replace (s "(") "", -- remove all parens
+      Replace (s ")") "",
       Replace (s "-") "",
       Replace (s "æɹ") "ɛɹ", -- from Wiktionary's pronunciation guide, see [2]
       Replace (s "ɛɪ") "eɪ",
