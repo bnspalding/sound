@@ -104,6 +104,7 @@ replFst =
       Replace (s "æɹ") "ɛɹ", -- from Wiktionary's pronunciation guide, see [2]
       Replace (s "ɛɪ") "eɪ",
       Replace (s "əʊ") "oʊ",
+      Replace (s "o") "oʊ", -- partially reduced below [d]
       Replace (s "ɜː") "ɜɹ"
     ]
 
@@ -116,6 +117,7 @@ replSnd =
       Replace (s "æu") "aʊ", -- [c]
       Replace (s "æʊ") "aʊ", -- [c]
       Replace (s "ɛɹ") "ɜ˞",
+      Replace (s "oʊʊ") "oʊ", -- reversing doubles from [d]
       Replace (s "au") "aʊ" -- old replacement, should be redundant, see [c]
     ]
 
