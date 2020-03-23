@@ -46,9 +46,12 @@ textToIPASounds t = stringToIPASounds $ T.unpack t
 -- (ə˞) is preferred over single symbols (ɚ) or an inverted r (əɹ) to mark
 -- r-colored vowels. Whitespace is removed from the string.
 normalize :: String -> String
-normalize = replaceWithTrie repls . replaceWithTrie repls
+normalize = replaceWithTrie repls . replaceWithTrie repls . replaceWithTrie repls
 
--- NOTE: order matters. Replacements occur from top to bottom.
+-- NOTE: the string is searched for replacements left to right, and longer
+-- replacements are preferred over shorter ones. In some cases (r's, ɜ's) a certain
+-- number of successive replacements (see "normalize") is required to get things
+-- right. This is not the greatest, and should be replaced in the future.
 -- NOTE: really, instead of replacing on symbols, we should be replacing on
 -- sounds in order to reduce to GenAm. However, that requires that we recognize
 -- all of the IPA sounds and then reduce, which is a good bit more work.
@@ -58,6 +61,7 @@ repls :: Trie
 repls =
   listToTrie
     [ Replace (s "ɒ") "ɑ",
+      Replace (s "n̩") "ən",
       Replace (s "oʊ") "o͡ʊ",
       Replace (s "eɪ") "e͡ɪ",
       Replace (s "aɪ") "a͡ɪ",
