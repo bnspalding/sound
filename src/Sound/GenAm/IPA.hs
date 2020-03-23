@@ -48,7 +48,12 @@ textToIPASounds t = stringToIPASounds $ T.unpack t
 normalize :: String -> String
 normalize = replaceWithTrie repls . replaceWithTrie repls
 
--- Are these ordered? make a note explaining the logic of ordering here
+-- NOTE: order matters. Replacements occur from top to bottom.
+-- NOTE: really, instead of replacing on symbols, we should be replacing on
+-- sounds in order to reduce to GenAm. However, that requires that we recognize
+-- all of the IPA sounds and then reduce, which is a good bit more work.
+-- TODO: Something is breaking with rhotics after doing the reverse epsilon
+-- replacement. Run tests to see issues.
 repls :: Trie
 repls =
   listToTrie
@@ -58,6 +63,7 @@ repls =
       Replace (s "ɔɪ") "ɔ͡ɪ",
       Replace (s "aʊ") "a͡ʊ",
       Replace (s "ː") "",
+      Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
       Replace (s "(ɹ)") "ɹ",
       Replace (s "ɚ") "ə˞",
       Replace (s "ɝ") "ɜ˞",
@@ -65,7 +71,6 @@ repls =
       Replace (s "əɹ") "ə˞",
       Replace (s "tʃ") "t͡ʃ",
       Replace (s "dʒ") "d͡ʒ",
-      Replace (s "ɜ") "ə", -- This is an uncertain judgement
       Replace (s " ") "",
       Replace (s "\r") "",
       Replace (s "\t") "",
@@ -75,13 +80,20 @@ repls =
   where
     s = string'fromString
 
+-- Note [1]: in the normalizing of r-colored vowels, it's possible to overreach
+-- and affect ɹ's on the other side of a syllable divide (ex. derivate :
+-- /dɛɹɪveɪt/ -> dɛ.ɹɪ.veɪt, not dɛ(ɹ).ɪ.veɪt).
+
 stressSymbols :: [String]
 stressSymbols = T.unpack <$> [stressSymbolIPA, secondaryStressSymbolIPA]
+
+syllableBreakSymbol :: String
+syllableBreakSymbol = "."
 
 ipaSymbols :: [String]
 ipaSymbols =
   ( sortOn (Down . length)
-      . (++) stressSymbols
+      . (++) (syllableBreakSymbol : stressSymbols)
       . Set.toList
       . Set.map (\(Sound x) -> T.unpack x)
   )

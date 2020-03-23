@@ -50,11 +50,13 @@ _syllabify result currentSyl prevDir (current : next : ss) =
         case current of
           (Sound "ˈ") -> Nothing
           (Sound "ˌ") -> Nothing
+          (Sound ".") -> Nothing
           _ -> Just (getDir current next)
       (_result, _currentSyl) =
         case current of
           (Sound "ˈ") -> (result ++ [currentSyl], [current])
           (Sound "ˌ") -> (result ++ [currentSyl], [current])
+          (Sound ".") -> (result ++ [currentSyl], [current])
           _ ->
             if shouldBreak prevDir currentDir
               then (result ++ [currentSyl], [current])
