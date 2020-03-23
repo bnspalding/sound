@@ -69,6 +69,8 @@ replFst :: Trie
 replFst =
   listToTrie
     [ Replace (s "ɒ") "ɑ",
+      Replace (s "ʀ") "ɹ",
+      Replace (s "ɐ") "ə", -- this is a quick judgement
       Replace (s "e") "ə", -- partially reversed later [a]
       Replace (s "ɜ") "ɛ", -- partially reversed later [b]
       Replace (s "a") "æ", -- partially reversed later [c]
