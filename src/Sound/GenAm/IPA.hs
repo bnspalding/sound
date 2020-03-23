@@ -68,6 +68,7 @@ replFst =
       Replace (s "n̩") "ən",
       Replace (s "l̩") "əl",
       Replace (s "m̩") "əm",
+      Replace (s "u̯") "u",
       Replace (s "ʊ̯") "ʊ",
       Replace (s "ɪ̯") "ɪ",
       Replace (s "ɨ") "ɪ",
@@ -90,7 +91,8 @@ replSnd =
   listToTrie
     [ Replace (s "əɪ") "eɪ", -- reversing the e swap above [a]
       Replace (s "ɛ˞") "ɜ˞", -- reversing the epsilon swap above [b]
-      Replace (s "ɛɹ") "ɜ˞"
+      Replace (s "ɛɹ") "ɜ˞",
+      Replace (s "au") "aʊ"
     ]
 
 replThrd :: Trie
