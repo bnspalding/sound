@@ -67,11 +67,16 @@ replFst =
       Replace (s "ɜ") "ɛ", -- partially reversed later [b]
       Replace (s "n̩") "ən",
       Replace (s "l̩") "l",
+      Replace (s "ʊ̯") "ʊ",
       Replace (s "ː") "",
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
       Replace (s "(ɹ)") "ɹ",
       Replace (s "/") "",
-      Replace (s "-") ""
+      Replace (s "-") "",
+      Replace (s "æɹ") "ɛɹ", -- from Wiktionary's pronunciation guide, see [2]
+      Replace (s "ɛɪ") "eɪ",
+      Replace (s "əʊ") "oʊ",
+      Replace (s "ɜː") "ɜɹ"
     ]
 
 replSnd :: Trie
@@ -113,6 +118,7 @@ s = string'fromString
 -- Note [1]: in the normalizing of r-colored vowels, it's possible to overreach
 -- and affect ɹ's on the other side of a syllable divide (ex. derivate :
 -- /dɛɹɪveɪt/ -> dɛ.ɹɪ.veɪt, not dɛ(ɹ).ɪ.veɪt).
+-- Note [2]: see https://en.wiktionary.org/wiki/Appendix:English_pronunciation
 
 stressSymbols :: [String]
 stressSymbols = T.unpack <$> [stressSymbolIPA, secondaryStressSymbolIPA]
