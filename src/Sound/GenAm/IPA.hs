@@ -90,6 +90,7 @@ replFst =
       Replace (s "ʷ") "", -- quick judgement
       Replace (s "ʰ") "",
       Replace (s "ɔ̃") "ɔ",
+      Replace (s "ɑ̃") "ɑ",
       Replace (s "ɒ̃") "ɑ",
       Replace (s "ã") "æ",
       Replace (s "æ̃") "æ",
