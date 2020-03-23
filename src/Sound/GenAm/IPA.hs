@@ -90,6 +90,7 @@ replFst =
       Replace (s "ɔ̃") "ɔ",
       Replace (s "ɒ̃") "ɑ",
       Replace (s "ã") "æ",
+      Replace (s "æ̃") "æ",
       Replace (s " ̃") "",
       Replace (s "ʁ") "", -- alternatively, this could possibly be syllablized as ə
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
