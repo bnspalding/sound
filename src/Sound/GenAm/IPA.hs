@@ -160,7 +160,8 @@ replNonChar =
       Replace (s "\r") "",
       Replace (s "\t") "",
       Replace (s "\n") "",
-      Replace (s "˞˞") "˞" -- handle double rhotics (typos in wiktionary?)
+      Replace (s "˞˞") "˞", -- handle double rhotics (typos in wiktionary?)
+      Replace (s "ˈ.") "ˈ" -- stress mark AND sylbreak causes double sylbreak
     ]
 
 s :: String -> String'
