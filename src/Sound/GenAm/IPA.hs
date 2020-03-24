@@ -135,7 +135,8 @@ replFst =
       Replace (s "əʊ") "oʊ",
       Replace (s "o") "oʊ", -- partially reduced below [d]
       Replace (s "ɜː") "ɜɹ",
-      Replace (s "ɑ˞") "ɑɹ"
+      Replace (s "ɑ˞") "ɑɹ",
+      Replace (s "œ") "u" -- quick judgement
     ]
 
 replSnd :: Trie
