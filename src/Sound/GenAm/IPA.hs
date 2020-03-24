@@ -97,6 +97,7 @@ replZero =
       Replace (s "ʰ") "",
       Replace (s "(") "", -- remove all parens
       Replace (s ")") "",
+      Replace (s " ͡") "", -- remove existing ones. replace the ones we want
       Replace (s "‿") ""
     ]
 
