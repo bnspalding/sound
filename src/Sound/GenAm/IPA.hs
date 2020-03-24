@@ -78,6 +78,7 @@ replZero =
       Replace (s "ɒ̃") "ɑ",
       Replace (s "ã") "æ",
       Replace (s "æ̃") "æ",
+      Replace (s "ɛ̃") "ɛ",
       Replace (s " ̃") "",
       Replace (s " ̚") "",
       Replace (s "k̚") "k",
