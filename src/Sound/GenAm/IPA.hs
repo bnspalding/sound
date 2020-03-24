@@ -87,7 +87,8 @@ replZero =
       Replace (s "ʷ") "", -- quick judgement
       Replace (s "ʰ") "",
       Replace (s "(") "", -- remove all parens
-      Replace (s ")") ""
+      Replace (s ")") "",
+      Replace (s "‿") ""
     ]
 
 replFst :: Trie
