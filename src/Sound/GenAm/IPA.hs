@@ -64,6 +64,7 @@ replZero =
   listToTrie
     [ Replace (s "r") "ɹ",
       Replace (s "ɾ̃") "d",
+      Replace (s "ɽ") "d",
       Replace (s "ɾ") "ɹ",
       Replace (s "ɻ") "ɹ",
       Replace (s "ᵊ") "ə",
