@@ -76,6 +76,7 @@ replZero =
       Replace (s "æ̃") "æ",
       Replace (s " ̃") "",
       Replace (s "ː") "",
+      Replace (s "ˑ") "",
       Replace (s "ʷ") "", -- quick judgement
       Replace (s "ʰ") "",
       Replace (s "(") "", -- remove all parens
