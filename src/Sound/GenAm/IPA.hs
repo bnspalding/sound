@@ -63,7 +63,23 @@ replZero :: Trie
 replZero =
   listToTrie
     [ Replace (s "r") "ɹ",
-      Replace (s "ɾ") "ɹ"
+      Replace (s "ɾ") "ɹ",
+      Replace (s " ̯") "",
+      Replace (s "u̯") "u",
+      Replace (s "ʊ̯") "ʊ",
+      Replace (s "ə̯") "ə",
+      Replace (s "ɪ̯") "ɪ",
+      Replace (s "ɔ̃") "ɔ",
+      Replace (s "ɑ̃") "ɑ",
+      Replace (s "ɒ̃") "ɑ",
+      Replace (s "ã") "æ",
+      Replace (s "æ̃") "æ",
+      Replace (s " ̃") "",
+      Replace (s "ː") "",
+      Replace (s "ʷ") "", -- quick judgement
+      Replace (s "ʰ") "",
+      Replace (s "(") "", -- remove all parens
+      Replace (s ")") ""
     ]
 
 replFst :: Trie
@@ -79,37 +95,21 @@ replFst =
       Replace (s "n̩") "ən",
       Replace (s "l̩") "əl",
       Replace (s "m̩") "əm",
-      Replace (s " ̯") "",
-      Replace (s "u̯") "u",
-      Replace (s "ʊ̯") "ʊ",
-      Replace (s "ə̯") "ə",
-      Replace (s "ɪ̯") "ɪ",
       Replace (s "ɨ") "ɪ",
       Replace (s "ĭ") "ɪ", -- quick judgement
       Replace (s "ɫ") "l",
       Replace (s "ɾ̃") "d",
       Replace (s "ʍ") "w",
-      Replace (s "ː") "",
-      Replace (s "ʷ") "", -- quick judgement
-      Replace (s "ʰ") "",
-      Replace (s "ɔ̃") "ɔ",
-      Replace (s "ɑ̃") "ɑ",
-      Replace (s "ɒ̃") "ɑ",
-      Replace (s "ã") "æ",
-      Replace (s "æ̃") "æ",
-      Replace (s " ̃") "",
       Replace (s "χ") "h", -- quick judgement. consider relation to ʁ
       Replace (s "ʁ") "", -- alternatively, this could possibly be syllablized as ə
       Replace (s "x") "h",
       Replace (s "y") "j",
       Replace (s "ç") "k", -- quick judgement
       Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
-      Replace (s "(ɹ)") "ɹ",
+      Replace (s "(ɹ)") "ɹ", --all parens should already be removed
       Replace (s "(t)") "t",
       Replace (s "/") "",
       Replace (s "ʔ") "",
-      Replace (s "(") "", -- remove all parens
-      Replace (s ")") "",
       Replace (s "-") "",
       Replace (s "æɹ") "ɛɹ", -- from Wiktionary's pronunciation guide, see [2]
       Replace (s "ɛɪ") "eɪ",
