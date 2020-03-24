@@ -101,7 +101,8 @@ replZero =
       Replace (s "(") "", -- remove all parens
       Replace (s ")") "",
       Replace (s " ͡") "", -- remove existing ones. replace the ones we want
-      Replace (s "‿") ""
+      Replace (s "‿") "",
+      Replace (s " ̥") ""
     ]
 
 replFst :: Trie
@@ -109,6 +110,7 @@ replFst =
   listToTrie
     [ Replace (s "ɒ") "ɑ",
       Replace (s "ʀ") "ɹ",
+      Replace (s "ɹ̥") "ɹ",
       Replace (s "ɐ") "ə", -- this is a quick judgement
       Replace (s "e") "ə", -- partially reversed later [a]
       Replace (s "ɜ") "ɛ", -- partially reversed later [b]
