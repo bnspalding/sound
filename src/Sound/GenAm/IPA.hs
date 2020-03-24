@@ -63,6 +63,7 @@ replZero :: Trie
 replZero =
   listToTrie
     [ Replace (s "r") "ɹ",
+      Replace (s "ɾ̃") "d",
       Replace (s "ɾ") "ɹ",
       Replace (s "ᵊ") "ə",
       Replace (s "ɘ") "e",
@@ -106,7 +107,6 @@ replFst =
       Replace (s "ɨ") "ɪ",
       Replace (s "ĭ") "ɪ", -- quick judgement
       Replace (s "ɫ") "l",
-      Replace (s "ɾ̃") "d",
       Replace (s "ʍ") "w",
       Replace (s "χ") "h", -- quick judgement. consider relation to ʁ
       Replace (s "ʁ") "", -- alternatively, this could possibly be syllablized as ə
