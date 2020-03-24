@@ -79,6 +79,7 @@ replFst =
       Replace (s "n̩") "ən",
       Replace (s "l̩") "əl",
       Replace (s "m̩") "əm",
+      Replace (s " ̯") "",
       Replace (s "u̯") "u",
       Replace (s "ʊ̯") "ʊ",
       Replace (s "ɪ̯") "ɪ",
