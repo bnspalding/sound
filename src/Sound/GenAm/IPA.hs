@@ -151,7 +151,8 @@ replNonChar =
     [ Replace (s " ") "",
       Replace (s "\r") "",
       Replace (s "\t") "",
-      Replace (s "\n") ""
+      Replace (s "\n") "",
+      Replace (s "˞˞") "˞" -- handle double rhotics (typos in wiktionary?)
     ]
 
 s :: String -> String'
