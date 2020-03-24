@@ -94,6 +94,7 @@ replZero =
       Replace (s " ̚") "",
       Replace (s "k̚") "k",
       Replace (s "p̚") "p",
+      Replace (s "ɥ") "h",
       Replace (s "ː") "",
       Replace (s "ˑ") "",
       Replace (s "ʷ") "", -- quick judgement
