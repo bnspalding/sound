@@ -158,7 +158,8 @@ replSnd =
       Replace (s "æʊ") "aʊ", -- [c]
       Replace (s "ɛɹ") "ɜ˞",
       Replace (s "oʊʊ") "oʊ", -- reversing doubles from [d]
-      Replace (s "au") "aʊ" -- old replacement, should be redundant, see [c]
+      Replace (s "au") "aʊ", -- old replacement, should be redundant, see [c]
+      Replace (s "c") "k" -- there seem to be quite a few c's that should be k's
     ]
 
 replThrd :: Trie
