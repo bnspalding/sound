@@ -164,7 +164,7 @@ replNonChar =
       Replace (s "\t") "",
       Replace (s "\n") "",
       Replace (s "˞˞") "˞", -- handle double rhotics (typos in wiktionary?)
-      Replaec (s "ˌ.") "ˌ",
+      Replace (s "ˌ.") "ˌ",
       Replace (s "ˈ.") "ˈ" -- stress mark AND sylbreak causes double sylbreak
     ]
 
