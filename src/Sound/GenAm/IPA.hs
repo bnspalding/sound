@@ -122,6 +122,7 @@ replFst =
       Replace (s "n̩") "ən",
       Replace (s "ô") "o",
       Replace (s "l̩") "əl",
+      Replace (s "ɫ̩") "əl",
       Replace (s "ɹ̩") "əɹ",
       Replace (s "m̩") "əm",
       Replace (s "ɨ") "ɪ",
