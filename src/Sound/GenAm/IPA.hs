@@ -57,8 +57,6 @@ normalize =
 -- NOTE: really, instead of replacing on symbols, we should be replacing on
 -- sounds in order to reduce to GenAm. However, that requires that we recognize
 -- all of the IPA sounds and then reduce, which is a good bit more work.
--- TODO: Something is breaking with rhotics after doing the reverse epsilon
--- replacement. Run tests to see issues.
 replZero :: Trie
 replZero =
   listToTrie
