@@ -122,6 +122,7 @@ makeSyl soundList =
 stressSymsIPA :: [T.Text]
 stressSymsIPA = [stressSymbolIPA, secondaryStressSymbolIPA]
 
+-- also extracting sylBreak (this should be moved to syllabization above)
 extractStressSym :: [Sound] -> (Maybe Sound, [Sound])
 extractStressSym s = (stressMaybe, stressRemoved)
   where
@@ -130,7 +131,7 @@ extractStressSym s = (stressMaybe, stressRemoved)
         [] -> Nothing
         [x] -> Just x
         _ -> error "multiple stress symbols found in one syllable"
-    stressExtracted = filter (\(Sound x) -> x `elem` stressSymsIPA) s
+    stressExtracted = filter (\(Sound x) -> x `elem` ("." : stressSymsIPA)) s
     stressRemoved = filter (`notElem` stressExtracted) s
 
 stressFromMaybe :: Maybe Sound -> Stress
