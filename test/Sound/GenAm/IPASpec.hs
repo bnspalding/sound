@@ -38,5 +38,7 @@ spec =
         stringToIPASounds "tɜst" `shouldBe` Sound <$> ["t", "ɛ", "s", "t"]
       it "case: ɛɹ -> ɛɹ (no change)" $
         stringToIPASounds "ɛɹ" `shouldBe` Sound <$> ["ɛ", "ɹ"]
+      it "case: ɛ˞ -> ɛɹ (not r-colored)" $
+        stringToIPASounds "stɛ˞" `shouldBe` Sound <$> ["s", "t", "ɛ", "ɹ"]
       it "case: ɛəɹ -> ɛɹ (ɛəɹ)" $
         stringToIPASounds "ɛəɹ" `shouldBe` Sound <$> ["ɛ", "ɹ"]
