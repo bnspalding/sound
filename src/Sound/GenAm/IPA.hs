@@ -116,7 +116,8 @@ replZero =
       Replace (s ")") "",
       Replace (s " ͡") "", -- remove existing ones. replace the ones we want
       Replace (s "‿") "",
-      Replace (s " ̥") ""
+      Replace (s " ̥") "",
+      Replace (s "&") "" -- this is a nonsense symbol, used in replacements [b]
     ]
 
 replFst :: Trie
@@ -153,7 +154,8 @@ replFst =
       Replace (s "ɛɪ") "eɪ",
       Replace (s "əʊ") "oʊ",
       Replace (s "o") "oʊ", -- partially reduced below [d]
-      Replace (s "ɜː") "ɜɹ",
+      Replace (s "ɜː") "ɜɹ", -- This is for UK pronunciations (might be a mistake)
+      Replace (s "ɜ") "&", -- replace reverse epsilon with nonsense symbol [b]
       Replace (s "ɑ˞") "ɑɹ",
       Replace (s "œ") "u" -- quick judgement
     ]
@@ -162,6 +164,9 @@ replSnd :: Trie
 replSnd =
   listToTrie
     [ Replace (s "əɪ") "eɪ", -- reversing the e swap above [a]
+      Replace (s "&ɹ") "ɜ˞", -- reversals for reverse epsilon [b]
+      Replace (s "&˞") "ɜ˞", -- [b]
+      Replace (s "&") "ɛ", -- & used to not extend switch to instances of 'ɛ' [b]
       Replace (s "æɪ") "aɪ", -- reversing the ash swap above [c]
       Replace (s "æu") "aʊ", -- [c]
       Replace (s "æʊ") "aʊ", -- [c]
@@ -182,6 +187,8 @@ replThrd =
       Replace (s "ɝ") "ɜ˞",
       Replace (s "ɜɹ") "ɜ˞",
       Replace (s "əɹ") "ə˞",
+      Replace (s "ɛəɹ") "ɛɹ", -- case "air", should be 1 syllable
+      Replace (s "ɛə˞") "ɛɹ",
       Replace (s "tʃ") "t͡ʃ",
       Replace (s "dʒ") "d͡ʒ"
     ]
