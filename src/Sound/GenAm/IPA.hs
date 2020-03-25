@@ -67,6 +67,7 @@ replZero =
       Replace (s "ɽ") "d",
       Replace (s "ɾ") "ɹ",
       Replace (s "ɻ") "ɹ",
+      Replace (s "ɭ") "l",
       Replace (s "ᵊ") "ə",
       Replace (s "ɘ") "e",
       Replace (s " ̯") "",
