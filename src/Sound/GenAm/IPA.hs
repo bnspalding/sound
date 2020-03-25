@@ -127,7 +127,6 @@ replFst =
       Replace (s "ɹ̥") "ɹ",
       Replace (s "ɐ") "ə", -- this is a quick judgement
       Replace (s "e") "ə", -- partially reversed later [a]
-      Replace (s "ɜ") "ɛ", -- partially reversed later [b]
       Replace (s "a") "æ", -- partially reversed later [c]
       Replace (s "ɵ") "ə", -- quick judgement
       Replace (s "n̩") "ən",
@@ -145,7 +144,6 @@ replFst =
       Replace (s "x") "h",
       Replace (s "y") "j",
       Replace (s "ç") "k", -- quick judgement
-      Replace (s "ɛɹ") "ɛ.ɹ", -- sylbreak avoids confusion, see [1]
       Replace (s "(ɹ)") "ɹ", --all parens should already be removed
       Replace (s "(t)") "t",
       Replace (s "/") "",
@@ -164,11 +162,9 @@ replSnd :: Trie
 replSnd =
   listToTrie
     [ Replace (s "əɪ") "eɪ", -- reversing the e swap above [a]
-      Replace (s "ɛ˞") "ɜ˞", -- reversing the epsilon swap above [b]
       Replace (s "æɪ") "aɪ", -- reversing the ash swap above [c]
       Replace (s "æu") "aʊ", -- [c]
       Replace (s "æʊ") "aʊ", -- [c]
-      Replace (s "ɛɹ") "ɜ˞",
       Replace (s "oʊʊ") "oʊ", -- reversing doubles from [d]
       Replace (s "au") "aʊ", -- old replacement, should be redundant, see [c]
       Replace (s "c") "k" -- there seem to be quite a few c's that should be k's
