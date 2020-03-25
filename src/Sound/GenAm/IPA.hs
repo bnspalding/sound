@@ -69,6 +69,7 @@ replZero =
       Replace (s "ɻ") "ɹ",
       Replace (s "ɭ") "l",
       Replace (s "ɬ") "ʃ", -- ll from Welsh, I'm uncertain on this one
+      Replace (s "t͡s") "ts",
       Replace (s "ᵊ") "ə",
       Replace (s "ɘ") "e",
       Replace (s " ̯") "",
