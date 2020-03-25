@@ -96,6 +96,7 @@ replZero =
       Replace (s "ʲ") "j",
       Replace (s "ɕ") "ʃ",
       Replace (s "ɲ") "ŋ",
+      Replace (s "ɱ") "m",
       Replace (s " ̬") "",
       Replace (s " ̃") "",
       Replace (s " ̪") "",
