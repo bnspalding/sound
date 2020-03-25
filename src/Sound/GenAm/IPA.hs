@@ -94,7 +94,8 @@ replZero =
       Replace (s "ɛ̃") "ɛ",
       Replace (s "õ") "o",
       Replace (s "ʌ̃") "ʌ",
-      Replace (s "ē") "ɛ",
+      Replace (s "ē") "i", --long e
+      Replace (s "ē") "i",
       Replace (s "ā") "a",
       Replace (s "t̬") "t",
       Replace (s "ʲ") "j",
