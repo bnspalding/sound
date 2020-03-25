@@ -106,6 +106,7 @@ replZero =
       Replace (s " ̪") "",
       Replace (s "ɪ̪") "",
       Replace (s "ʊ̪") "ʊ",
+      Replace (s "t̪") "t",
       Replace (s " ̚") "",
       Replace (s "k̚") "k",
       Replace (s "p̚") "p",
