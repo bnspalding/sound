@@ -103,6 +103,7 @@ replZero =
       Replace (s "p̚") "p",
       Replace (s "t̚") "t",
       Replace (s "ɥ") "h",
+      Replace (s "ɦ") "h",
       Replace (s "ː") "",
       Replace (s "ˑ") "",
       Replace (s "ʷ") "", -- quick judgement
