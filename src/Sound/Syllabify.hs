@@ -140,4 +140,4 @@ stressFromMaybe s =
     Nothing -> Unstressed
     Just (Sound "ˈ") -> Stressed
     Just (Sound "ˌ") -> SecondaryStress
-    _ -> error "unknown stress symbol"
+    _ -> error $ "unknown stress symbol: " ++ show s
