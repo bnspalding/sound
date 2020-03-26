@@ -138,6 +138,7 @@ stressFromMaybe :: Maybe Sound -> Stress
 stressFromMaybe s =
   case s of
     Nothing -> Unstressed
+    Just (Sound ".") -> Unstressed --this is from extracting above. should be fixed
     Just (Sound "ˈ") -> Stressed
     Just (Sound "ˌ") -> SecondaryStress
     _ -> error $ "unknown stress symbol: " ++ show s
