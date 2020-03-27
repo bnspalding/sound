@@ -19,4 +19,7 @@ import qualified Data.Text as T
 -- describe a phoneme for a particular language.
 newtype Sound
   = Sound T.Text
-  deriving (Eq, Show, Ord)
+  deriving (Eq, Ord)
+
+instance Show Sound where
+  show (Sound s) = show s
