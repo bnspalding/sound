@@ -76,9 +76,10 @@ sonority s
   | isNasal fs = 5
   | isLateral fs = 6
   | isApproximant fs || isGlide fs = 7
-  | isHighVowel fs = 8
-  | isMidVowel fs = 9
-  | isLowVowel fs = 10
+  | isVowel fs = 10
+  --  | isHighVowel fs = 8
+  --  | isMidVowel fs = 9
+  --  | isLowVowel fs = 10
   | otherwise = 0
   where
     fs = fromMaybe (featureSet []) (features s)
