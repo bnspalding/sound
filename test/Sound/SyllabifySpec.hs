@@ -16,45 +16,45 @@ spec :: Spec
 spec =
   describe "syllabify" $ do
     describe "test cases" $ do
-      it "case: ɹɪpla͡ɪ -> ɹɪ-pla͡ɪ" $
+      it "case: ɹɪpla͡ɪ -> ɹɪ.pla͡ɪ" $
         syllabify (Sound <$> ["ɹ", "ɪ", "p", "l", "a͡ɪ"])
           `shouldBe` [s ["ɹ"] ["ɪ"] [], s ["p", "l"] ["a͡ɪ"] []]
-      it "case: ɹɛpta͡ɪl -> ɹɛp-ta͡ɪl" $
+      it "case: ɹɛpta͡ɪl -> ɹɛp.ta͡ɪl" $
         syllabify (Sound <$> ["ɹ", "ɛ", "p", "t", "a͡ɪ", "l"])
           `shouldBe` [s ["ɹ"] ["ɛ"] ["p"], s ["t"] ["a͡ɪ"] ["l"]]
-      it "case: ɹɛplɪke͡ɪt -> ɹɛ-plɪ-ke͡ɪt" $
+      it "case: ɹɛplɪke͡ɪt -> ɹɛ.plɪ.ke͡ɪt" $
         syllabify (Sound <$> ["ɹ", "ɛ", "p", "l", "ɪ", "k", "e͡ɪ", "t"])
           `shouldBe` [s ["ɹ"] ["ɛ"] [], s ["p", "l"] ["ɪ"] [], s ["k"] ["e͡ɪ"] ["t"]]
-      it "case: wɪlmɪŋtʌn -> wɪl-mɪŋ-tʌn" $
+      it "case: wɪlmɪŋtʌn -> wɪl.mɪŋ.tʌn" $
         syllabify (Sound <$> ["w", "ɪ", "l", "m", "ɪ", "ŋ", "t", "ʌ", "n"])
           `shouldBe` [s ["w"] ["ɪ"] ["l"], s ["m"] ["ɪ"] ["ŋ"], s ["t"] ["ʌ"] ["n"]]
-      it "case: kʌnstɹe͡ɪnt -> kʌn-stɹe͡ɪnt" $
+      it "case: kʌnstɹe͡ɪnt -> kʌn.stɹe͡ɪnt" $
         syllabify (Sound <$> ["k", "ʌ", "n", "s", "t", "ɹ", "e͡ɪ", "n", "t"])
           `shouldBe` [s ["k"] ["ʌ"] ["n"], s ["s", "t", "ɹ"] ["e͡ɪ"] ["n", "t"]]
-      it "case: wɛstə˞n -> wɛ-stə˞n" $
+      it "case: wɛstə˞n -> wɛ.stə˞n" $
         syllabify (Sound <$> ["w", "ɛ", "s", "t", "ə˞", "n"])
           `shouldBe` [s ["w"] ["ɛ"] [], s ["s", "t"] ["ə˞"] ["n"]]
       it "case: pænts -> pænts" $
         syllabify (Sound <$> ["p", "æ", "n", "t", "s"])
           `shouldBe` [s ["p"] ["æ"] ["n", "t", "s"]]
-      it "case: skwɜ˞əl -> skwɜ˞-əl" $
+      it "case: skwɜ˞əl -> skwɜ˞.əl" $
         syllabify (Sound <$> ["s", "k", "w", "ɜ˞", "ə", "l"])
           `shouldBe` [s ["s", "k", "w"] ["ɜ˞"] [], s [] ["ə"] ["l"]]
       it "case: læf -> læf" $
         syllabify (Sound <$> ["l", "æ", "f"]) `shouldBe` [s ["l"] ["æ"] ["f"]]
-      it "case: pɹɛʃə˞ -> pɹɛ-ʃə˞" $
+      it "case: pɹɛʃə˞ -> pɹɛ.ʃə˞" $
         syllabify (Sound <$> ["p", "ɹ", "ɛ", "ʃ", "ə˞"])
           `shouldBe` [s ["p", "ɹ"] ["ɛ"] [], s ["ʃ"] ["ə˞"] []]
-      it "case: ɹɛt͡ʃɪd -> ɹɛ-t͡ʃɪd" $
+      it "case: ɹɛt͡ʃɪd -> ɹɛ.t͡ʃɪd" $
         syllabify (Sound <$> ["ɹ", "ɛ", "t͡ʃ", "ɪ", "d"])
           `shouldBe` [s ["ɹ"] ["ɛ"] [], s ["t͡ʃ"] ["ɪ"] ["d"]]
-      it "case: pɑɑ -> pɑ-ɑ" $
+      it "case: pɑɑ -> pɑ.ɑ" $
         syllabify (Sound <$> ["p", "ɑ", "ɑ"])
           `shouldBe` [s ["p"] ["ɑ"] [], s [] ["ɑ"] []]
-      it "case: pɑɑl -> pɑ-ɑl" $
+      it "case: pɑɑl -> pɑ.ɑl" $
         syllabify (Sound <$> ["p", "ɑ", "ɑ", "l"])
           `shouldBe` [s ["p"] ["ɑ"] [], s [] ["ɑ"] ["l"]]
-      it "case: t͡ʃa͡ʊə˞i -> t͡ʃa͡ʊ-ə˞-i" $
+      it "case: t͡ʃa͡ʊə˞i -> t͡ʃa͡ʊ.ə˞.i" $
         syllabify (Sound <$> ["t͡ʃ", "a͡ʊ", "ə˞", "i"])
           `shouldBe` [s ["t͡ʃ"] ["a͡ʊ"] [], s [] ["ə˞"] [], s [] ["i"] []]
     describe "empty list"
