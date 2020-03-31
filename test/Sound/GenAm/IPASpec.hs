@@ -42,3 +42,13 @@ spec =
         stringToIPASounds "stɛ˞" `shouldBe` Sound <$> ["s", "t", "ɛ", "ɹ"]
       it "case: ɛəɹ -> ɛɹ (ɛəɹ)" $
         stringToIPASounds "ɛəɹ" `shouldBe` Sound <$> ["ɛ", "ɹ"]
+      it "case: o͡ʊ -> o͡ʊ (preserve)" $
+        stringToIPASounds "bo͡ʊ" `shouldBe` Sound <$> ["b", "o͡ʊ"]
+      it "case: e͡ɪ -> e͡ɪ (preserve)" $
+        stringToIPASounds "be͡ɪ" `shouldBe` Sound <$> ["b", "e͡ɪ"]
+      it "case: a͡ɪ -> a͡ɪ (preserve)" $
+        stringToIPASounds "ba͡ɪ" `shouldBe` Sound <$> ["b", "a͡ɪ"]
+      it "case: ɔ͡ɪ -> ɔ͡ɪ (preserve)" $
+        stringToIPASounds "bɔ͡ɪ" `shouldBe` Sound <$> ["b", "ɔ͡ɪ"]
+      it "case: a͡ʊ -> a͡ʊ (preserve)" $
+        stringToIPASounds "ba͡ʊ" `shouldBe` Sound <$> ["b", "a͡ʊ"]

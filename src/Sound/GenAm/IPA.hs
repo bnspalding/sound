@@ -122,6 +122,9 @@ replZero =
       Replace (s "(") "", -- remove all parens
       Replace (s ")") "",
       Replace (s " ͡") "", -- remove existing ones. replace the ones we want
+      Replace (s "o͡") "o",
+      Replace (s "e͡") "e",
+      Replace (s "a͡") "a",
       Replace (s "‿") "",
       Replace (s " ̥") "",
       Replace (s "&") "" -- this is a nonsense symbol, used in replacements [b]
