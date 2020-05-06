@@ -10,9 +10,11 @@
 -- simple list.
 module Sound.Word where
 
+import qualified Data.Text as T
 import Sound.Sound
 import Sound.Stress
 import Sound.Syl as Syl
+import Prelude hiding (Word)
 
 -- | a word is a list of syls. It represents a spoken word, or perhaps the
 -- pronunciation that would correspond to a written word.
@@ -21,10 +23,15 @@ type Word = [Syl]
 -- | sounds combines the flattened sound sets of its syls into a list.
 -- The structure (onset-nucleus-coda) of the syls is lost in this
 -- transformation.
-sounds :: Sound.Word.Word -> [Sound]
+sounds :: Word -> [Sound]
 sounds w = foldl1 (++) $ Syl.sounds <$> w
 
 -- | stress provides the list of stress levels corresponding to each of its
 -- syls.
-stress :: Sound.Word.Word -> [Stress]
-stress w = Syl.stress <$> w
+stress :: Word -> [Stress]
+stress = fmap Syl.stress
+
+-- | symbols returns a textual representation of a word's syllables, with each
+-- syllable being a Text object.
+symbols :: Word -> [T.Text]
+symbols = fmap Syl.symbols

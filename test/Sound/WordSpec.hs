@@ -12,7 +12,7 @@ import qualified Sound.Word as W
 import Test.Hspec
 
 spec :: Spec
-spec =
+spec = do
   describe "Word" $ do
     it "length 'pʌmp.kɪn' -> 2" $ length demoWord `shouldBe` 2
     it "stress 'pʌmp.kɪn' -> [Stressed, Unstressed] " $
@@ -20,6 +20,9 @@ spec =
     it "sounds 'pʌmp.kɪn' -> [p, ʌ, m, p, k, ɪ, n] " $
       W.sounds demoWord
         `shouldBe` (Sound <$> ["p", "ʌ", "m", "p", "k", "ɪ", "n"])
+  describe "symbols"
+    $ it "converts a word to textual representation, grouped by syl"
+    $ W.symbols demoWord `shouldBe` ["pʌmp", "kɪn"]
 
 demoWord :: W.Word
 demoWord =

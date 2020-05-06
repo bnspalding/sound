@@ -12,6 +12,7 @@
 -- the syllables around it.
 module Sound.Syl where
 
+import qualified Data.Text as T
 import Sound.Sound
 import Sound.Stress
 
@@ -42,3 +43,8 @@ rhyme syl = nucleus syl ++ coda syl
 -- | sounds flattens a syllable into a single ordered list of sounds
 sounds :: Syl -> [Sound]
 sounds syl = onset syl ++ nucleus syl ++ coda syl
+
+-- | symbols returns the IPA representation of a syllable's sounds as a single
+-- Text object.
+symbols :: Syl -> T.Text
+symbols = T.concat . fmap symbol . sounds

@@ -9,6 +9,7 @@
 -- mapping like "Sound.GenAm" which maps sounds to sets of "Sound.Feature"s.
 module Sound.Sound
   ( Sound (..),
+    symbol,
   )
 where
 
@@ -23,3 +24,7 @@ newtype Sound
 
 instance Show Sound where
   show (Sound s) = show s
+
+-- | Symbol returns the IPA symbol associated with a sound
+symbol :: Sound -> T.Text
+symbol (Sound s) = s
