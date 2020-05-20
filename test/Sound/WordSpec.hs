@@ -22,7 +22,7 @@ spec = do
         `shouldBe` (Sound <$> ["p", "ʌ", "m", "p", "k", "ɪ", "n"])
   describe "symbols"
     $ it "converts a word to textual representation, grouped by syl"
-    $ W.symbols demoWord `shouldBe` ["pʌmp", "kɪn"]
+    $ W.symbols demoWord `shouldBe` "ˈpʌmp.kɪn"
 
 demoWord :: W.Word
 demoWord =

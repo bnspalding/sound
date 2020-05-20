@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- |
 -- Module: Sound.Syl
 -- Description: syllables
@@ -45,6 +47,15 @@ sounds :: Syl -> [Sound]
 sounds syl = onset syl ++ nucleus syl ++ coda syl
 
 -- | symbols returns the IPA representation of a syllable's sounds as a single
--- Text object.
+-- Text object. This includes the stress symbol for the syl if it is stressed.
 symbols :: Syl -> T.Text
-symbols = T.concat . fmap symbol . sounds
+symbols syl = addStressMark syl . T.concat . fmap symbol . sounds $ syl
+  where
+    addStressMark :: Syl -> T.Text -> T.Text
+    addStressMark s str =
+      case stress s of
+        Stressed -> "ˈ" <> str
+        SecondaryStress -> "ˌ" <> str
+        Unstressed -> str
+        ReducedStress -> str
+        NullStress -> str

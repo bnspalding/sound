@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- |
 -- Module: Sound.Word
 -- Description: syllable groupings
@@ -31,7 +33,10 @@ sounds w = foldl1 (++) $ Syl.sounds <$> w
 stress :: Word -> [Stress]
 stress = fmap Syl.stress
 
--- | symbols returns a textual representation of a word's syllables, with each
--- syllable being a Text object.
-symbols :: Word -> [T.Text]
-symbols = fmap Syl.symbols
+-- | symbols returns a textual representation of a syllabized word, as a single
+-- text object
+symbols :: Word -> T.Text
+symbols syls = cleanBreaks (T.intercalate "." (Syl.symbols <$> syls))
+  where
+    cleanBreaks :: T.Text -> T.Text
+    cleanBreaks = T.replace ".ˈ" "ˈ" . T.replace ".ˌ" "ˌ"

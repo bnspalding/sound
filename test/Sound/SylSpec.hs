@@ -26,7 +26,7 @@ spec = do
     it "stress 'p l ɔ p s' -> Stressed" $ stress demoSyl `shouldBe` Stressed
   describe "symbols"
     $ it "should return a textual representation of the syl as a single text object"
-    $ symbols demoSyl `shouldBe` "plɔps"
+    $ symbols demoSyl `shouldBe` "ˈplɔps"
 
 demoSyl :: Syl
 demoSyl =
