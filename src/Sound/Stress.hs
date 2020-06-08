@@ -24,8 +24,7 @@ import qualified Data.Text as T
 -- | Stress comes in 4 levels, as well as NullStress, which can be used when
 -- stress information is not available.
 data Stress
-  = NullStress
-  | ReducedStress
+  = ReducedStress
   | Unstressed
   | SecondaryStress
   | Stressed
@@ -34,7 +33,6 @@ data Stress
 -- | Unstressed and ReducedStress are both Low Stress. NullStress is neither Low
 -- nor High Stress.
 isLowStress :: Stress -> Bool
-isLowStress NullStress = False
 isLowStress s = s <= Unstressed
 
 -- | Stressed and SecondaryStress are both High Stress. NullStress is neither
@@ -42,10 +40,15 @@ isLowStress s = s <= Unstressed
 isHighStress :: Stress -> Bool
 isHighStress s = s >= SecondaryStress
 
--- | maybeStress distinguishes between NullStress and actual Stress levels.
-maybeStress :: Stress -> Maybe Stress
-maybeStress NullStress = Nothing
-maybeStress s = Just s
+-- | symbol provides the lexical stress marker for a stress level (if one
+-- exists)
+--
+-- In the future, this should get moved out to the mapping information in
+-- order to support mappings other than IPA.
+symbol :: Stress -> Maybe T.Text
+symbol Stressed = Just stressSymbolIPA
+symbol SecondaryStress = Just secondaryStressSymbolIPA
+symbol _ = Nothing
 
 -- | stressSymbolIPA is the lexical stress marker used by IPA to mark stress
 stressSymbolIPA :: T.Text

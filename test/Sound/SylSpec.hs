@@ -23,7 +23,8 @@ spec = do
       rhyme demoSyl `shouldBe` (Sound <$> ["ɔ", "p", "s"])
     it "sounds 'p l ɔ p s' -> [p, l, ɔ, p, s]" $
       sounds demoSyl `shouldBe` (Sound <$> ["p", "l", "ɔ", "p", "s"])
-    it "stress 'p l ɔ p s' -> Stressed" $ stress demoSyl `shouldBe` Stressed
+    it "stress 'p l ɔ p s' -> Just Stressed" $
+      stress demoSyl `shouldBe` Just Stressed
   describe "symbols"
     $ it "should return a textual representation of the syl as a single text object"
     $ symbols demoSyl `shouldBe` "ˈplɔps"
@@ -34,5 +35,5 @@ demoSyl =
     { onset = Sound <$> ["p", "l"],
       nucleus = Sound <$> ["ɔ"],
       coda = Sound <$> ["p", "s"],
-      stress = Stressed
+      stress = Just Stressed
     }

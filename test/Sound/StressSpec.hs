@@ -19,5 +19,3 @@ spec =
         `shouldSatisfy` (\x -> isHighStress x && not (isLowStress x))
     it "Stressed is HighStress" $
       Stressed `shouldSatisfy` (\x -> isHighStress x && not (isLowStress x))
-    it "NullStress is neither HighStress or LowStress" $
-      NullStress `shouldSatisfy` (\x -> not (isHighStress x || isLowStress x))

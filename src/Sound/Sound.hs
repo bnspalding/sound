@@ -25,6 +25,10 @@ newtype Sound
 instance Show Sound where
   show (Sound s) = show s
 
--- | Symbol returns the IPA symbol associated with a sound
+-- | Symbol returns the symbol associated with a sound
+--
+-- A symbol may be a single character (most IPA symbols), but it may also be a
+-- symbol constructed from multiple characters (t͡ʃ, diphthongs, diacritics in
+-- IPA, many ARPAbet or X-SAMPA symbols).
 symbol :: Sound -> T.Text
 symbol (Sound s) = s

@@ -16,7 +16,7 @@ spec = do
   describe "Word" $ do
     it "length 'pʌmp.kɪn' -> 2" $ length demoWord `shouldBe` 2
     it "stress 'pʌmp.kɪn' -> [Stressed, Unstressed] " $
-      W.stress demoWord `shouldBe` [Stressed, Unstressed]
+      W.stress demoWord `shouldBe` [Just Stressed, Just Unstressed]
     it "sounds 'pʌmp.kɪn' -> [p, ʌ, m, p, k, ɪ, n] " $
       W.sounds demoWord
         `shouldBe` (Sound <$> ["p", "ʌ", "m", "p", "k", "ɪ", "n"])
@@ -30,12 +30,12 @@ demoWord =
       { Syl.onset = Sound <$> ["p"],
         Syl.nucleus = Sound <$> ["ʌ"],
         Syl.coda = Sound <$> ["m", "p"],
-        Syl.stress = Stressed
+        Syl.stress = Just Stressed
       },
     Syl.Syl
       { Syl.onset = Sound <$> ["k"],
         Syl.nucleus = Sound <$> ["ɪ"],
         Syl.coda = Sound <$> ["n"],
-        Syl.stress = Unstressed
+        Syl.stress = Just Unstressed
       }
   ]

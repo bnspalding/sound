@@ -7,7 +7,6 @@ where
 
 import qualified Rhyme.Approx as Approx
 import Sound.Sound
-import Sound.Stress
 import qualified Sound.Syl as Syl
 import Test.Hspec
 
@@ -53,7 +52,7 @@ demoSylTruck =
     { Syl.onset = Sound <$> ["t", "ɹ"],
       Syl.nucleus = Sound <$> ["ʌ"],
       Syl.coda = Sound <$> ["k"],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }
 
 demoSylTorque :: Syl.Syl
@@ -62,7 +61,7 @@ demoSylTorque =
     { Syl.onset = Sound <$> ["t"],
       Syl.nucleus = Sound <$> ["ɔ"],
       Syl.coda = Sound <$> ["ɹ", "k"],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }
 
 demoSylShaft :: Syl.Syl
@@ -71,7 +70,7 @@ demoSylShaft =
     { Syl.onset = Sound <$> ["ʃ"],
       Syl.nucleus = Sound <$> ["æ"],
       Syl.coda = Sound <$> ["f", "t"],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }
 
 demoSylEmpty :: Syl.Syl
@@ -80,5 +79,5 @@ demoSylEmpty =
     { Syl.onset = [],
       Syl.nucleus = [],
       Syl.coda = [],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }

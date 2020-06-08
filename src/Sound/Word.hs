@@ -30,7 +30,7 @@ sounds w = foldl1 (++) $ Syl.sounds <$> w
 
 -- | stress provides the list of stress levels corresponding to each of its
 -- syls.
-stress :: Word -> [Stress]
+stress :: Word -> [Maybe Stress]
 stress = fmap Syl.stress
 
 -- | symbols returns a textual representation of a syllabized word, as a single

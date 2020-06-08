@@ -109,7 +109,7 @@ makeSyl soundList =
     { onset = before,
       nucleus = [mostSonorous],
       coda = after,
-      stress = stressFromMaybe stressSymMaybe
+      stress = Just (stressFromMaybe stressSymMaybe)
     }
   where
     (stressSymMaybe, ss) = extractStressSym soundList

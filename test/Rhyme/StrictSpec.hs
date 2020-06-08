@@ -7,7 +7,6 @@ where
 
 import qualified Rhyme.Strict as Strict
 import Sound.Sound
-import Sound.Stress
 import qualified Sound.Syl as Syl
 import Test.Hspec
 
@@ -39,7 +38,7 @@ demoSylTik =
     { Syl.onset = Sound <$> ["t"],
       Syl.nucleus = Sound <$> ["ɪ"],
       Syl.coda = Sound <$> ["k"],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }
 
 demoSylTok :: Syl.Syl
@@ -48,7 +47,7 @@ demoSylTok =
     { Syl.onset = Sound <$> ["t"],
       Syl.nucleus = Sound <$> ["ɔ"],
       Syl.coda = Sound <$> ["k"],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }
 
 demoSylShift :: Syl.Syl
@@ -57,7 +56,7 @@ demoSylShift =
     { Syl.onset = Sound <$> ["ʃ"],
       Syl.nucleus = Sound <$> ["ɪ"],
       Syl.coda = Sound <$> ["f", "t"],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }
 
 demoSylEmpty :: Syl.Syl
@@ -66,5 +65,5 @@ demoSylEmpty =
     { Syl.onset = [],
       Syl.nucleus = [],
       Syl.coda = [],
-      Syl.stress = NullStress
+      Syl.stress = Nothing
     }

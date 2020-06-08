@@ -16,7 +16,8 @@ module Sound.Syl where
 
 import qualified Data.Text as T
 import Sound.Sound
-import Sound.Stress
+import Sound.Stress (Stress)
+import qualified Sound.Stress (symbol)
 
 -- | Syl describes a structured collection of sounds, what people commonly
 -- distinguish as a unit out of which words are constructed.
@@ -31,7 +32,7 @@ data Syl
         coda :: [Sound],
         -- | stress marks the level of stress that is put on this syllable when
         -- it is spoken.
-        stress :: Stress
+        stress :: Maybe Stress
       }
   deriving (Eq)
 
@@ -49,13 +50,11 @@ sounds syl = onset syl ++ nucleus syl ++ coda syl
 -- | symbols returns the IPA representation of a syllable's sounds as a single
 -- Text object. This includes the stress symbol for the syl if it is stressed.
 symbols :: Syl -> T.Text
-symbols syl = addStressMark syl . T.concat . fmap symbol . sounds $ syl
+symbols syl = addStressMark (stress syl) . T.concat . fmap symbol . sounds $ syl
   where
-    addStressMark :: Syl -> T.Text -> T.Text
-    addStressMark s str =
-      case stress s of
-        Stressed -> "ˈ" <> str
-        SecondaryStress -> "ˌ" <> str
-        Unstressed -> str
-        ReducedStress -> str
-        NullStress -> str
+    addStressMark :: Maybe Stress -> T.Text -> T.Text
+    addStressMark (Just s) str =
+      case Sound.Stress.symbol s of
+        Just stressSym -> stressSym <> str
+        Nothing -> str
+    addStressMark Nothing str = str
