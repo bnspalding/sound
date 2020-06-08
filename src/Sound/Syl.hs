@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 -- |
 -- Module: Sound.Syl
 -- Description: syllables
@@ -21,6 +19,9 @@ import qualified Sound.Stress (symbol)
 
 -- | Syl describes a structured collection of sounds, what people commonly
 -- distinguish as a unit out of which words are constructed.
+--
+-- There are many cases where Syl information is useful while stress is
+-- unknown or unimportant. For this reason, 'stress' is an optional field.
 data Syl
   = Syl
       { -- | The onset is the collection of sounds that begin a syllable
