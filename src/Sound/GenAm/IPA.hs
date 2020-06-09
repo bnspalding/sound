@@ -227,7 +227,7 @@ s = string'fromString
 -- Note [2]: see https://en.wiktionary.org/wiki/Appendix:English_pronunciation
 
 stressSymbols :: [String]
-stressSymbols = T.unpack <$> [stressSymbolIPA, secondaryStressSymbolIPA]
+stressSymbols = T.unpack . T.singleton <$> [stressSymbolIPA, secondaryStressSymbolIPA]
 
 syllableBreakSymbol :: String
 syllableBreakSymbol = "."

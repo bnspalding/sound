@@ -1,3 +1,4 @@
+{-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 -- |
@@ -35,8 +36,17 @@ stress = fmap Syl.stress
 
 -- | symbols returns a textual representation of a syllabized word, as a single
 -- text object
+--
+-- Syllables are separated by the character \'.\' (Unicode Full Stop U+002E),
+-- except for syllables that begin with an IPA stress mark, which serves as a
+-- syllable separator in place of the dot.
 symbols :: Word -> T.Text
-symbols syls = cleanBreaks (T.intercalate "." (Syl.symbols <$> syls))
+symbols syls = head syms <> T.concat (markBreak <$> tail syms)
   where
-    cleanBreaks :: T.Text -> T.Text
-    cleanBreaks = T.replace ".ˈ" "ˈ" . T.replace ".ˌ" "ˌ"
+    syms = Syl.symbols <$> syls
+    -- prepend a syl break symbol in cases where there is not a stress mark
+    markBreak syl =
+      let c = T.head syl
+       in if  | c == stressSymbolIPA -> syl
+              | c == secondaryStressSymbolIPA -> syl
+              | otherwise -> "." <> syl

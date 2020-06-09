@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 -- |
 -- Module: Sound.Stress
 -- Description: syllable stress
@@ -19,10 +17,8 @@
 -- levels, which map 0-Unstressed 1-Stressed 2-SecondaryStress.
 module Sound.Stress where
 
-import qualified Data.Text as T
-
--- | Stress comes in 4 levels, as well as NullStress, which can be used when
--- stress information is not available.
+-- | Stress is represented with four levels of emphasis. Use 'isLowStress' and
+-- 'isHighStress' to reduce to binary stress.
 data Stress
   = ReducedStress
   | Unstressed
@@ -45,16 +41,16 @@ isHighStress s = s >= SecondaryStress
 --
 -- In the future, this should get moved out to the mapping information in
 -- order to support mappings other than IPA.
-symbol :: Stress -> Maybe T.Text
+symbol :: Stress -> Maybe Char
 symbol Stressed = Just stressSymbolIPA
 symbol SecondaryStress = Just secondaryStressSymbolIPA
 symbol _ = Nothing
 
 -- | stressSymbolIPA is the lexical stress marker used by IPA to mark stress
-stressSymbolIPA :: T.Text
-stressSymbolIPA = "ˈ" -- 02C8
+stressSymbolIPA :: Char
+stressSymbolIPA = 'ˈ' -- Unicode U+02C8 "Modifier Letter Vertical Line"
 
 -- | secondaryStressSymbolIPA is the lexical stress marker used by IPA to mark
 -- secondary stress.
-secondaryStressSymbolIPA :: T.Text
-secondaryStressSymbolIPA = "ˌ" --02CC
+secondaryStressSymbolIPA :: Char
+secondaryStressSymbolIPA = 'ˌ' --Unicode U+02CC "Modifier Letter Low Vertical Line"

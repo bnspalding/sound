@@ -12,7 +12,6 @@
 -- the syllables around it.
 module Sound.Syl where
 
-import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 import Sound.Sound
 import Sound.Stress (Stress)
@@ -52,7 +51,7 @@ sounds syl = onset syl ++ nucleus syl ++ coda syl
 -- | symbols returns the symbolic representation of a syllable's sounds as a single
 -- Text object. This includes the stress symbol for the syl if it is stressed.
 symbols :: Syl -> T.Text
-symbols syl = fromMaybe T.empty stressSymbol <> soundSymbols
+symbols syl = maybe T.empty T.singleton stressSymbol <> soundSymbols
   where
     soundSymbols = T.concat . fmap symbol . sounds $ syl
     stressSymbol = Sound.Stress.symbol =<< stress syl

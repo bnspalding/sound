@@ -121,7 +121,7 @@ makeSyl soundList =
         (_before, _ : _after) -> (_before, _after)
 
 stressSymsIPA :: [T.Text]
-stressSymsIPA = [stressSymbolIPA, secondaryStressSymbolIPA]
+stressSymsIPA = T.singleton <$> [stressSymbolIPA, secondaryStressSymbolIPA]
 
 -- also extracting sylBreak (this should be moved to syllabization above)
 extractStressSym :: [Sound] -> (Maybe Sound, [Sound])
