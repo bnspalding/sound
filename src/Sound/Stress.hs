@@ -46,11 +46,12 @@ symbol Stressed = Just stressSymbolIPA
 symbol SecondaryStress = Just secondaryStressSymbolIPA
 symbol _ = Nothing
 
--- | stressSymbolIPA is the lexical stress marker used by IPA to mark stress
+-- | stressSymbolIPA is the lexical stress marker used by IPA to mark stress:
+-- ˈ (Unicode U+02C8 "Modifier Letter Vertical Line")
 stressSymbolIPA :: Char
-stressSymbolIPA = 'ˈ' -- Unicode U+02C8 "Modifier Letter Vertical Line"
+stressSymbolIPA = 'ˈ'
 
 -- | secondaryStressSymbolIPA is the lexical stress marker used by IPA to mark
--- secondary stress.
+-- secondary stress: ˌ (Unicode U+02CC "Modifier Letter Low Vertical Line")
 secondaryStressSymbolIPA :: Char
-secondaryStressSymbolIPA = 'ˌ' --Unicode U+02CC "Modifier Letter Low Vertical Line"
+secondaryStressSymbolIPA = 'ˌ'
