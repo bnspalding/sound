@@ -1,0 +1,72 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: f21dfa0888862d38a96022b81fc5b1cc76f97af52a0a7a29df953e6e04d27a6f
+
+name:           sound
+version:        0.0
+synopsis:       working with sounds: features, syllables, IPA, rhyme
+description:    Please see the README on GitHub at <https://github.com/bnspalding/sound#readme>
+author:         bnspalding
+maintainer:     bnspalding
+copyright:      Copyright (c) 2019 Ben Spalding
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+
+library
+  exposed-modules:
+      Rhyme.Approx
+      Rhyme.Strict
+      Sound
+      Sound.Feature
+      Sound.GenAm
+      Sound.GenAm.IPA
+      Sound.GenAm.Sounds
+      Sound.Pronunciation
+      Sound.Sound
+      Sound.Stress
+      Sound.Syl
+      Sound.Syllabify
+      Sound.Word
+  other-modules:
+      Paths_sound
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
+  build-depends:
+      base >=4.9 && <5
+    , containers
+    , text
+    , text-replace >=0.0.0.4
+  default-language: Haskell2010
+
+test-suite Sound-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Rhyme.ApproxSpec
+      Rhyme.StrictSpec
+      Sound.FeatureSpec
+      Sound.GenAm.IPASpec
+      Sound.GenAmSpec
+      Sound.SoundSpec
+      Sound.StressSpec
+      Sound.SyllabifySpec
+      Sound.SylSpec
+      Sound.WordSpec
+      Paths_sound
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
+  build-depends:
+      base >=4.9 && <5
+    , containers
+    , hspec
+    , sound
+    , text
+    , text-replace >=0.0.0.4
+  default-language: Haskell2010
