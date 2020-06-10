@@ -30,10 +30,22 @@ import Sound.Stress
 -- | syllabify breaks a sequence of sounds into syllables. Syllabify should be
 -- given a single word's worth of sounds, as syllable boundaries don't hold up
 -- across multiple words.
+--
+-- syllabify also accepts IPA stress and syllable break symbols (ˈ, ˌ, .) as
+-- Sounds. It uses these to define syllable breaks and add stress information to
+-- the syllables. Following IPA convention, the stress mark should be placed at
+-- the beginning of the syllable (not on the vowel), as it is used to mark
+-- syllable breaks.
 syllabify :: [Sound] -> Sound.Word
 syllabify [] = []
-syllabify ss = _syllabify [] [] Nothing ss
+syllabify ss = _syllabify [] [] Nothing ss -- iterative recursive syllabify
 
+-- _syllabify iterates over the given list of sounds and uses the direction of
+-- sonority between sounds (less-to-more, more-to-less) to find syllable breaks.
+-- It also looks for break symbols (such as stress symbols or pre-inserted
+-- syllable breaks), which override the sonority direction logic.
+--
+-- args     : result -> current syl -> sonority direction -> unprocessed -> word
 _syllabify :: [[Sound]] -> [Sound] -> Maybe SonorityDir -> [Sound] -> Sound.Word
 -- Empty Case: do nothing when supplied an empty initial sound list
 _syllabify _ _ _ [] = []
@@ -46,21 +58,12 @@ _syllabify result currentSyl prevDir [current] =
    in makeSyl <$> filter (not . null) final
 -- Recursive Case: break the sound list into sublists at breakpoints
 _syllabify result currentSyl prevDir (current : next : ss) =
-  let currentDir =
-        case current of
-          (Sound "ˈ") -> Nothing
-          (Sound "ˌ") -> Nothing
-          (Sound ".") -> Nothing
-          _ -> Just (getDir current next)
+  let currentDir = direction current next -- sonority direction
       (_result, _currentSyl) =
-        case current of
-          (Sound "ˈ") -> (result ++ [currentSyl], [current])
-          (Sound "ˌ") -> (result ++ [currentSyl], [current])
-          (Sound ".") -> (result ++ [currentSyl], [current])
-          _ ->
-            if shouldBreak prevDir currentDir
-              then (result ++ [currentSyl], [current])
-              else (result, currentSyl ++ [current])
+        -- the accumulated syls and the working syl
+        if isBreakSym current || shouldBreak prevDir currentDir
+          then (result ++ [currentSyl], [current]) -- shift to a new syl
+          else (result, currentSyl ++ [current]) -- add to current syl
    in _syllabify _result _currentSyl currentDir (next : ss)
 
 type Sonority = Int
@@ -68,18 +71,18 @@ type Sonority = Int
 sonority :: Sound -> Sonority
 sonority s
   | s == Sound "s" = 0 -- "s" is a special case
-  | not (isVoiced fs) && isStop fs = 1
-  | isVoiced fs && isStop fs = 2
-  | not (isVoiced fs) && isFricative fs = 3
-  | isVoiced fs && isFricative fs = 4
-  | isAffricate fs = 4
-  | isNasal fs = 5
-  | isLateral fs = 6
-  | isApproximant fs || isGlide fs = 7
-  | isVowel fs = 10
-  --  | isHighVowel fs = 8
-  --  | isMidVowel fs = 9
-  --  | isLowVowel fs = 10
+  | not (isVoiced fs) && isStop fs = 1 -- voiceless plosives
+  | isVoiced fs && isStop fs = 2 -- voiced plosives
+  | not (isVoiced fs) && isFricative fs = 3 -- voiceles fricatives
+  | isVoiced fs && isFricative fs = 4 -- voiced fricatives
+  | isAffricate fs = 4 -- affricates
+  | isNasal fs = 5 -- nasals
+  | isLateral fs = 6 -- laterals
+  | isApproximant fs || isGlide fs = 7 -- approximants and glides
+  | isVowel fs = 10 -- vowels (inner-vowel differentiation not helpful here)
+    --  | isHighVowel fs = 8
+    --  | isMidVowel fs = 9
+    --  | isLowVowel fs = 10
   | otherwise = 0
   where
     fs = fromMaybe (featureSet []) (features s)
@@ -90,13 +93,19 @@ data SonorityDir
   | FLAT
   deriving (Ord, Eq)
 
-getDir :: Sound -> Sound -> SonorityDir
-getDir s1 s2
-  | sonority s1 == sonority s2 = FLAT
-  | sonority s1 < sonority s2 = UP
-  | otherwise = DOWN
+-- direction looks ahead to the next symbol and returns the sonority direction
+-- from the current sound to the next.
+--
+-- Because stress and syl-break symbols are represented as sounds, there is a
+-- case where direction does not exist.
+direction :: Sound -> Sound -> Maybe SonorityDir
+direction s1 s2
+  | isBreakSym s1 = Nothing
+  | sonority s1 == sonority s2 = Just FLAT
+  | sonority s1 < sonority s2 = Just UP
+  | otherwise = Just DOWN
 
--- syllables should be broken up at DOWN-to-UP inflection points
+-- syllables should be broken up at FLATs or DOWN-to-UP inflection points
 shouldBreak :: Maybe SonorityDir -> Maybe SonorityDir -> Bool
 shouldBreak (Just FLAT) _ = True
 shouldBreak (Just DOWN) (Just UP) = True
@@ -122,6 +131,12 @@ makeSyl soundList =
 
 stressSymsIPA :: [T.Text]
 stressSymsIPA = T.singleton <$> [stressSymbolIPA, secondaryStressSymbolIPA]
+
+breakSymsIPA :: [T.Text]
+breakSymsIPA = "." : stressSymsIPA
+
+isBreakSym :: Sound -> Bool
+isBreakSym (Sound x) = x `elem` breakSymsIPA
 
 -- also extracting sylBreak (this should be moved to syllabization above)
 extractStressSym :: [Sound] -> (Maybe Sound, [Sound])
