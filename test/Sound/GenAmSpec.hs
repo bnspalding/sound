@@ -6,7 +6,7 @@ module Sound.GenAmSpec
 where
 
 import qualified Data.Set as Set
-import qualified Sound.GenAm as GenAm
+import qualified Sound.Accents.GenAm as GenAm
 import Sound.Sound
 import Test.Hspec
 

@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f21dfa0888862d38a96022b81fc5b1cc76f97af52a0a7a29df953e6e04d27a6f
+-- hash: 95dc82b8b45f539a74b72ddbdf71f1293715711bb068f6ce79b686ce5885f46f
 
 name:           sound
 version:        0.0
@@ -22,10 +22,10 @@ library
       Rhyme.Approx
       Rhyme.Strict
       Sound
+      Sound.Accents.GenAm
+      Sound.Accents.GenAm.IPA
+      Sound.Accents.GenAm.Sounds
       Sound.Feature
-      Sound.GenAm
-      Sound.GenAm.IPA
-      Sound.GenAm.Sounds
       Sound.Pronunciation
       Sound.Sound
       Sound.Stress
@@ -50,8 +50,8 @@ test-suite Sound-test
   other-modules:
       Rhyme.ApproxSpec
       Rhyme.StrictSpec
+      Sound.Accents.GenAm.IPASpec
       Sound.FeatureSpec
-      Sound.GenAm.IPASpec
       Sound.GenAmSpec
       Sound.SoundSpec
       Sound.StressSpec

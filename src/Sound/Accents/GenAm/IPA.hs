@@ -1,15 +1,15 @@
 -- |
--- Module: Sound.GenAm.IPA
+-- Module: Sound.Accents.GenAm.IPA
 -- Description: convert IPA symbols to GenAm sounds
 -- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
 -- Stability: experimental
 --
--- Sound.IPA provides tools for converting strings of IPA symbols into sounds.
+-- GenAm.IPA provides tools for converting strings of IPA symbols into sounds.
 -- This is currently very much embedded in the "Sound.GenAm" mapping, which
 -- means that certain symbols mean different things than they would in IPA
 -- (mostly the symbols used for vowels).
-module Sound.GenAm.IPA
+module Sound.Accents.GenAm.IPA
   ( stringToIPASounds,
     textToIPASounds,
     normalize,
@@ -21,7 +21,7 @@ import Data.Ord
 import qualified Data.Set as Set
 import qualified Data.Text as T
 import Sound
-import qualified Sound.GenAm as GenAm
+import qualified Sound.Accents.GenAm as GenAm
 import Sound.Stress
 import Text.Replace
 

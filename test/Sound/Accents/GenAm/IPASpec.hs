@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Sound.GenAm.IPASpec
+module Sound.Accents.GenAm.IPASpec
   ( spec,
   )
 where
 
 import Sound
-import Sound.GenAm.IPA
+import Sound.Accents.GenAm.IPA
 import Test.Hspec
 
 spec :: Spec

@@ -20,7 +20,7 @@ where
 
 import qualified Data.Text as T
 import Sound
-import Sound.GenAm.IPA
+import Sound.Accents.GenAm.IPA
 import Sound.Syllabify
 
 -- | Pronunciation is a more contextual naming for Sound.Word

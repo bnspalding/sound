@@ -1,16 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- |
--- Module Sound.GenAm.Sounds
+-- Module Sound.Accents.GenAm.Sounds
 -- Description: GenAm data
 -- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
 -- Stability: experimental
 --
--- Sound.GenAm.Sounds includes the actual mappings from symbols to FeatureSets.
--- Use "Sound.GenAm" for working with these mappings. There shouldn't be any
--- reason to import this module directly instead of using "Sound.GenAm".
-module Sound.GenAm.Sounds
+-- GenAm.Sounds includes the actual mappings from symbols to FeatureSets.
+-- Use "Sound.Accents.GenAm" for working with these mappings. There shouldn't be any
+-- reason to import this module directly instead of using its parent module.
+module Sound.Accents.GenAm.Sounds
   ( _sounds,
   )
 where

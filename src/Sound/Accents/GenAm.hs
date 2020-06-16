@@ -1,5 +1,5 @@
 -- |
--- Module: Sound.GenAm
+-- Module: Sound.Accents.GenAm
 -- Description: General American English sound mapping
 -- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
@@ -20,7 +20,7 @@
 -- sound package with other mappings that can be constructed later. However,
 -- there are certain portions of the package that are currently tied to GenAm in
 -- ways that will require untangling in the future.
-module Sound.GenAm
+module Sound.Accents.GenAm
   ( sounds,
     features,
   )
@@ -28,8 +28,8 @@ where
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
+import qualified Sound.Accents.GenAm.Sounds as GenAm
 import Sound.Feature
-import qualified Sound.GenAm.Sounds as GenAm
 import Sound.Sound
 
 -- | The set of sounds (symbols) that comprise the GenAm accent

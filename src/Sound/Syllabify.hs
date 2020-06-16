@@ -23,8 +23,8 @@ import Data.Maybe
 import Data.Ord
 import qualified Data.Text as T
 import Sound
+import Sound.Accents.GenAm
 import Sound.Feature
-import Sound.GenAm
 import Sound.Stress
 
 -- | syllabify breaks a sequence of sounds into syllables. Syllabify should be

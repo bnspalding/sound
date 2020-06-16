@@ -30,8 +30,8 @@ where
 import Data.Ratio
 import qualified Data.Set as Set
 import Sound
+import qualified Sound.Accents.GenAm as GenAm
 import Sound.Feature
-import qualified Sound.GenAm as GenAm
 import qualified Sound.Syl as Syl
 
 -- | rhyme generates a measure of similarity between two syllables by comparing

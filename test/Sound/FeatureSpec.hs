@@ -8,8 +8,8 @@ where
 import Data.Maybe
 import qualified Data.Set as Set
 import qualified Data.Text as T
+import qualified Sound.Accents.GenAm as GenAm
 import Sound.Feature
-import qualified Sound.GenAm as GenAm
 import Sound.Sound
 import Test.Hspec
 
