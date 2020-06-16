@@ -11,6 +11,5 @@ import Test.Hspec
 spec :: Spec
 spec =
   describe "Sound"
-    $ describe "symbol"
-    $ it "should return the symbolic representation of the sound"
+    $ it "symbol (Sound \"h\") -> \"h\""
     $ symbol (Sound "h") `shouldBe` "h"

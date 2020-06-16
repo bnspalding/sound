@@ -11,7 +11,7 @@ import Sound.Syl
 import Test.Hspec
 
 spec :: Spec
-spec = do
+spec =
   describe "Syl" $ do
     it "onset 'p l ɔ p s' -> [p, l]" $
       onset demoSyl `shouldBe` (Sound <$> ["p", "l"])
@@ -25,9 +25,8 @@ spec = do
       sounds demoSyl `shouldBe` (Sound <$> ["p", "l", "ɔ", "p", "s"])
     it "stress 'p l ɔ p s' -> Just Stressed" $
       stress demoSyl `shouldBe` Just Stressed
-  describe "symbols"
-    $ it "should return a textual representation of the syl as a single text object"
-    $ symbols demoSyl `shouldBe` "ˈplɔps"
+    it "symbols 'p l ɔ p s -> \"ˈplɔps\"" $
+      symbols demoSyl `shouldBe` "ˈplɔps"
 
 demoSyl :: Syl
 demoSyl =
