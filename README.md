@@ -32,11 +32,171 @@ accents.
 
 ## Usage
 
-- convert IPA symbols into sounds using Sound.GenAm.IPA
-- represent sounds as sets of phonological features using Sound.Feature
-- automatically syllabify words using Sound.Syllabify
-- measure rhyme, assonance, alliteration (including approximate measures) using
-  Sound.Rhyme
+### convert IPA symbols into sounds
+
+Take a series of IPA symbols and convert them into sounds. The 
+Sound.Accents.GenAm.IPA module performs some reductions and transformations on
+the broader set of IPA symbols to constrain them to a smaller, standardized 
+subset.
+
+```haskell
+import qualified Sound.Accents.GenAm.IPA as GenAm
+
+GenAm.stringToIPASounds "hɛlo͡ʊ"
+-- Just [Sound "h", Sound "ɛ", Sound "l", Sound "o͡ʊ"]
+```
+
+This functionality is coupled to a particular accent because most languages and
+accents do not use the full set of IPA symbols to represent the sounds
+recognized by that language or accent. IPA symbols are often overrided to mean
+something slightly different in a particular language or accent.
+
+The result of `stringToIPASounds` is wrapped in a Maybe because not all symbols
+are valid symbols within a particular accent.
+
+```haskell
+GenAm.stringToIPASounds "helo"
+-- Nothing
+```
+
+The set of Sounds that comprise the GenAm symbol set is available as `sounds`.
+
+```haskell
+import qualified Sound.Accents.GenAm as GenAm
+import Sound (Sound)
+import qualified Data.Set as Set
+
+(Sound "t") `Set.member` GenAm.sounds
+-- True
+
+(Sound "e") `Set.member` GenAm.sounds
+-- False
+```
+
+### represent sounds as sets of phonological features
+
+Using a particular accent, sounds can be looked up in a map of phonological
+features. These features are atomic properties that describe the utterance of a
+sound, and they can be used to classify and reason about sounds.
+
+The result of `features` is wrapped in a Maybe because, again, not all symbols
+are valid symbols within a particular accent.
+
+```haskell
+import qualified Sound.Accents.GenAm as GenAm
+import Sound (Sound)
+import qualified Data.Set as Set
+
+Set.toList <$> GenAm.features (Sound "t")
+-- Just [
+--  MINUS_SYLLABIC,PLUS_CONSONANTAL,MINUS_SONORANT,
+--  MINUS_CONTINUANT,MINUS_VOICE,CORONAL,PLUS_ANTERIOR,MINUS_DISTRIB
+-- ]
+```
+
+`Sound.Features` provides tools for classifying sounds according to these
+features.
+
+```haskell
+import Sound.Feature (isStop, isVowel, isVoiced)
+
+let Just (featuresOfB) = GenAm.features (Sound "b")
+
+isStop featuresOfB
+-- True
+
+isVowel featuresOfB
+-- False
+
+isVoiced featuresOfB
+-- True
+```
+
+### automatically syllabify words (GenAm only)
+
+When you do not know the location of syllable breaks for a word,
+`Sound.Syllabify` can take a guess for you. It attempts to find syllable breaks
+by using the differences in sonority between sounds. In its current state, it
+works well-ish and is tied to the GenAm accent.
+
+```haskell
+import Sound.Syllabify (syllabify)
+import Sound.Word (symbols)
+import Sound (Sound)
+
+symbols $ syllabify (Sound <$> ["s", "k", "w", "ɜ˞", "ə", "l"])
+-- "skwɜ˞.əl"
+```
+
+When stress information is not provided, `syllabify` labels the syllable as
+`Unstressed`. However, you can provide stress information as symbols in your
+list of Sounds. Use the IPA symbols "ˈ" (Unicode U+02C8) and "ˌ" (Unicode
+U+02CC) to mark stress and secondary stress respectively.
+
+```haskell
+import Sound.Syl (stress)
+
+symbols $ syllabify (Sound <$> ["ˈ", "s", "k", "w", "ɜ˞", "ə", "l"])
+-- "ˈskwɜ˞.əl"
+
+stress <$> syllabify (Sound <$> ["ˈ", "s", "k", "w", "ɜ˞", "ə", "l"])
+-- [Just Stressed, Just Unstressed]
+```
+
+Syllabification also accepts the syllable break symbol "." (a period). It will
+automatically break at these points when constructing syllables. Syllabification
+is most useful as a constructor for syllables when you have stress and break 
+information, because it splits sounds internally (onset, nucleus, coda) without
+having to guess where syllable breaks are.
+
+### measure rhyme, assonance, alliteration
+
+Rhyme provides tools for comparing syllables for purposes of rhyme,
+assonance, and alliteration.
+
+Rhyme.Strict simply compares symbols between syllables. 
+
+```haskell
+import Rhyme.Strict (rhyme, assonance, alliteration)
+import Sound (Sound)
+import Sound.Syllabify (syllabify)
+
+let stalk = head . syllabify $ Sound <$> ["s", "t", "ɔ", "k"]
+let tok = head . syllabify $ Sound <$>  ["t", "ɔ", "k"]
+let torque =  head . syllabify $ Sound <$>  ["t", "ɔ", "ɹ", "k"]
+
+rhyme stalk tok
+-- True
+
+rhyme tok torque
+-- False
+
+assonance stalk tok
+-- True
+
+alliteration tok torque
+-- True
+```
+
+Rhyme.Approx compares syllables by similarity of feature sets. It returns a
+ratio that is _shared features in a set of sounds_ / _total features in a set of
+sounds_.
+
+```haskell
+import Rhyme.Approx (rhyme, assonance, alliteration)
+
+-- using the words defined in the example above...
+-- note that the fractions are reduced and not the actual number of features
+
+rhyme stalk tok
+-- 1 % 1; similarity = 1
+
+rhyme tok torque
+-- 15 % 19; similarity = 0.79
+
+alliteration stalk tok
+-- 4 % 5; similarity = 0.8
+```
 
 ## More Documentation
 
