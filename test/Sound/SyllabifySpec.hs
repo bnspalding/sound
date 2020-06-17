@@ -36,12 +36,12 @@ spec =
           `shouldBe` [s ["w"] ["ɛ"] [], s' ["s", "t"] ["ə˞"] ["n"] ReducedStress]
       it "case: pænts -> pænts" $
         syllabify (Sound <$> ["p", "æ", "n", "t", "s"])
-          `shouldBe` [s ["p"] ["æ"] ["n", "t", "s"]]
+          `shouldBe` [sx ["p"] ["æ"] ["n", "t", "s"]]
       it "case: skwɜ˞əl -> skwɜ˞.əl" $
         syllabify (Sound <$> ["s", "k", "w", "ɜ˞", "ə", "l"])
           `shouldBe` [s ["s", "k", "w"] ["ɜ˞"] [], s' [] ["ə"] ["l"] ReducedStress]
       it "case: læf -> læf" $
-        syllabify (Sound <$> ["l", "æ", "f"]) `shouldBe` [s ["l"] ["æ"] ["f"]]
+        syllabify (Sound <$> ["l", "æ", "f"]) `shouldBe` [sx ["l"] ["æ"] ["f"]]
       it "case: pɹɛʃə˞ -> pɹɛ.ʃə˞" $
         syllabify (Sound <$> ["p", "ɹ", "ɛ", "ʃ", "ə˞"])
           `shouldBe` [s ["p", "ɹ"] ["ɛ"] [], s' ["ʃ"] ["ə˞"] [] ReducedStress]
@@ -65,7 +65,7 @@ spec =
                      ]
       it "case: kɹʌst -> kɹʌst" $
         syllabify (Sound <$> ["k", "ɹ", "ʌ", "s", "t"])
-          `shouldBe` [s ["k", "ɹ"] ["ʌ"] ["s", "t"]]
+          `shouldBe` [sx ["k", "ɹ"] ["ʌ"] ["s", "t"]]
       it "case: ɜ˞stwa͡ɪl -> ɜ˞.stwa͡ɪl" $
         syllabify (Sound <$> ["ɜ˞", "s", "t", "w", "a͡ɪ", "l"])
           `shouldBe` [s [] ["ɜ˞"] [], s ["s", "t", "w"] ["a͡ɪ"] ["l"]]
@@ -74,7 +74,7 @@ spec =
           `shouldBe` [s ["d"] ["æ"] [], s' ["m"] ["ə"] ["s", "k"] ReducedStress]
       it "case: kɹɪpt -> kɹɪpt" $
         syllabify (Sound <$> ["k", "ɹ", "ɪ", "p", "t"])
-          `shouldBe` [s ["k", "ɹ"] ["ɪ"] ["p", "t"]]
+          `shouldBe` [sx ["k", "ɹ"] ["ɪ"] ["p", "t"]]
       it "case: plɑ.t.kɑ -> plɑ.t.kɑ (arbitrary)" $
         syllabify (Sound <$> ["p", "l", "ɑ", ".", "t", ".", "k", "ɑ"])
           `shouldBe` [s ["p", "l"] ["ɑ"] [], s [] ["t"] [], s ["k"] ["ɑ"] []]
@@ -93,17 +93,17 @@ spec =
         `shouldBe` [s [] ["p"] [], s ["2"] ["ɑ"] []]
     describe "stress markings" $ do
       it " ˈ -> Stressed" $
-        syllabify (Sound <$> ["ˈ", "t", "i"])
-          `shouldBe` [s' ["t"] ["i"] [] Stressed]
+        syllabify (Sound <$> ["ˈ", "t", "i", "i"])
+          `shouldBe` [s' ["t"] ["i"] [] Stressed, s [] ["i"] []]
       it " ˌ -> SecondaryStress" $
-        syllabify (Sound <$> ["ˌ", "t", "i"])
-          `shouldBe` [s' ["t"] ["i"] [] SecondaryStress]
+        syllabify (Sound <$> ["ˌ", "t", "i", "i"])
+          `shouldBe` [s' ["t"] ["i"] [] SecondaryStress, s [] ["i"] []]
       it " ə -> ReducedStress" $
-        syllabify (Sound <$> ["t", "ə"])
-          `shouldBe` [s' ["t"] ["ə"] [] ReducedStress]
+        syllabify (Sound <$> ["f", "a͡ɪ", "ə"])
+          `shouldBe` [s ["f"] ["a͡ɪ"] [], s' [] ["ə"] [] ReducedStress]
       it " ə˞ -> ReducedStress" $
-        syllabify (Sound <$> ["t", "ə˞"])
-          `shouldBe` [s' ["t"] ["ə˞"] [] ReducedStress]
+        syllabify (Sound <$> ["f", "a͡ɪ", "ə˞"])
+          `shouldBe` [s ["f"] ["a͡ɪ"] [], s' [] ["ə˞"] [] ReducedStress]
 
 s :: [T.Text] -> [T.Text] -> [T.Text] -> Syl
 s _onset _nucleus _coda =
@@ -121,4 +121,13 @@ s' _onset _nucleus _coda _stress =
       nucleus = Sound <$> _nucleus,
       coda = Sound <$> _coda,
       stress = Just _stress
+    }
+
+sx :: [T.Text] -> [T.Text] -> [T.Text] -> Syl
+sx _onset _nucleus _coda =
+  Syl
+    { onset = Sound <$> _onset,
+      nucleus = Sound <$> _nucleus,
+      coda = Sound <$> _coda,
+      stress = Nothing
     }

@@ -38,7 +38,7 @@ import Sound.Stress
 -- syllable breaks.
 syllabify :: [Sound] -> Sound.Word
 syllabify [] = []
-syllabify ss = _syllabify [] [] Nothing ss -- iterative recursive syllabify
+syllabify ss = checkMonoStress $ _syllabify [] [] Nothing ss -- iterative syllabify
 
 -- _syllabify iterates over the given list of sounds and uses the direction of
 -- sonority between sounds (less-to-more, more-to-less) to find syllable breaks.
@@ -167,3 +167,17 @@ stressFromMaybe s (Sound nuc) =
 
 containsVowel :: [Sound] -> Bool
 containsVowel = any (isVowel . featuresOrEmpty . features)
+
+checkMonoStress :: Sound.Word -> Sound.Word
+checkMonoStress w =
+  if length w == 1
+    then
+      let syl = head w
+       in [ Syl
+              { onset = onset syl,
+                nucleus = nucleus syl,
+                coda = coda syl,
+                stress = Nothing
+              }
+          ]
+    else w
