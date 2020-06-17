@@ -20,16 +20,14 @@ where
 
 import qualified Data.Text as T
 import Sound
-import Sound.Accents.GenAm.IPA
+import qualified Sound.Accents.GenAm.IPA as GenAm
 import Sound.Syllabify
 
 -- | Pronunciation is a more contextual naming for Sound.Word
 type Pronunciation = Sound.Word
 
 -- | makePronunciation converts a string of characters into a particular
--- pronunciation. This can produce errors if the symbols passed into the
--- function cannot be properly parsed. (And that's a good thing. The choice to
--- fail instead of adding the complexity of something like an Either is fine for
--- the sort of generative work that this library is being used for)
-makePronunciation :: T.Text -> Pronunciation
-makePronunciation = syllabify . textToIPASounds
+-- pronunciation. It returns nothing if the string contains characters that
+-- cannot be recognized as GenAm IPA symbols.
+makePronunciation :: T.Text -> Maybe Pronunciation
+makePronunciation = fmap syllabify . GenAm.textToIPASounds

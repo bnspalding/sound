@@ -27,17 +27,20 @@ import Text.Replace
 
 -- | stringToIPASounds converts a string into GenAm sounds. Non-IPA symbols
 -- passed to stringToIPASounds will produce errors
-stringToIPASounds :: String -> [Sound]
+stringToIPASounds :: String -> Maybe [Sound]
 stringToIPASounds str =
-  let toIPAIter sounds [] = sounds
-      toIPAIter sounds xs = toIPAIter (sounds ++ [sound]) remaining
+  let toIPAIter sounds [] = Just sounds
+      toIPAIter sounds xs =
+        case mSound of
+          Just sound -> toIPAIter (sounds ++ [sound]) remaining
+          Nothing -> Nothing
         where
-          (sound, remaining) = nextSound xs ipaSymbols
+          (mSound, remaining) = nextSound xs ipaSymbols
    in toIPAIter [] (normalize str)
 
 -- | textToIPASounds converts text into GenAm sounds. Non-IPA symbols passed to
 -- textToIPASounds will produce errors
-textToIPASounds :: T.Text -> [Sound]
+textToIPASounds :: T.Text -> Maybe [Sound]
 textToIPASounds t = stringToIPASounds $ T.unpack t
 
 -- | normalize performs a series of replacements on a string to simplify the IPA
@@ -241,10 +244,10 @@ ipaSymbols =
   )
     GenAm.sounds
 
-nextSound :: String -> [String] -> (Sound, String)
+nextSound :: String -> [String] -> (Maybe Sound, String)
 nextSound [] _ = error "empty list given to nextSound in Sound.IPA"
-nextSound (x : xs) [] = error $ "unknown symbol " ++ [x] ++ " in " ++ xs
+nextSound xs [] = (Nothing, xs) -- unknown symbol
 nextSound xs (sym : syms) =
   if sym `isPrefixOf` xs
-    then (Sound (T.pack sym), drop (length sym) xs)
+    then (Just (Sound (T.pack sym)), drop (length sym) xs)
     else nextSound xs syms
