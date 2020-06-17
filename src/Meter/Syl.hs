@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- |
--- Module: Meter
+-- Module: Meter.Syl
 -- Description: evaluating meter on syllables
 -- Copyright: (c) 2020 Ben Spalding (bnspalding.com)
 -- License: MIT
 -- Stability: experimental
 --
--- Meter provides tools for fitting syllables to meter. The words 'macron' and
+-- Meter.Syl provides tools for fitting syllables to meter. The words 'macron' and
 -- 'breve' come from the symbols used to mark accented/heavy/stressed and
 -- unaccented/light/unstressed syllables in poetic meter. While they take a
 -- little bit of getting used to, I think they are clearer than overloading the
@@ -16,7 +16,7 @@
 -- These functions rely on the convention that monosyllabic words have their
 -- stress marked as Nothing. Be careful if you are trying to work with meter in
 -- a context where you mean for stress values of Nothing to mean something else.
-module Meter
+module Meter.Syl
   ( macron,
     breve,
     breve',

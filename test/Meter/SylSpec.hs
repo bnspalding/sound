@@ -1,11 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module MeterSpec
+module Meter.SylSpec
   ( spec,
   )
 where
 
-import Meter
+import Meter.Syl
 import Sound
 import Test.Hspec
 
