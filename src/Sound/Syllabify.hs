@@ -52,9 +52,13 @@ _syllabify _ _ _ [] = []
 -- End Case: package up the result when the end of the list is reached
 _syllabify result currentSyl prevDir [current] =
   let final =
-        if prevDir == Just FLAT -- special case: FLAT at end creates new syllable
-          then result ++ [currentSyl] ++ [[current]]
-          else result ++ [currentSyl ++ [current]]
+        if containsVowel (currentSyl ++ [current])
+          then-- special case: FLAT vowel at end creates new syllable
+
+            if prevDir == Just FLAT && maybe False isVowel (features current)
+              then result ++ [currentSyl] ++ [[current]]
+              else result ++ [currentSyl ++ [current]]
+          else init result ++ [last result ++ currentSyl ++ [current]]
    in makeSyl <$> filter (not . null) final
 -- Recursive Case: break the sound list into sublists at breakpoints
 _syllabify result currentSyl prevDir (current : next : ss) =
@@ -158,3 +162,6 @@ stressFromMaybe s =
     Just (Sound "ˈ") -> Stressed
     Just (Sound "ˌ") -> SecondaryStress
     _ -> error $ "unknown stress symbol: " ++ show s
+
+containsVowel :: [Sound] -> Bool
+containsVowel = any (isVowel . featuresOrEmpty . features)

@@ -57,24 +57,36 @@ spec =
       it "case: t͡ʃa͡ʊə˞i -> t͡ʃa͡ʊ.ə˞.i" $
         syllabify (Sound <$> ["t͡ʃ", "a͡ʊ", "ə˞", "i"])
           `shouldBe` [s ["t͡ʃ"] ["a͡ʊ"] [], s [] ["ə˞"] [], s [] ["i"] []]
+      it "case: ˈkæmpˌfa͡ɪə˞ -> ˈkæmpˌfa͡ɪ.ə˞" $
+        syllabify (Sound <$> ["ˈ", "k", "æ", "m", "p", "ˌ", "f", "a͡ɪ", "ə˞"])
+          `shouldBe` [ s' ["k"] ["æ"] ["m", "p"] Stressed,
+                       s' ["f"] ["a͡ɪ"] [] SecondaryStress,
+                       s [] ["ə˞"] []
+                     ]
+      it "case: kɹʌst -> kɹʌst" $
+        syllabify (Sound <$> ["k", "ɹ", "ʌ", "s", "t"])
+          `shouldBe` [s ["k", "ɹ"] ["ʌ"] ["s", "t"]]
+      it "case: ɜ˞stwa͡ɪl -> ɜ˞.stwa͡ɪl" $
+        syllabify (Sound <$> ["ɜ˞", "s", "t", "w", "a͡ɪ", "l"])
+          `shouldBe` [s [] ["ɜ˞"] [], s ["s", "t", "w"] ["a͡ɪ"] ["l"]]
+      it "case: dæməsk -> dæ.məsk" $
+        syllabify (Sound <$> ["d", "æ", "m", "ə", "s", "k"])
+          `shouldBe` [s ["d"] ["æ"] [], s ["m"] ["ə"] ["s", "k"]]
+      it "case: kɹɪpt -> kɹɪpt" $
+        syllabify (Sound <$> ["k", "ɹ", "ɪ", "p", "t"])
+          `shouldBe` [s ["k", "ɹ"] ["ɪ"] ["p", "t"]]
+      it "case: plɑ.t.kɑ -> plɑ.t.kɑ (arbitrary)" $
+        syllabify (Sound <$> ["p", "l", "ɑ", ".", "t", ".", "k", "ɑ"])
+          `shouldBe` [s ["p", "l"] ["ɑ"] [], s [] ["t"] [], s ["k"] ["ɑ"] []]
+      it "case: ˈstɪ.əˌkʊt -> stɪ.nə.kʊt (arbitrary)" $
+        syllabify (Sound <$> ["ˈ", "s", "t", "ɪ", ".", "ə", "ˌ", "k", "ʊ", "t"])
+          `shouldBe` [ s' ["s", "t"] ["ɪ"] [] Stressed,
+                       s [] ["ə"] [],
+                       s' ["k"] ["ʊ"] ["t"] SecondaryStress
+                     ]
     describe "empty list"
       $ it "returns an empty syl set"
       $ syllabify [] `shouldBe` []
-    describe "single sound"
-      $ it "works as expected"
-      $ syllabify [Sound "t"] `shouldBe` [s [] ["t"] []]
-    describe "two sounds"
-      $ it "works as expected"
-      $ syllabify (Sound <$> ["l", "p"]) `shouldBe` [s [] ["l"] ["p"]]
-    describe "two equal sounds" $ do
-      context "with vowels"
-        $ it "splits them into two syllables"
-        $ syllabify (Sound <$> ["a͡ɪ", "a͡ɪ"])
-          `shouldBe` [s [] ["a͡ɪ"] [], s [] ["a͡ɪ"] []]
-      context "with consonants"
-        $ it "splits them into two syllables"
-        $ syllabify (Sound <$> ["p", "p"])
-          `shouldBe` [s [] ["p"] [], s [] ["p"] []]
     describe "unknown input"
       $ it "silently accepts the unknown symbols as sonority 0"
       $ syllabify (Sound <$> ["p", "2", "ɑ"])
@@ -87,4 +99,13 @@ s _onset _nucleus _coda =
       nucleus = Sound <$> _nucleus,
       coda = Sound <$> _coda,
       stress = Just Unstressed
+    }
+
+s' :: [T.Text] -> [T.Text] -> [T.Text] -> Stress -> Syl
+s' _onset _nucleus _coda _stress =
+  Syl
+    { onset = Sound <$> _onset,
+      nucleus = Sound <$> _nucleus,
+      coda = Sound <$> _coda,
+      stress = Just _stress
     }
