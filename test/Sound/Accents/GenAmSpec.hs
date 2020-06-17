@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Sound.GenAmSpec
+module Sound.Accents.GenAmSpec
   ( spec,
   )
 where
