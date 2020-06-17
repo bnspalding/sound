@@ -4,15 +4,15 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 41bbbaed3d8e2db19b7350119411ee6567c8127b53b499300789cfbbb6ffe006
+-- hash: 091dbcba5ab77a4354815382b8e24fd6fe6474fe341319adc8367faee4657fde
 
 name:           sound
-version:        0.0
+version:        1.0.0
 synopsis:       working with sounds: features, syllables, IPA, rhyme
 description:    Please see the README on GitHub at <https://github.com/bnspalding/sound#readme>
 author:         bnspalding
 maintainer:     bnspalding
-copyright:      Copyright (c) 2019 Ben Spalding
+copyright:      Copyright (c) 2019 - 2020 Ben Spalding
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
