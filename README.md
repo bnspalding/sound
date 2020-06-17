@@ -143,7 +143,10 @@ symbols $ syllabify (Sound <$> ["s", "k", "w", "ɜ˞", "ə", "l"])
 When stress information is not provided, `syllabify` labels the syllable as
 `Unstressed`. However, you can provide stress information as symbols in your
 list of Sounds. Use the IPA symbols "ˈ" (Unicode U+02C8) and "ˌ" (Unicode
-U+02CC) to mark stress and secondary stress respectively.
+U+02CC) to mark stress and secondary stress respectively. The symbols "ə" and
+"ə˞" are always marked as reduced stress. `Sound.Stress` provides functions for
+moving from a system of four stress levels (stress, secondary stress,
+unstressed, reduced stress) to a binary system of stress (high, low).
 
 ```haskell
 import Sound.Syl (stress)
@@ -152,7 +155,7 @@ symbols $ syllabify (Sound <$> ["ˈ", "s", "k", "w", "ɜ˞", "ə", "l"])
 -- "ˈskwɜ˞.əl"
 
 stress <$> syllabify (Sound <$> ["ˈ", "s", "k", "w", "ɜ˞", "ə", "l"])
--- [Just Stressed, Just Unstressed]
+-- [Just Stressed, Just ReducedStress]
 ```
 
 Syllabification also accepts the syllable break symbol "." (a period). It will
