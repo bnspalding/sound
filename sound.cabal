@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c6b7d5f17395330f288a557cd3d1bbd6d50a1de8af16307378b44a1524d4813b
+-- hash: aea671fb9d32530d14acf613e546208167710d6f53ad651b1cd251ba7962d22a
 
 name:           sound
 version:        0.0
@@ -19,6 +19,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      Meter
       Rhyme.Approx
       Rhyme.Strict
       Sound
@@ -48,6 +49,7 @@ test-suite Sound-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      MeterSpec
       Rhyme.ApproxSpec
       Rhyme.StrictSpec
       Sound.Accents.GenAm.IPASpec
