@@ -62,8 +62,8 @@ GenAm.stringToIPASounds "hɛlo͡ʊ"
 -- Just [Sound "h", Sound "ɛ", Sound "l", Sound "o͡ʊ"]
 
 GenAm.stringToIPASounds "helo"
--- Just [Sound "h", Sound "ɛ", Sound "l", Sound "o͡ʊ"]
--- e and o are transformed to their GenAm approximations
+-- Just [Sound "h", Sound "ə", Sound "l", Sound "o͡ʊ"]
+-- e and o are transformed, but note the first vowel is not the same as above
 
 GenAm.stringToIPASounds "h2lo"
 -- Nothing; after transformations, there are still unknown symbols in the string
