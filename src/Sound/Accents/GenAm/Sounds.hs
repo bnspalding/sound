@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- |
--- Module Sound.Accents.GenAm.Sounds
+-- Module: Sound.Accents.GenAm.Sounds
 -- Description: GenAm data
 -- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
