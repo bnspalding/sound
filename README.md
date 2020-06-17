@@ -148,6 +148,10 @@ U+02CC) to mark stress and secondary stress respectively. The symbols "ə" and
 moving from a system of four stress levels (stress, secondary stress,
 unstressed, reduced stress) to a binary system of stress (high, low).
 
+Stress (word level stress) is considered useful only as a comparison between
+syllables within a single word. Monosyllabic words are assigned a stress value of
+`Nothing` to reflect this. 
+
 ```haskell
 import Sound.Syl (stress)
 
@@ -156,6 +160,9 @@ symbols $ syllabify (Sound <$> ["ˈ", "s", "k", "w", "ɜ˞", "ə", "l"])
 
 stress <$> syllabify (Sound <$> ["ˈ", "s", "k", "w", "ɜ˞", "ə", "l"])
 -- [Just Stressed, Just ReducedStress]
+
+stress <$> syllabify (Sound <$> ["t͡ʃ", "i", "z"])
+-- [Nothing]
 ```
 
 Syllabification also accepts the syllable break symbol "." (a period). It will
