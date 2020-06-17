@@ -122,7 +122,7 @@ makeSyl soundList =
     { onset = before,
       nucleus = [mostSonorous],
       coda = after,
-      stress = Just (stressFromMaybe stressSymMaybe)
+      stress = Just (stressFromMaybe stressSymMaybe mostSonorous)
     }
   where
     (stressSymMaybe, ss) = extractStressSym soundList
@@ -154,14 +154,16 @@ extractStressSym s = (stressMaybe, stressRemoved)
     stressExtracted = filter (\(Sound x) -> x `elem` ("." : stressSymsIPA)) s
     stressRemoved = filter (`notElem` stressExtracted) s
 
-stressFromMaybe :: Maybe Sound -> Stress
-stressFromMaybe s =
-  case s of
-    Nothing -> Unstressed
-    Just (Sound ".") -> Unstressed --this is from extracting above. should be fixed
-    Just (Sound "ˈ") -> Stressed
-    Just (Sound "ˌ") -> SecondaryStress
-    _ -> error $ "unknown stress symbol: " ++ show s
+stressFromMaybe :: Maybe Sound -> Sound -> Stress
+stressFromMaybe s (Sound nuc) =
+  if nuc == "ə" || nuc == "ə˞"
+    then ReducedStress
+    else case s of
+      Nothing -> Unstressed
+      Just (Sound ".") -> Unstressed --this is from extracting above. should be fixed
+      Just (Sound "ˈ") -> Stressed
+      Just (Sound "ˌ") -> SecondaryStress
+      _ -> error $ "unknown stress symbol: " ++ show s
 
 containsVowel :: [Sound] -> Bool
 containsVowel = any (isVowel . featuresOrEmpty . features)
