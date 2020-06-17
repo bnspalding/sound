@@ -1,7 +1,7 @@
 # Sound
 
 Sound contains a collection of tools for working with symbolic representations
-of sounds in Haskell. This includes:
+of speech sounds in Haskell. This includes:
 
 - phonological units of sound (phoneme, syllable, word)
 - [phonological features](https://en.wikipedia.org/wiki/Distinctive_feature)
@@ -34,32 +34,44 @@ accents.
 
 ### convert IPA symbols into sounds
 
-Take a series of IPA symbols and convert them into sounds. The 
-Sound.Accents.GenAm.IPA module performs some reductions and transformations on
-the broader set of IPA symbols to constrain them to a smaller, standardized 
-subset.
+The symbols that represent a sound are stored in a Sound structure. Because a
+Sound is just a structural wrapping for its symbols, a Sound can be constructed
+simply.
+
+```haskell
+import Sound (Sound)
+
+Sound "h"
+-- The sound "h"
+
+Sound <$> ["h", "ɛ", "l", "o͡ʊ"]
+-- Sound mapped over a list of symbols
+```
+
+To ensure that the symbols being used are valid within an accent, use
+`stringToIPASounds` from the `Sound.Accents.GenAm.IPA` module. The GenAm accent
+recognizes and defines feature information for only a subset of all IPA symbols,
+and `stringToIPASounds` returns a `Maybe` value to reflect this. Additionally, 
+this function performs some reductions and transformations on the broader set of
+IPA symbols to constrain them to the smaller, regular subset that it knows.
 
 ```haskell
 import qualified Sound.Accents.GenAm.IPA as GenAm
 
 GenAm.stringToIPASounds "hɛlo͡ʊ"
 -- Just [Sound "h", Sound "ɛ", Sound "l", Sound "o͡ʊ"]
-```
 
-This functionality is coupled to a particular accent because most languages and
-accents do not use the full set of IPA symbols to represent the sounds
-recognized by that language or accent. IPA symbols are often overrided to mean
-something slightly different in a particular language or accent.
-
-The result of `stringToIPASounds` is wrapped in a Maybe because not all symbols
-are valid symbols within a particular accent.
-
-```haskell
 GenAm.stringToIPASounds "helo"
--- Nothing
+-- Just [Sound "h", Sound "ɛ", Sound "l", Sound "o͡ʊ"]
+-- e and o are transformed to their GenAm approximations
+
+GenAm.stringToIPASounds "h2lo"
+-- Nothing; after transformations, there are still unknown symbols in the string
 ```
 
 The set of Sounds that comprise the GenAm symbol set is available as `sounds`.
+This set does not consider any transformations that would be applied using
+`stringToIPASounds`, and contains just the symbols of the accent.
 
 ```haskell
 import qualified Sound.Accents.GenAm as GenAm
@@ -79,7 +91,7 @@ Using a particular accent, sounds can be looked up in a map of phonological
 features. These features are atomic properties that describe the utterance of a
 sound, and they can be used to classify and reason about sounds.
 
-The result of `features` is wrapped in a Maybe because, again, not all symbols
+The result of `features` is wrapped in a `Maybe` because, again, not all symbols
 are valid symbols within a particular accent.
 
 ```haskell
@@ -154,33 +166,33 @@ having to guess where syllable breaks are.
 Rhyme provides tools for comparing syllables for purposes of rhyme,
 assonance, and alliteration.
 
-Rhyme.Strict simply compares symbols between syllables. 
+`Rhyme.Strict` simply compares symbols between syllables. 
 
 ```haskell
 import Rhyme.Strict (rhyme, assonance, alliteration)
 import Sound (Sound)
 import Sound.Syllabify (syllabify)
 
-let stalk = head . syllabify $ Sound <$> ["s", "t", "ɔ", "k"]
-let tok = head . syllabify $ Sound <$>  ["t", "ɔ", "k"]
-let torque =  head . syllabify $ Sound <$>  ["t", "ɔ", "ɹ", "k"]
+let tack = head . syllabify $ Sound <$>  ["t", "æ", "k"]
+let stack = head . syllabify $ Sound <$> ["s", "t", "æ", "k"]
+let stark =  head . syllabify $ Sound <$>  ["s", "t", "ɑ", "ɹ", "k"]
 
-rhyme stalk tok
+rhyme tack stack
 -- True
 
-rhyme tok torque
+rhyme stack stark
 -- False
 
-assonance stalk tok
+assonance tack stack
 -- True
 
-alliteration tok torque
+alliteration stack stark
 -- True
 ```
 
-Rhyme.Approx compares syllables by similarity of feature sets. It returns a
-ratio that is _shared features in a set of sounds_ / _total features in a set of
-sounds_.
+`Rhyme.Approx` compares syllables by similarity of feature sets. It returns a
+ratio that is (_shared features in a set of sounds_) / (_total features in a set
+of sounds_).
 
 ```haskell
 import Rhyme.Approx (rhyme, assonance, alliteration)
@@ -188,13 +200,13 @@ import Rhyme.Approx (rhyme, assonance, alliteration)
 -- using the words defined in the example above...
 -- note that the fractions are reduced and not the actual number of features
 
-rhyme stalk tok
+rhyme tack stack
 -- 1 % 1; similarity = 1
 
-rhyme tok torque
--- 15 % 19; similarity = 0.79
+rhyme stack stark
+-- 7 % 10; similarity = 0.7
 
-alliteration stalk tok
+alliteration tack stack
 -- 4 % 5; similarity = 0.8
 ```
 
