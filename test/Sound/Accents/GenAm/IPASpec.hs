@@ -24,6 +24,10 @@ spec =
         stringToIPASounds "bɔɪ" `shouldBe` Just (Sound <$> ["b", "ɔ͡ɪ"])
       it "case: aʊ -> a͡ʊ" $
         stringToIPASounds "baʊ" `shouldBe` Just (Sound <$> ["b", "a͡ʊ"])
+      it "case: tʃ -> t͡ʃ" $
+        stringToIPASounds "tʃiz" `shouldBe` Just (Sound <$> ["t͡ʃ", "i", "z"])
+      it "case: dʒ -> d͡ʒ (dʒinz)" $
+        stringToIPASounds "dʒinz" `shouldBe` Just (Sound <$> ["d͡ʒ", "i", "n", "z"])
       it "case: ɚ -> ə˞" $
         stringToIPASounds "pɚ" `shouldBe` Just (Sound <$> ["p", "ə˞"])
       it "case: ɝ -> ɜ˞" $
@@ -32,10 +36,6 @@ spec =
         stringToIPASounds "pɜɹ" `shouldBe` Just (Sound <$> ["p", "ɜ˞"])
       it "case: ə(ɹ) -> ə˞" $
         stringToIPASounds "pə(ɹ)" `shouldBe` Just (Sound <$> ["p", "ə˞"])
-      it "case: tʃ -> t͡ʃ" $
-        stringToIPASounds "tʃiz" `shouldBe` Just (Sound <$> ["t͡ʃ", "i", "z"])
-      it "case: dʒ -> d͡ʒ (dʒinz)" $
-        stringToIPASounds "dʒinz" `shouldBe` Just (Sound <$> ["d͡ʒ", "i", "n", "z"])
       it "case: ɜ -> ɛ (tɜst -> tɛst)" $
         stringToIPASounds "tɜst" `shouldBe` Just (Sound <$> ["t", "ɛ", "s", "t"])
       it "case: ɛɹ -> ɛɹ (no change)" $
@@ -44,6 +44,10 @@ spec =
         stringToIPASounds "stɛ˞" `shouldBe` Just (Sound <$> ["s", "t", "ɛ", "ɹ"])
       it "case: ɛəɹ -> ɛɹ (ɛəɹ)" $
         stringToIPASounds "ɛəɹ" `shouldBe` Just (Sound <$> ["ɛ", "ɹ"])
+      it "case: aɪə(ɹ) -> a͡ɪə˞" $
+        stringToIPASounds "fa͡ɪə(ɹ)" `shouldBe` Just (Sound <$> ["f", "a͡ɪ", "ə˞"])
+      it "case: ɪə(ɹ) -> ɪɹ" $
+        stringToIPASounds "hɪə(ɹ)" `shouldBe` Just (Sound <$> ["h", "ɪ", "ɹ"])
       it "case: o͡ʊ -> o͡ʊ (preserve)" $
         stringToIPASounds "bo͡ʊ" `shouldBe` Just (Sound <$> ["b", "o͡ʊ"])
       it "case: e͡ɪ -> e͡ɪ (preserve)" $
@@ -54,5 +58,9 @@ spec =
         stringToIPASounds "bɔ͡ɪ" `shouldBe` Just (Sound <$> ["b", "ɔ͡ɪ"])
       it "case: a͡ʊ -> a͡ʊ (preserve)" $
         stringToIPASounds "ba͡ʊ" `shouldBe` Just (Sound <$> ["b", "a͡ʊ"])
+      it "case: y -> j" $
+        stringToIPASounds "yɛs" `shouldBe` Just (Sound <$> ["j", "ɛ", "s"])
+      it "case: q -> Nothing" $
+        stringToIPASounds "qi" `shouldBe` Nothing
       it "case: a2 -> Nothing" $
         stringToIPASounds "ba2" `shouldBe` Nothing

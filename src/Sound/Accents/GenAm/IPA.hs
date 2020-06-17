@@ -201,6 +201,7 @@ replThrd =
       Replace (s "ɜɹ") "ɜ˞",
       Replace (s "əɹ") "ə˞",
       Replace (s "ɛəɹ") "ɛɹ", -- case "air", should be 1 syllable
+      Replace (s "ɪəɹ") "ɪɹ", -- case "hear", should be 1 syllable
       Replace (s "ɛə˞") "ɛɹ",
       Replace (s "ɛ˞") "ɛɹ",
       Replace (s "tʃ") "t͡ʃ",
