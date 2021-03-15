@@ -53,7 +53,7 @@ _syllabify _ _ _ [] = []
 _syllabify result currentSyl prevDir [current] =
   let final =
         if containsVowel (currentSyl ++ [current])
-          then-- special case: FLAT vowel at end creates new syllable
+          then -- special case: FLAT vowel at end creates new syllable
 
             if prevDir == Just FLAT && maybe False isVowel (features current)
               then result ++ [currentSyl] ++ [[current]]
@@ -84,9 +84,9 @@ sonority s
   | isLateral fs = 6 -- laterals
   | isApproximant fs || isGlide fs = 7 -- approximants and glides
   | isVowel fs = 10 -- vowels (inner-vowel differentiation not helpful here)
-    --  | isHighVowel fs = 8
-    --  | isMidVowel fs = 9
-    --  | isLowVowel fs = 10
+  --  | isHighVowel fs = 8
+  --  | isMidVowel fs = 9
+  --  | isLowVowel fs = 10
   | otherwise = 0
   where
     fs = fromMaybe (featureSet []) (features s)

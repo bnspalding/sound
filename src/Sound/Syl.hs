@@ -22,19 +22,18 @@ import qualified Sound.Stress (symbol)
 --
 -- There are many cases where Syl information is useful while stress is
 -- unknown or unimportant. For this reason, 'stress' is an optional field.
-data Syl
-  = Syl
-      { -- | The onset is the collection of sounds that begin a syllable
-        onset :: [Sound],
-        -- | The nucleus is the most sonorous sound at the center of a syllable.
-        -- The nucleus is normally a vowel, and is normally length 1.
-        nucleus :: [Sound],
-        -- | The coda is the collection of sounds that follow the nucleus.
-        coda :: [Sound],
-        -- | stress marks the level of stress that is put on this syllable when
-        -- it is spoken.
-        stress :: Maybe Stress
-      }
+data Syl = Syl
+  { -- | The onset is the collection of sounds that begin a syllable
+    onset :: [Sound],
+    -- | The nucleus is the most sonorous sound at the center of a syllable.
+    -- The nucleus is normally a vowel, and is normally length 1.
+    nucleus :: [Sound],
+    -- | The coda is the collection of sounds that follow the nucleus.
+    coda :: [Sound],
+    -- | stress marks the level of stress that is put on this syllable when
+    -- it is spoken.
+    stress :: Maybe Stress
+  }
   deriving (Eq)
 
 instance Show Syl where

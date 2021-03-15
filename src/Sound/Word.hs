@@ -47,6 +47,7 @@ symbols syls = head syms <> T.concat (markBreak <$> tail syms)
     -- prepend a syl break symbol in cases where there is not a stress mark
     markBreak syl =
       let c = T.head syl
-       in if  | c == stressSymbolIPA -> syl
+       in if
+              | c == stressSymbolIPA -> syl
               | c == secondaryStressSymbolIPA -> syl
               | otherwise -> "." <> syl

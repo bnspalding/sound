@@ -84,13 +84,13 @@ spec =
                        s' [] ["ə"] [] ReducedStress,
                        s' ["k"] ["ʊ"] ["t"] SecondaryStress
                      ]
-    describe "empty list"
-      $ it "returns an empty syl set"
-      $ syllabify [] `shouldBe` []
-    describe "unknown input"
-      $ it "silently accepts the unknown symbols as sonority 0"
-      $ syllabify (Sound <$> ["p", "2", "ɑ"])
-        `shouldBe` [s [] ["p"] [], s ["2"] ["ɑ"] []]
+    describe "empty list" $
+      it "returns an empty syl set" $
+        syllabify [] `shouldBe` []
+    describe "unknown input" $
+      it "silently accepts the unknown symbols as sonority 0" $
+        syllabify (Sound <$> ["p", "2", "ɑ"])
+          `shouldBe` [s [] ["p"] [], s ["2"] ["ɑ"] []]
     describe "stress markings" $ do
       it " ˈ -> Stressed" $
         syllabify (Sound <$> ["ˈ", "t", "i", "i"])

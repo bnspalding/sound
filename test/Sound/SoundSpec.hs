@@ -10,6 +10,6 @@ import Test.Hspec
 
 spec :: Spec
 spec =
-  describe "Sound"
-    $ it "symbol (Sound \"h\") -> \"h\""
-    $ symbol (Sound "h") `shouldBe` "h"
+  describe "Sound" $
+    it "symbol (Sound \"h\") -> \"h\"" $
+      symbol (Sound "h") `shouldBe` "h"
