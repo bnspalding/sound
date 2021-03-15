@@ -1,7 +1,7 @@
 name: sound
 version: 0.1.0
 author: "bnspalding"
-copyright: "Copyright (c) 2019 - 2020 Ben Spalding"
+copyright: "Copyright (c) 2019 Ben Spalding"
 synopsis: "working with sounds: features, syllables, IPA, rhyme"
 description: Please see the README on GitHub at <https://github.com/bnspalding/sound#readme>
 
