@@ -13,7 +13,7 @@
 -- __most__ of the time.
 --
 -- See <https://en.wikipedia.org/wiki/Sonority_hierarchy> for more information.
-module Sound.Syllabify
+module Sound.Accents.GenAm.Syllabify
   ( syllabify,
   )
 where

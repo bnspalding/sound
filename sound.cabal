@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: aef125cad8f132458900f92aa677bc2fd9196322a27b3b1e09632273fd7e47a0
+-- hash: b2a5a4f331ea0d53ebd56fc88f652df99f1461b3aa3ac2aeb83a316a416f49d8
 
 name:           sound
 version:        0.1.0
@@ -26,11 +26,10 @@ library
       Sound.Accents.GenAm
       Sound.Accents.GenAm.IPA
       Sound.Accents.GenAm.Sounds
+      Sound.Accents.GenAm.Syllabify
       Sound.Feature
       Sound.Phoneme
-      Sound.Pronunciation
       Sound.Stress
-      Sound.Syllabify
       Sound.Syllable
       Sound.Word
   other-modules:
