@@ -9,14 +9,14 @@
 -- addition of lower modules (which provide functions for operating on the types),
 -- but sometimes all you need is the types.
 module Sound
-  ( module Sound.Sound,
+  ( module Sound.Phoneme,
     module Sound.Stress,
-    module Sound.Syl,
+    module Sound.Syllable,
     module Sound.Word,
   )
 where
 
-import Sound.Sound (Sound (..))
+import Sound.Phoneme (Phoneme (..))
 import Sound.Stress (Stress (..))
-import Sound.Syl (Syl (..))
+import Sound.Syllable (Syllable (..))
 import Sound.Word (Word)
