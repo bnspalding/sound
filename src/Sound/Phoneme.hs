@@ -16,9 +16,9 @@ import Sound.Feature
 -- | A 'Phoneme' is a set of features with a corresponding symbolic
 -- representation
 data Phoneme = Phoneme
-  { -- | a phoneme represents a particular set of features
-    features :: FeatureSet,
-    -- | a phoneme is represented by a particular symbol
-    symbol :: T.Text
+  { -- | a phoneme is represented by a particular symbol
+    symbol :: T.Text,
+    -- | a phoneme represents a particular set of features
+    features :: FeatureSet
   }
   deriving (Eq, Show)
