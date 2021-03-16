@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b2a5a4f331ea0d53ebd56fc88f652df99f1461b3aa3ac2aeb83a316a416f49d8
+-- hash: 702daf8dba4343f64e32f5e6c5685aa8ff910275c1be4be351d6b4326c4b34ec
 
 name:           sound
 version:        0.1.0
@@ -19,14 +19,12 @@ build-type:     Simple
 
 library
   exposed-modules:
-      Meter.Syl
+      Meter.Syllable
       Rhyme.Approx
       Rhyme.Strict
       Sound
       Sound.Accents.GenAm
-      Sound.Accents.GenAm.IPA
       Sound.Accents.GenAm.Sounds
-      Sound.Accents.GenAm.Syllabify
       Sound.Feature
       Sound.Phoneme
       Sound.Stress
@@ -39,25 +37,24 @@ library
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
   build-depends:
       base >=4.9 && <5
-    , containers
+    , hashable
     , text
-    , text-replace >=0.0.0.4
+    , unordered-containers >=0.2.12.0
   default-language: Haskell2010
 
 test-suite Sound-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Meter.SylSpec
+      Meter.SyllableSpec
       Rhyme.ApproxSpec
       Rhyme.StrictSpec
-      Sound.Accents.GenAm.IPASpec
       Sound.Accents.GenAmSpec
       Sound.FeatureSpec
-      Sound.SoundSpec
+      Sound.PhonemeSpec
       Sound.StressSpec
-      Sound.SyllabifySpec
-      Sound.SylSpec
+      Sound.SyllableSpec
+      Sound.Utilities
       Sound.WordSpec
       Paths_sound
   hs-source-dirs:
@@ -65,9 +62,9 @@ test-suite Sound-test
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
   build-depends:
       base >=4.9 && <5
-    , containers
+    , hashable
     , hspec
     , sound
     , text
-    , text-replace >=0.0.0.4
+    , unordered-containers >=0.2.12.0
   default-language: Haskell2010

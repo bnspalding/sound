@@ -1,12 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Meter.SylSpec
+module Meter.SyllableSpec
   ( spec,
   )
 where
 
-import Meter.Syl
+import Meter.Syllable
 import Sound
+import Sound.Utilities
 import Test.Hspec
 
 spec :: Spec
@@ -39,38 +40,38 @@ spec = do
     it "rejects high stress syllables" $
       breve' highStressSyl `shouldBe` False
 
-highStressSyl :: Syl
+highStressSyl :: Syllable
 highStressSyl =
-  Syl
-    { onset = [Sound ""],
-      nucleus = [Sound ""],
-      coda = [Sound ""],
+  Syllable
+    { onset = [mkPhoneme ""],
+      nucleus = mkPhoneme "",
+      coda = [mkPhoneme ""],
       stress = Just Stressed
     }
 
-lowStressSyl :: Syl
+lowStressSyl :: Syllable
 lowStressSyl =
-  Syl
-    { onset = [Sound ""],
-      nucleus = [Sound ""],
-      coda = [Sound ""],
+  Syllable
+    { onset = [mkPhoneme ""],
+      nucleus = mkPhoneme "",
+      coda = [mkPhoneme ""],
       stress = Just Unstressed
     }
 
-reducedNothingSyl :: Syl
+reducedNothingSyl :: Syllable
 reducedNothingSyl =
-  Syl
-    { onset = [Sound ""],
-      nucleus = [Sound "ə"],
-      coda = [Sound ""],
+  Syllable
+    { onset = [mkPhoneme ""],
+      nucleus = mkPhoneme "ə",
+      coda = [mkPhoneme ""],
       stress = Nothing
     }
 
-unreducedNothingSyl :: Syl
+unreducedNothingSyl :: Syllable
 unreducedNothingSyl =
-  Syl
-    { onset = [Sound ""],
-      nucleus = [Sound "ɪ"],
-      coda = [Sound ""],
+  Syllable
+    { onset = [mkPhoneme ""],
+      nucleus = mkPhoneme "ɪ",
+      coda = [mkPhoneme ""],
       stress = Nothing
     }

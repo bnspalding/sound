@@ -14,9 +14,9 @@ module Sound.Syllable where
 
 import qualified Data.Text as T
 import Sound.Phoneme (Phoneme (..))
-import qualified Sound.Phoneme (symbol)
+import qualified Sound.Phoneme as Phoneme (symbol)
 import Sound.Stress (Stress)
-import qualified Sound.Stress (symbol)
+import qualified Sound.Stress as Stress (symbol)
 
 -- | Syllable describes a structured collection of phonemes, the distinguished units
 -- out of which words are constructed.
@@ -47,5 +47,5 @@ phonemes syl = onset syl ++ nucleus syl : coda syl
 symbols :: Syllable -> T.Text
 symbols syl = T.concat $ stressSymbol : soundSymbols
   where
-    soundSymbols = fmap Sound.Phoneme.symbol . phonemes $ syl
-    stressSymbol = maybe T.empty T.singleton $ Sound.Stress.symbol =<< stress syl
+    soundSymbols = fmap Phoneme.symbol . phonemes $ syl
+    stressSymbol = maybe T.empty T.singleton $ Stress.symbol =<< stress syl

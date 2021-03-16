@@ -1,4 +1,4 @@
-resolver: lts-14.21
+resolver: lts-17.6
 packages: 
   - .
 
@@ -6,6 +6,3 @@ ghc-options:
   "$locals": -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
 
 rebuild-ghc-options: true
-
-extra-deps:
-  - text-replace-0.0.0.4

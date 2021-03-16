@@ -5,12 +5,11 @@ module Sound.FeatureSpec
   )
 where
 
-import Data.Maybe
-import qualified Data.Set as Set
+import qualified Data.HashSet as HashSet
 import qualified Data.Text as T
 import qualified Sound.Accents.GenAm as GenAm
 import Sound.Feature
-import Sound.Sound
+import Sound.Phoneme
 import Test.Hspec
 
 spec :: Spec
@@ -19,42 +18,42 @@ spec =
     context "with the Sound.GenAm sound set" $
       do
         it "isStop: p t k b d ɡ" $
-          _filter isStop `shouldBe` Set.fromList ["p", "t", "k", "b", "d", "ɡ"]
+          _filter isStop `shouldBe` HashSet.fromList ["p", "t", "k", "b", "d", "ɡ"]
         it "isVoiced: m b v ð n d z l d͡ʒ ʒ ɹ j ŋ ɡ w" $
-          _filter isVoiced `shouldBe` Set.fromList allVoicedString
+          _filter isVoiced `shouldBe` HashSet.fromList allVoicedString
         it "isFricative: f v θ ð s z ʃ ʒ h" $
           _filter isFricative
-            `shouldBe` Set.fromList ["f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ", "h"]
+            `shouldBe` HashSet.fromList ["f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ", "h"]
         it "isAffricate: t͡ʃ d͡ʒ" $
-          _filter isAffricate `shouldBe` Set.fromList ["t͡ʃ", "d͡ʒ"]
+          _filter isAffricate `shouldBe` HashSet.fromList ["t͡ʃ", "d͡ʒ"]
         it "isNasal: m n ŋ" $
-          _filter isNasal `shouldBe` Set.fromList ["m", "n", "ŋ"]
-        it "isLateral: l" $ _filter isLateral `shouldBe` Set.fromList ["l"]
+          _filter isNasal `shouldBe` HashSet.fromList ["m", "n", "ŋ"]
+        it "isLateral: l" $ _filter isLateral `shouldBe` HashSet.fromList ["l"]
         it "isApproximant: l ɹ j ʍ w" $
-          _filter isApproximant `shouldBe` Set.fromList ["l", "ɹ", "j", "ʍ", "w"]
+          _filter isApproximant `shouldBe` HashSet.fromList ["l", "ɹ", "j", "ʍ", "w"]
         it "isGlide: j ʍ w" $
-          _filter isGlide `shouldBe` Set.fromList ["j", "ʍ", "w"]
+          _filter isGlide `shouldBe` HashSet.fromList ["j", "ʍ", "w"]
         it "isVowel: i ɪ ɛ æ ə ʌ ɑ u ʊ ɔ e͡ɪ a͡ɪ a͡ʊ o͡ʊ ɔ͡ɪ ɜ˞ ə˞" $
-          _filter isVowel `shouldBe` Set.fromList allVowelsString
+          _filter isVowel `shouldBe` HashSet.fromList allVowelsString
         it "isHighVowel: i ɪ u ʊ" $
-          _filter isHighVowel `shouldBe` Set.fromList ["i", "ɪ", "u", "ʊ"]
+          _filter isHighVowel `shouldBe` HashSet.fromList ["i", "ɪ", "u", "ʊ"]
         it "isMidVowel: ɛ ə ʌ ɔ e͡ɪ a͡ɪ o͡ʊ ɔ͡ɪ ɜ˞ ə˞" $
           _filter isMidVowel
-            `shouldBe` Set.fromList ["ɛ", "ə", "ʌ", "ɔ", "e͡ɪ", "a͡ɪ", "o͡ʊ", "ɔ͡ɪ", "ɜ˞", "ə˞"]
+            `shouldBe` HashSet.fromList ["ɛ", "ə", "ʌ", "ɔ", "e͡ɪ", "a͡ɪ", "o͡ʊ", "ɔ͡ɪ", "ɜ˞", "ə˞"]
         it "isLowVowel: æ ɑ a͡ʊ" $
-          _filter isLowVowel `shouldBe` Set.fromList ["æ", "ɑ", "a͡ʊ"]
+          _filter isLowVowel `shouldBe` HashSet.fromList ["æ", "ɑ", "a͡ʊ"]
 
 -- Note: this is not a necessary condition for Features, but it is an
 -- occasionally useful measure.
 -- it "all features in use" $ allFeaturesInUse `shouldBe` allFeatures
 
-_filter :: (FeatureSet -> Bool) -> Set.Set T.Text
+_filter :: (FeatureSet -> Bool) -> HashSet.HashSet T.Text
 _filter f =
-  Set.map (\(Sound x) -> x) $ Set.filter (f . getFeatures) GenAm.sounds
+  HashSet.map symbol $ HashSet.filter (f . features) GenAm.phonemes
 
 -- allFeaturesInUse :: FeatureSet
 -- allFeaturesInUse =
---   Set.foldl (\acc x -> Set.union acc (getFeatures x)) Set.empty GenAm.sounds
+--   Set.foldl (\acc x -> Set.union acc (features x)) Set.empty GenAm.sounds
 --
 -- allFeatures :: FeatureSet
 -- allFeatures =
@@ -101,8 +100,6 @@ _filter f =
 --     , PLUS_STRESSED
 --     , MINUS_STRESSED
 --     ]
-getFeatures :: Sound -> FeatureSet
-getFeatures s = fromMaybe Set.empty (GenAm.features s)
 
 allVoicedString :: [T.Text]
 allVoicedString =

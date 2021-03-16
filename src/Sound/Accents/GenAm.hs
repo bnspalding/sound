@@ -27,8 +27,8 @@ module Sound.Accents.GenAm
   )
 where
 
-import qualified Data.Map.Strict as Map
-import qualified Data.Set as Set
+import qualified Data.HashMap.Strict as HashMap
+import qualified Data.HashSet as HashSet
 import qualified Data.Text as T
 import qualified Sound.Accents.GenAm.Sounds as GenAm
 import Sound.Phoneme
@@ -39,13 +39,13 @@ import Sound.Phoneme
 --
 -- Unrecognized symbols will return Nothing.
 phoneme :: T.Text -> Maybe Phoneme
-phoneme sym = Phoneme sym <$> Map.lookup sym GenAm.featureMap
+phoneme sym = Phoneme sym <$> HashMap.lookup sym GenAm.featureMap
 
 -- | The set of sounds (symbols) that comprise the GenAm accent
-symbols :: Set.Set T.Text
-symbols = Map.keysSet GenAm.featureMap
+symbols :: HashSet.HashSet T.Text
+symbols = HashMap.keysSet GenAm.featureMap
 
 -- | A list of all the phonemes in the GenAm accent
 -- TODO: make this a set
-phonemes :: [Phoneme]
-phonemes = uncurry Phoneme <$> Map.toList GenAm.featureMap
+phonemes :: HashSet.HashSet Phoneme
+phonemes = HashSet.fromList $ uncurry Phoneme <$> HashMap.toList GenAm.featureMap

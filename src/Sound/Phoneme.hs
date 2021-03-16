@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- |
 -- Module: Sound.Phoneme
 -- Description: basic unit of speech sound
@@ -10,7 +12,9 @@
 -- phonemes recognized by that accent.
 module Sound.Phoneme (Phoneme (..)) where
 
+import Data.Hashable
 import qualified Data.Text as T
+import GHC.Generics (Generic)
 import Sound.Feature
 
 -- | A 'Phoneme' is a set of features with a corresponding symbolic
@@ -21,4 +25,6 @@ data Phoneme = Phoneme
     -- | a phoneme represents a particular set of features
     features :: FeatureSet
   }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Generic)
+
+instance Hashable Phoneme

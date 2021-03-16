@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- |
 -- Module: Sound.Feature
 -- Description: phonological features
@@ -45,23 +47,25 @@ module Sound.Feature
   )
 where
 
-import Data.Set as Set
+import Data.HashSet as HashSet
+import Data.Hashable
+import GHC.Generics (Generic)
 
 -- | contains reports whether a FeatureSet is contained within another
 -- FeatureSet ("Data.Set".'Set.isSubsetOf')
 contains :: FeatureSet -> FeatureSet -> Bool
-contains = Set.isSubsetOf
+contains = HashSet.isSubsetOf
 
 -- | contains1 reports whether a single Feature is contained within a
 -- FeatureSet ("Data.Set".'Set.member')
 contains1 :: Feature -> FeatureSet -> Bool
-contains1 = Set.member
+contains1 = HashSet.member
 
 -- | featuresOrEmpty returns either Just the FeatureSet contained in the Maybe,
 -- or an empty set.
 featuresOrEmpty :: Maybe FeatureSet -> FeatureSet
 featuresOrEmpty (Just fs) = fs
-featuresOrEmpty Nothing = Set.empty
+featuresOrEmpty Nothing = HashSet.empty
 
 -- | A Feature is a basic particle or building block out of which a
 -- sound is described. See <https://en.wikipedia.org/wiki/Distinctive_feature>
@@ -135,15 +139,17 @@ data Feature
   | -- | differentiating between rhotic ə and ɜ (tenuous)
     PLUS_STRESSED
   | MINUS_STRESSED
-  deriving (Eq, Ord, Show)
+  deriving (Eq, Show, Generic)
+
+instance Hashable Feature
 
 -- | A FeatureSet is a "Data.Set".'Set.Set' of Features
-type FeatureSet = Set Feature
+type FeatureSet = HashSet Feature
 
 -- | featureSet constructs a FeatureSet from a list of Features
 -- ("Data.Set".'Set.fromList')
 featureSet :: [Feature] -> FeatureSet
-featureSet = Set.fromList
+featureSet = HashSet.fromList
 
 -- | isStop reports whether or not a FeatureSet describes a stop (-sonorant,
 -- -continuant, -delrel). See <https://en.wikipedia.org/wiki/Stop_consonant>

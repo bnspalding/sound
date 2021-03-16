@@ -7,8 +7,8 @@ description: Please see the README on GitHub at <https://github.com/bnspalding/s
 
 dependencies:
   - base >= 4.9 && < 5
-  - containers
-  - text-replace >= 0.0.0.4
+  - unordered-containers >= 0.2.12.0
+  - hashable
   - text
 
 library:

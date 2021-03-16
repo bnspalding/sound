@@ -10,20 +10,20 @@
 -- GenAm.Phonemes contains the actual mappings from symbols to FeatureSets.
 module Sound.Accents.GenAm.Sounds where
 
-import qualified Data.Map.Strict as Map
-import qualified Data.Set as Set
+import qualified Data.HashMap.Strict as HashMap
+import qualified Data.HashSet as HashSet
 import qualified Data.Text as T
 import Sound.Feature
 
 -- map from IPA symbols to phonological features
-featureMap :: Map.Map T.Text FeatureSet
+featureMap :: HashMap.HashMap T.Text FeatureSet
 featureMap = consonants <> vowels
 
-consonants :: Map.Map T.Text FeatureSet
+consonants :: HashMap.HashMap T.Text FeatureSet
 consonants =
-  Map.fromList
+  HashMap.fromList
     [ ( "m", -- vd bilabial nasal
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -34,7 +34,7 @@ consonants =
           ]
       ),
       ( "n", -- vd alveolar nasal
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -47,7 +47,7 @@ consonants =
           ]
       ),
       ( "ŋ", -- 014B vd velar nasal
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -58,7 +58,7 @@ consonants =
           ]
       ),
       ( "p", -- 0070 vl bilabial stop
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -68,7 +68,7 @@ consonants =
           ]
       ),
       ( "b", -- 0062 vd bilabial stop
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -78,7 +78,7 @@ consonants =
           ]
       ),
       ( "t", -- 0074 vl alveolar stop
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -90,7 +90,7 @@ consonants =
           ]
       ),
       ( "d", -- 0064 vd alveolar stop
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -102,7 +102,7 @@ consonants =
           ]
       ),
       ( "k", -- 006B vl velar stop
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -112,7 +112,7 @@ consonants =
           ]
       ),
       ( "ɡ", -- 0261 vd velar stop
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -122,7 +122,7 @@ consonants =
           ]
       ),
       ( "t͡ʃ", -- 0074 0361 0283 vl postalveolar affricate
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -136,7 +136,7 @@ consonants =
           ]
       ),
       ( "d͡ʒ", -- 0064 0361 0292, vd postalveolar affricate
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -150,7 +150,7 @@ consonants =
           ]
       ),
       ( "f", -- 0066, vl labiodental fricative,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -161,7 +161,7 @@ consonants =
           ]
       ),
       ( "v", -- 0076, vd labiodental fricative
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -172,7 +172,7 @@ consonants =
           ]
       ),
       ( "θ", -- 03B8, vl dental fricative,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -185,7 +185,7 @@ consonants =
           ]
       ),
       ( "ð", -- 00F0, vd dental fricative
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -198,7 +198,7 @@ consonants =
           ]
       ),
       ( "s", -- 0073, vl alveolar fricative,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -211,7 +211,7 @@ consonants =
           ]
       ),
       ( "z", -- 007A, vd alveolar fricative
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -224,7 +224,7 @@ consonants =
           ]
       ),
       ( "ʃ", -- 0283, vl postalveolar fricative,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -237,7 +237,7 @@ consonants =
           ]
       ),
       ( "ʒ", -- 0292, vd postalveolar fricative
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -250,7 +250,7 @@ consonants =
           ]
       ),
       ( "h", -- 0068, vl glottal fricative,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             MINUS_SONORANT,
@@ -261,7 +261,7 @@ consonants =
           ]
       ),
       ( "l", -- 006C, vd alveolar lateral approximant,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -274,7 +274,7 @@ consonants =
           ]
       ),
       ( "ɹ", -- 0279, vd alveolar approximant
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -286,7 +286,7 @@ consonants =
           ]
       ),
       ( "j", -- 006A, vd palatal approximant,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -296,7 +296,7 @@ consonants =
           ]
       ),
       ( "ʍ", -- 028D, vl labial-velar co-articulated approximant,
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -307,7 +307,7 @@ consonants =
           ]
       ),
       ( "w", -- 0077, vd labial-velar co-articulated approximant
-        Set.fromList
+        HashSet.fromList
           [ MINUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -319,11 +319,11 @@ consonants =
       )
     ]
 
-vowels :: Map.Map T.Text FeatureSet
+vowels :: HashMap.HashMap T.Text FeatureSet
 vowels =
-  Map.fromList
+  HashMap.fromList
     [ ( "i", -- , 0069, close front unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -336,7 +336,7 @@ vowels =
           ]
       ),
       ( "ɪ", -- , 026A, near-close front unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -349,7 +349,7 @@ vowels =
           ]
       ),
       ( "ɛ", -- , 025B, open-mid front unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -362,7 +362,7 @@ vowels =
           ]
       ),
       ( "æ", --, 00E6, near-open front unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -375,7 +375,7 @@ vowels =
           ]
       ),
       ( "ə", -- , 0259, mid central unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -388,7 +388,7 @@ vowels =
           ]
       ),
       ( "ʌ", -- , 028C, open-mid back unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -401,7 +401,7 @@ vowels =
           ]
       ),
       ( "ɑ", -- , 0251, open back unrounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -414,7 +414,7 @@ vowels =
           ]
       ),
       ( "u", -- , 0075, close back rounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -427,7 +427,7 @@ vowels =
           ]
       ),
       ( "ʊ", -- , 028A, near-close back rounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -440,7 +440,7 @@ vowels =
           ]
       ),
       ( "ɔ", -- , 0254, open-mid back rounded,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -453,7 +453,7 @@ vowels =
           ]
       ),
       ( "e͡ɪ", -- , 0065 0361 026A,
-        Set.fromList -- diphthong, closing mid-to-high narrow front
+        HashSet.fromList -- diphthong, closing mid-to-high narrow front
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -467,7 +467,7 @@ vowels =
           ]
       ),
       ( "a͡ɪ", -- , 0061 0361 026A, diphthong closing low-to-high wide,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -481,7 +481,7 @@ vowels =
           ]
       ),
       ( "a͡ʊ", -- , 0061 0361 028A, diphthong closing low-to-high backward front-to-back wide,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -495,7 +495,7 @@ vowels =
           ]
       ),
       ( "o͡ʊ", -- , 006F 0361 028A, diphthong closing mid-to-high narrow back,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -509,7 +509,7 @@ vowels =
           ]
       ),
       ( "ɔ͡ɪ", -- , 0254 0361 026A, diphthong closing mid-to-high forward back-to-front wide,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -523,7 +523,7 @@ vowels =
           ]
       ),
       ( "ɜ˞", -- , 025C 02DE, mid central rhotic stressed,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,
@@ -538,7 +538,7 @@ vowels =
           ]
       ),
       ( "ə˞", -- , 0259 02DE, mid central rhotic unstressed,
-        Set.fromList
+        HashSet.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
             PLUS_SONORANT,

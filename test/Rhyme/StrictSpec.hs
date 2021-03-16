@@ -6,8 +6,8 @@ module Rhyme.StrictSpec
 where
 
 import qualified Rhyme.Strict as Strict
-import Sound.Sound
-import qualified Sound.Syl as Syl
+import Sound.Syllable hiding (rhyme)
+import Sound.Utilities
 import Test.Hspec
 
 spec :: Spec
@@ -17,10 +17,6 @@ spec = do
       Strict.rhyme demoSylTik demoSylTok `shouldBe` False
     it "is true only when the sounds are the same" $
       Strict.rhyme demoSylTik demoSylTik `shouldBe` True
-    it "does not match any syl to an empty syl" $
-      Strict.rhyme demoSylTik demoSylEmpty `shouldBe` False
-    it "matches an empty syl to an empty syl" $
-      Strict.rhyme demoSylEmpty demoSylEmpty `shouldBe` True
   describe "assonance" $ do
     it "checks equality betwee the nuclei of two syls" $
       Strict.assonance demoSylTik demoSylTok `shouldBe` False
@@ -32,38 +28,29 @@ spec = do
     it "is true only when the sounds are the same" $
       Strict.alliteration demoSylTik demoSylTok `shouldBe` True
 
-demoSylTik :: Syl.Syl
+demoSylTik :: Syllable
 demoSylTik =
-  Syl.Syl
-    { Syl.onset = Sound <$> ["t"],
-      Syl.nucleus = Sound <$> ["ɪ"],
-      Syl.coda = Sound <$> ["k"],
-      Syl.stress = Nothing
+  Syllable
+    { onset = mkPhoneme <$> ["t"],
+      nucleus = mkPhoneme "ɪ",
+      coda = mkPhoneme <$> ["k"],
+      stress = Nothing
     }
 
-demoSylTok :: Syl.Syl
+demoSylTok :: Syllable
 demoSylTok =
-  Syl.Syl
-    { Syl.onset = Sound <$> ["t"],
-      Syl.nucleus = Sound <$> ["ɔ"],
-      Syl.coda = Sound <$> ["k"],
-      Syl.stress = Nothing
+  Syllable
+    { onset = mkPhoneme <$> ["t"],
+      nucleus = mkPhoneme "ɔ",
+      coda = mkPhoneme <$> ["k"],
+      stress = Nothing
     }
 
-demoSylShift :: Syl.Syl
+demoSylShift :: Syllable
 demoSylShift =
-  Syl.Syl
-    { Syl.onset = Sound <$> ["ʃ"],
-      Syl.nucleus = Sound <$> ["ɪ"],
-      Syl.coda = Sound <$> ["f", "t"],
-      Syl.stress = Nothing
-    }
-
-demoSylEmpty :: Syl.Syl
-demoSylEmpty =
-  Syl.Syl
-    { Syl.onset = [],
-      Syl.nucleus = [],
-      Syl.coda = [],
-      Syl.stress = Nothing
+  Syllable
+    { onset = mkPhoneme <$> ["ʃ"],
+      nucleus = mkPhoneme "ɪ",
+      coda = mkPhoneme <$> ["f", "t"],
+      stress = Nothing
     }

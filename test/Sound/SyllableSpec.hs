@@ -1,38 +1,38 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Sound.SylSpec
+module Sound.SyllableSpec
   ( spec,
   )
 where
 
-import Sound.Sound
 import Sound.Stress
-import Sound.Syl
+import Sound.Syllable
+import Sound.Utilities
 import Test.Hspec
 
 spec :: Spec
 spec =
   describe "Syl" $ do
     it "onset 'p l ɔ p s' -> [p, l]" $
-      onset demoSyl `shouldBe` (Sound <$> ["p", "l"])
+      onset demoSyl `shouldBe` (mkPhoneme <$> ["p", "l"])
     it "nucleus 'p l ɔ p s' -> [ɔ]" $
-      nucleus demoSyl `shouldBe` (Sound <$> ["ɔ"])
+      nucleus demoSyl `shouldBe` (mkPhoneme "ɔ")
     it "coda 'p l ɔ p s' -> [p, s]" $
-      coda demoSyl `shouldBe` (Sound <$> ["p", "s"])
+      coda demoSyl `shouldBe` (mkPhoneme <$> ["p", "s"])
     it "rhyme 'p l ɔ p s' -> [ɔ, p, s]" $
-      rhyme demoSyl `shouldBe` (Sound <$> ["ɔ", "p", "s"])
+      rhyme demoSyl `shouldBe` (mkPhoneme <$> ["ɔ", "p", "s"])
     it "sounds 'p l ɔ p s' -> [p, l, ɔ, p, s]" $
-      sounds demoSyl `shouldBe` (Sound <$> ["p", "l", "ɔ", "p", "s"])
+      phonemes demoSyl `shouldBe` (mkPhoneme <$> ["p", "l", "ɔ", "p", "s"])
     it "stress 'p l ɔ p s' -> Just Stressed" $
       stress demoSyl `shouldBe` Just Stressed
     it "symbols 'p l ɔ p s -> \"ˈplɔps\"" $
       symbols demoSyl `shouldBe` "ˈplɔps"
 
-demoSyl :: Syl
+demoSyl :: Syllable
 demoSyl =
-  Syl
-    { onset = Sound <$> ["p", "l"],
-      nucleus = Sound <$> ["ɔ"],
-      coda = Sound <$> ["p", "s"],
+  Syllable
+    { onset = mkPhoneme <$> ["p", "l"],
+      nucleus = mkPhoneme "ɔ",
+      coda = mkPhoneme <$> ["p", "s"],
       stress = Just Stressed
     }
