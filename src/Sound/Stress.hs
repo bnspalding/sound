@@ -5,10 +5,15 @@
 -- License: MIT
 -- Stability: experimental
 --
--- Sound.Stress provides 4 levels of marked stress for a syllable, as well as a
--- null stress option for when stress is not known. The four levels of stress
--- can also reduce to either high or low stress, when a binary measure is
--- more appropriate, using 'isLowStress' and 'isHighStress'
+-- Sound.Stress provides 4 levels of marked stress for a syllable. The four
+-- levels of stress can also reduce to either high or low stress, when a binary
+-- measure is more appropriate, using 'isLowStress' and 'isHighStress'.
+--
+-- Syllable level stress is intended to be lexical, i.e. only significant
+-- between the syllables of a word. It is not recommended to use Stress to
+-- describe levels of emphasis outside of this boundary. Monosyllabic words
+-- should not be marked with any level of stress (because there is nothing to
+-- compare it to).
 --
 -- There doesn't appear to be solid agreement about how many levels of
 -- distinguishable stress are useful (particularly in a GenAm context), so the
