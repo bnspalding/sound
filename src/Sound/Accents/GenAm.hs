@@ -21,23 +21,31 @@
 -- there are certain portions of the package that are currently tied to GenAm in
 -- ways that will require untangling in the future.
 module Sound.Accents.GenAm
-  ( sounds,
-    features,
+  ( symbols,
+    phoneme,
+    phonemes,
   )
 where
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
+import qualified Data.Text as T
 import qualified Sound.Accents.GenAm.Sounds as GenAm
-import Sound.Feature
-import Sound.Sound
+import Sound.Phoneme
+
+-- | phoneme provides a constructor for General American English phonemes. Given
+-- the IPA symbol for a phoneme, a structure with the symbol and associated
+-- phonological feature set is returned.
+--
+-- Unrecognized symbols will return Nothing.
+phoneme :: T.Text -> Maybe Phoneme
+phoneme sym = Phoneme sym <$> Map.lookup sym GenAm.featureMap
 
 -- | The set of sounds (symbols) that comprise the GenAm accent
-sounds :: Set.Set Sound
-sounds = Map.keysSet GenAm._sounds
+symbols :: Set.Set T.Text
+symbols = Map.keysSet GenAm.featureMap
 
--- | a map from the symbols of GenAm to their associated
--- "Sound.Feature".'FeatureSet'. The result is Nothing in cases where there is
--- no mapping for the given symbol.
-features :: Sound -> Maybe FeatureSet
-features s = Map.lookup s GenAm._sounds
+-- | A list of all the phonemes in the GenAm accent
+-- TODO: make this a set
+phonemes :: [Phoneme]
+phonemes = uncurry Phoneme <$> Map.toList GenAm.featureMap

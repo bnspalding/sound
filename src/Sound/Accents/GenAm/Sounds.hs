@@ -7,35 +7,22 @@
 -- License: MIT
 -- Stability: experimental
 --
--- GenAm.Sounds includes the actual mappings from symbols to FeatureSets.
--- Use "Sound.Accents.GenAm" for working with these mappings. There shouldn't be any
--- reason to import this module directly instead of using its parent module.
-module Sound.Accents.GenAm.Sounds
-  ( _sounds,
-  )
-where
+-- GenAm.Phonemes contains the actual mappings from symbols to FeatureSets.
+module Sound.Accents.GenAm.Sounds where
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
+import qualified Data.Text as T
 import Sound.Feature
-import Sound.Sound
 
--- | _sounds is a map from IPA symbols to phonological features, based on the
--- \'General American English\' accent. This means that some symbols do not
--- correspond to the actual IPA meanings for those symbols, but instead are
--- generalized to the GenAm interpretation/representation of sounds.
---
--- For example, there are fewer vowels here than the total set of IPA vowels,
--- and some vowels, like ɛ, have slightly different meanings. GenAm diphthongs
--- are represented as single sounds.
-_sounds :: Map.Map Sound FeatureSet
-_sounds = Map.union consonants vowels
+-- map from IPA symbols to phonological features
+featureMap :: Map.Map T.Text FeatureSet
+featureMap = consonants <> vowels
 
---- Private: GenAm definitions ----------------
-consonants :: Map.Map Sound FeatureSet
+consonants :: Map.Map T.Text FeatureSet
 consonants =
   Map.fromList
-    [ ( Sound "m", -- vd bilabial nasal
+    [ ( "m", -- vd bilabial nasal
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -46,7 +33,7 @@ consonants =
             LABIAL
           ]
       ),
-      ( Sound "n", -- vd alveolar nasal
+      ( "n", -- vd alveolar nasal
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -59,7 +46,7 @@ consonants =
             MINUS_DISTRIB
           ]
       ),
-      ( Sound "ŋ", -- 014B vd velar nasal
+      ( "ŋ", -- 014B vd velar nasal
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -70,7 +57,7 @@ consonants =
             DORSAL
           ]
       ),
-      ( Sound "p", -- 0070 vl bilabial stop
+      ( "p", -- 0070 vl bilabial stop
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -80,7 +67,7 @@ consonants =
             LABIAL
           ]
       ),
-      ( Sound "b", -- 0062 vd bilabial stop
+      ( "b", -- 0062 vd bilabial stop
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -90,7 +77,7 @@ consonants =
             LABIAL
           ]
       ),
-      ( Sound "t", -- 0074 vl alveolar stop
+      ( "t", -- 0074 vl alveolar stop
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -102,7 +89,7 @@ consonants =
             MINUS_DISTRIB
           ]
       ),
-      ( Sound "d", -- 0064 vd alveolar stop
+      ( "d", -- 0064 vd alveolar stop
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -114,7 +101,7 @@ consonants =
             MINUS_DISTRIB
           ]
       ),
-      ( Sound "k", -- 006B vl velar stop
+      ( "k", -- 006B vl velar stop
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -124,7 +111,7 @@ consonants =
             DORSAL
           ]
       ),
-      ( Sound "ɡ", -- 0261 vd velar stop
+      ( "ɡ", -- 0261 vd velar stop
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -134,7 +121,7 @@ consonants =
             DORSAL
           ]
       ),
-      ( Sound "t͡ʃ", -- 0074 0361 0283 vl postalveolar affricate
+      ( "t͡ʃ", -- 0074 0361 0283 vl postalveolar affricate
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -148,7 +135,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "d͡ʒ", -- 0064 0361 0292, vd postalveolar affricate
+      ( "d͡ʒ", -- 0064 0361 0292, vd postalveolar affricate
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -162,7 +149,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "f", -- 0066, vl labiodental fricative,
+      ( "f", -- 0066, vl labiodental fricative,
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -173,7 +160,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "v", -- 0076, vd labiodental fricative
+      ( "v", -- 0076, vd labiodental fricative
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -184,7 +171,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "θ", -- 03B8, vl dental fricative,
+      ( "θ", -- 03B8, vl dental fricative,
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -197,7 +184,7 @@ consonants =
             MINUS_STRIDENT
           ]
       ),
-      ( Sound "ð", -- 00F0, vd dental fricative
+      ( "ð", -- 00F0, vd dental fricative
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -210,7 +197,7 @@ consonants =
             MINUS_STRIDENT
           ]
       ),
-      ( Sound "s", -- 0073, vl alveolar fricative,
+      ( "s", -- 0073, vl alveolar fricative,
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -223,7 +210,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "z", -- 007A, vd alveolar fricative
+      ( "z", -- 007A, vd alveolar fricative
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -236,7 +223,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "ʃ", -- 0283, vl postalveolar fricative,
+      ( "ʃ", -- 0283, vl postalveolar fricative,
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -249,7 +236,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "ʒ", -- 0292, vd postalveolar fricative
+      ( "ʒ", -- 0292, vd postalveolar fricative
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -262,7 +249,7 @@ consonants =
             PLUS_STRIDENT
           ]
       ),
-      ( Sound "h", -- 0068, vl glottal fricative,
+      ( "h", -- 0068, vl glottal fricative,
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -273,7 +260,7 @@ consonants =
             MINUS_STRIDENT
           ]
       ),
-      ( Sound "l", -- 006C, vd alveolar lateral approximant,
+      ( "l", -- 006C, vd alveolar lateral approximant,
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -286,7 +273,7 @@ consonants =
             PLUS_DISTRIB
           ]
       ),
-      ( Sound "ɹ", -- 0279, vd alveolar approximant
+      ( "ɹ", -- 0279, vd alveolar approximant
         Set.fromList
           [ MINUS_SYLLABIC,
             PLUS_CONSONANTAL,
@@ -298,7 +285,7 @@ consonants =
             PLUS_DISTRIB
           ]
       ),
-      ( Sound "j", -- 006A, vd palatal approximant,
+      ( "j", -- 006A, vd palatal approximant,
         Set.fromList
           [ MINUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -308,7 +295,7 @@ consonants =
             DORSAL
           ]
       ),
-      ( Sound "ʍ", -- 028D, vl labial-velar co-articulated approximant,
+      ( "ʍ", -- 028D, vl labial-velar co-articulated approximant,
         Set.fromList
           [ MINUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -319,7 +306,7 @@ consonants =
             DORSAL
           ]
       ),
-      ( Sound "w", -- 0077, vd labial-velar co-articulated approximant
+      ( "w", -- 0077, vd labial-velar co-articulated approximant
         Set.fromList
           [ MINUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -332,10 +319,10 @@ consonants =
       )
     ]
 
-vowels :: Map.Map Sound FeatureSet
+vowels :: Map.Map T.Text FeatureSet
 vowels =
   Map.fromList
-    [ ( Sound "i", -- , 0069, close front unrounded,
+    [ ( "i", -- , 0069, close front unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -348,7 +335,7 @@ vowels =
             PLUS_ATR
           ]
       ),
-      ( Sound "ɪ", -- , 026A, near-close front unrounded,
+      ( "ɪ", -- , 026A, near-close front unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -361,7 +348,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "ɛ", -- , 025B, open-mid front unrounded,
+      ( "ɛ", -- , 025B, open-mid front unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -374,7 +361,7 @@ vowels =
             PLUS_ATR
           ]
       ),
-      ( Sound "æ", --, 00E6, near-open front unrounded,
+      ( "æ", --, 00E6, near-open front unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -387,7 +374,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "ə", -- , 0259, mid central unrounded,
+      ( "ə", -- , 0259, mid central unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -400,7 +387,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "ʌ", -- , 028C, open-mid back unrounded,
+      ( "ʌ", -- , 028C, open-mid back unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -413,7 +400,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "ɑ", -- , 0251, open back unrounded,
+      ( "ɑ", -- , 0251, open back unrounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -426,7 +413,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "u", -- , 0075, close back rounded,
+      ( "u", -- , 0075, close back rounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -439,7 +426,7 @@ vowels =
             PLUS_ATR
           ]
       ),
-      ( Sound "ʊ", -- , 028A, near-close back rounded,
+      ( "ʊ", -- , 028A, near-close back rounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -452,7 +439,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "ɔ", -- , 0254, open-mid back rounded,
+      ( "ɔ", -- , 0254, open-mid back rounded,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -465,7 +452,7 @@ vowels =
             MINUS_ATR
           ]
       ),
-      ( Sound "e͡ɪ", -- , 0065 0361 026A,
+      ( "e͡ɪ", -- , 0065 0361 026A,
         Set.fromList -- diphthong, closing mid-to-high narrow front
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -479,7 +466,7 @@ vowels =
             MINUS_WIDE
           ]
       ),
-      ( Sound "a͡ɪ", -- , 0061 0361 026A, diphthong closing low-to-high wide,
+      ( "a͡ɪ", -- , 0061 0361 026A, diphthong closing low-to-high wide,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -493,7 +480,7 @@ vowels =
             PLUS_WIDE
           ]
       ),
-      ( Sound "a͡ʊ", -- , 0061 0361 028A, diphthong closing low-to-high backward front-to-back wide,
+      ( "a͡ʊ", -- , 0061 0361 028A, diphthong closing low-to-high backward front-to-back wide,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -507,7 +494,7 @@ vowels =
             PLUS_WIDE
           ]
       ),
-      ( Sound "o͡ʊ", -- , 006F 0361 028A, diphthong closing mid-to-high narrow back,
+      ( "o͡ʊ", -- , 006F 0361 028A, diphthong closing mid-to-high narrow back,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -521,7 +508,7 @@ vowels =
             MINUS_WIDE
           ]
       ),
-      ( Sound "ɔ͡ɪ", -- , 0254 0361 026A, diphthong closing mid-to-high forward back-to-front wide,
+      ( "ɔ͡ɪ", -- , 0254 0361 026A, diphthong closing mid-to-high forward back-to-front wide,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -535,7 +522,7 @@ vowels =
             PLUS_WIDE
           ]
       ),
-      ( Sound "ɜ˞", -- , 025C 02DE, mid central rhotic stressed,
+      ( "ɜ˞", -- , 025C 02DE, mid central rhotic stressed,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
@@ -550,7 +537,7 @@ vowels =
             PLUS_STRESSED
           ]
       ),
-      ( Sound "ə˞", -- , 0259 02DE, mid central rhotic unstressed,
+      ( "ə˞", -- , 0259 02DE, mid central rhotic unstressed,
         Set.fromList
           [ PLUS_SYLLABIC,
             MINUS_CONSONANTAL,
