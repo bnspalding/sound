@@ -2,7 +2,7 @@
 
 -- |
 -- Module: Sound.Feature
--- Description: phonological features
+-- Description: distinctive features for describing phonemes
 -- Copyright: (c) 2019 Ben Spalding (bnspalding.com)
 -- License: MIT
 -- Stability: experimental
@@ -17,8 +17,50 @@
 -- that are used to describe sounds, so this module is equal parts art and
 -- science in its construction of a \'useful\' set of features, tuned largely
 -- through the author's use of the module in his own context of poetry.
+--
+--  == Distinctive Features
+--  - what is a feature (as an abstraction)
+--  - binary and unary features
+--  - what assumptions/theories am I using?
+--  - link to wiki pages/theory descriptions
+--
+--
+--  == Autosegmental Features
+--
+--
+--  == Feature Geometry
+--  - write an explanation of feature geometry (what and why)
+--
+-- === Feature Geometry Diagram
+-- @
+-- [+\/-round]  [+\/-anterior][+\/-distib]  [+\/-high][+\/-low][+\/-back]  [+\/-ATR]
+--      |                |    |                  \\   |   /             |
+--   [labial]           [coronal]                 [dorsal]        [pharyngeal]
+--       \\_ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _ | _  _ _ _ _ _ _ _/
+--                                       |
+--                                     PLACE
+--                                       |
+--                                   X segment
+--                               (+\/- consonantal)
+--                                (+\/- sonorant)
+--         _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _
+--        |                  |           |             |          |
+-- [+\/-continuant]    [+\/-strident]   [lateral]   [nasal]   [laryngeal]
+--                                                           /    |    \\
+--                                                        [SG]  [CG]  [+/-voice]
+-- @
 module Sound.Feature
   ( -- * Features
+    BinaryFeature (..),
+    Segment (..),
+    RootFeatures (..),
+    AutosegmentalFeature (..),
+    Place (..),
+    LabialFeature (..),
+    CoronalFeature (..),
+    DorsalFeature (..),
+    PharyngealFeature (..),
+    LaryngealFeature (..),
     Feature (..),
     FeatureSet,
 
@@ -49,7 +91,147 @@ where
 
 import Data.HashSet as HashSet
 import Data.Hashable
+import qualified Data.Text as T
 import GHC.Generics (Generic)
+
+data BinaryFeature
+  = Plus
+  | Minus
+  deriving (Eq, Show, Generic)
+
+instance Hashable BinaryFeature
+
+-- | A segment is a structured collection of phonological features used to
+--  describe a 'Sound.Phoneme.Phoneme'.
+--
+--  All segments have a collection of 'RootFeatures' that are bound to the
+--  segment. An 'AutosegmentalFeature' is more fluid, and only a subet of all
+--  autosegmental features are specified for any segment. These features behave
+--  differently from root features when a segment undergoes a phonological
+--  transformation.
+data Segment = Segment
+  { rootFeatures :: RootFeatures,
+    autosegmentalFeatures :: HashSet.HashSet AutosegmentalFeature,
+    symbol :: T.Text
+  }
+  deriving (Eq, Show, Generic)
+
+instance Hashable Segment
+
+-- | Root Features describe all phonological segments.
+--
+-- These features are bound to a segment and do not exhibit autosegmental
+-- behaviors.
+data RootFeatures = RootFeatures
+  { -- | Constriction of the vocal tract: consonants (+); vowels (-).
+    consonantal :: BinaryFeature,
+    -- | Use of vocal tract: nasals, liquids, vowels (+); obstruents (-).
+    sonorant :: BinaryFeature
+  }
+  deriving (Eq, Show, Generic)
+
+instance Hashable RootFeatures
+
+-- | Autosegmental Features describe phonological segments in a variety of ways.
+--
+-- These features can be targetted during transformations at a scope beyond
+-- individual segments (autonomously), hence the descriptor \'autosegmental\'.
+--
+-- Some features are dependent on the presence of other parent features,
+-- resulting in a tree structure.
+data AutosegmentalFeature
+  = -- | Air passes through the nasal tract: \/n\/, \/m\/, \/ŋ\/.
+    Nasal
+  | -- | Air passes to the sides around the tongue: \/l\/, \/ɹ\/.
+    Lateral
+  | -- | High-amplitude, high-frequence fricatives: sibilants (+).
+    Strident BinaryFeature
+  | -- | Continuous vs stopped airflow: fricatives, approximants (+); stops (-).
+    Continuant BinaryFeature
+  | -- | Place of articulation within the mouth.
+    PlaceNode (HashSet.HashSet Place)
+  | -- | Contrasts and distinctions at the larynx: voicing distinctions.
+    Laryngeal (HashSet.HashSet LaryngealFeature)
+  deriving (Eq, Show, Generic)
+
+instance Hashable AutosegmentalFeature
+
+-- | Place describes a location of constriction/articulation within the mouth.
+--
+-- This feature group captures dependencies of features that only appear at
+-- certain points of articulation in the mouth. It also permits transformations
+-- to target place of articulation as a group of features.
+--
+-- The presence of Place with an empty set of child features is still
+-- meaningful, and describes the place of articulation without any further
+-- features specified.
+data Place
+  = -- | Articulation using the lips: \/p\/, \/m\/, vowel rounding.
+    Labial (HashSet.HashSet LabialFeature)
+  | -- | Articulation using the front of the tongue: \/t\/, \/s\/, \/n\/.
+    Coronal (HashSet.HashSet CoronalFeature)
+  | -- | Articulation using the body of the tongue: \/k\/, \/ŋ\/, vowel space.
+    Dorsal (HashSet.HashSet DorsalFeature)
+  | -- | Articulation using the root of the tongue: ATR.
+    Pharyngeal (HashSet.HashSet PharyngealFeature)
+  deriving (Eq, Show, Generic)
+
+instance Hashable Place
+
+-- | Features determined by behavior involving the lips.
+data LabialFeature
+  = -- | Vowel rounding.
+    Round
+  deriving (Eq, Show, Generic)
+
+instance Hashable LabialFeature
+
+-- | Features determined by behavior involving the front of the tongue.
+data CoronalFeature
+  = -- | Relation of the tongue to the alveolar ridge: dentals, alveolars (+).
+    Anterior BinaryFeature
+  | -- | tongue blade (laminal) vs tongue tip: \/ʃ\/, \/θ\/ (+); \/s\/ (-).
+    Distrib BinaryFeature
+  deriving (Eq, Show, Generic)
+
+instance Hashable CoronalFeature
+
+-- | Features determined by behavior involving the body of the tongue.
+--
+-- Vowel space is defined with both a [+/-high] and a [+/-low], following a
+-- tradition of characterizing high vowels as (+high,-low), low vowels as
+-- (-high,+low), and mid vowels as (-high,-low).
+data DorsalFeature
+  = -- | High tongue position: high vowels (+); mid and low vowels (-).
+    High BinaryFeature
+  | -- | Low tongue position: low vowels (+); mid and high vowels (-).
+    Low BinaryFeature
+  | -- | Tongue is not front: back and central vowels (+); front vowels (-).
+    Back BinaryFeature
+  deriving (Eq, Show, Generic)
+
+instance Hashable DorsalFeature
+
+-- | Features determined by the behavior at the root of the tongue
+newtype PharyngealFeature
+  = -- | Tongue root is forward. Doubles as [+/-tense]. \/i\/, \/u\/ (+).
+    -- ATR should be undefined for low vowels.
+    AdvancedTongueRoot BinaryFeature
+  deriving (Eq, Show, Generic)
+
+instance Hashable PharyngealFeature
+
+-- | Features determined by the behavior of the vocal folds.
+data LaryngealFeature
+  = -- | Open vocal folds: aspirated segments.
+    SpreadGlottis
+  | -- | Constricted vocal folds: ejectives, glottal stops.
+    ConstrictedGlottis
+  | -- | voicing distinction: \/b\/, \/d\/, \/ɡ\/ (+); \/p\/, \/t\/, \/k\/ (-).
+    Voice BinaryFeature
+  deriving (Eq, Show, Generic)
+
+instance Hashable LaryngealFeature
 
 -- | contains reports whether a FeatureSet is contained within another
 -- FeatureSet ("Data.Set".'Set.isSubsetOf')

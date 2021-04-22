@@ -39,7 +39,8 @@ import Sound.Phoneme
 --
 -- Unrecognized symbols will return Nothing.
 phoneme :: T.Text -> Maybe Phoneme
-phoneme sym = Phoneme sym <$> HashMap.lookup sym GenAm.featureMap
+phoneme = undefined
+-- phoneme sym = Phoneme sym <$> HashMap.lookup sym GenAm.featureMap
 
 -- | The set of sounds (symbols) that comprise the GenAm accent
 symbols :: HashSet.HashSet T.Text
@@ -48,4 +49,5 @@ symbols = HashMap.keysSet GenAm.featureMap
 -- | A list of all the phonemes in the GenAm accent
 -- TODO: make this a set
 phonemes :: HashSet.HashSet Phoneme
-phonemes = HashSet.fromList $ uncurry Phoneme <$> HashMap.toList GenAm.featureMap
+phonemes = undefined
+-- phonemes = HashSet.fromList $ uncurry Phoneme <$> HashMap.toList GenAm.featureMap
