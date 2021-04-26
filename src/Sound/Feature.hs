@@ -8,15 +8,8 @@
 -- Stability: experimental
 --
 -- Sound.Feature contains tools for representing and working with distincitve
--- phonological features, the \'particles\' of which sounds are constructed. Any
--- sound will have an unordered set of features associated with it, a
--- 'FeatureSet'. In addition to 'Feature's, some common classes of sounds
--- (stops, fricatives, glides, high/low vowels) are defined in terms of features.
---
--- There does not appear to be strong consensus on the precise set of features
--- that are used to describe sounds, so this module is equal parts art and
--- science in its construction of a \'useful\' set of features, tuned largely
--- through the author's use of the module in his own context of poetry.
+-- phonological features, the points of contrast by which speech sounds are
+-- identified in relation to each other.
 --
 --  == Distinctive Features
 --  - what is a feature (as an abstraction)
@@ -32,23 +25,23 @@
 --  - write an explanation of feature geometry (what and why)
 --
 -- === Feature Geometry Diagram
--- @
--- [+\/-round]  [+\/-anterior][+\/-distib]  [+\/-high][+\/-low][+\/-back]  [+\/-ATR]
---      |                |    |                  \\   |   /             |
---   [labial]           [coronal]                 [dorsal]        [pharyngeal]
---       \\_ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _ | _  _ _ _ _ _ _ _/
---                                       |
---                                     PLACE
---                                       |
---                                   X segment
---                               (+\/- consonantal)
---                                (+\/- sonorant)
---         _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _
---        |                  |           |             |          |
--- [+\/-continuant]    [+\/-strident]   [lateral]   [nasal]   [laryngeal]
---                                                           /    |    \\
---                                                        [SG]  [CG]  [+/-voice]
--- @
+--
+-- >[+/-round]  [+/-anterior][+/-distrib]  [+/-high][+/-low][+/-back]  [+/-ATR]
+-- >     |                |    |                  \   |   /              |
+-- >  [labial]           [coronal]                 [dorsal]        [pharyngeal]
+-- >      \ _ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _ | _  _ _ _ _ _ _ /
+-- >                                      |
+-- >                                    PLACE
+-- >                                      |
+-- >                                  X segment
+-- >                              (+/- consonantal)
+-- >                               (+/- sonorant)
+-- >        _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _
+-- >       |                  |           |             |         |
+-- > [+/-continuant]    [+/-strident]   [lateral]   [nasal]   [laryngeal]
+-- >                                                          /    |    \
+-- >                                                        [SG]  [CG]  [+/-voice]
+--
 module Sound.Feature
   ( -- * Features
     BinaryFeature (..),
