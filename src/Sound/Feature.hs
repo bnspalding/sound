@@ -87,9 +87,22 @@ import Data.Hashable
 import qualified Data.Text as T
 import GHC.Generics (Generic)
 
+-- | A Binary Feature describes a contrastive feature.
+--
+-- Both the markedness (+) and unmarkedness (-) of the feature can be used to
+-- construct a natural class of sounds. This is different from a unary feature,
+-- such as Nasal or Lateral, which are only meaningful as marked classes (-nasal
+-- is not a utilized class of sounds).
+--
+-- When a feature is absent (neither marked nor unmarked), it means the
+-- mechanical preconditions for the feature are not present. For example, vowel
+-- space features such as [+\/-high], [+\/-low], [+\/-back] are not specified
+-- for dorsal consonants.
 data BinaryFeature
-  = Plus
-  | Minus
+  = -- | The feature contrasts positively (it is notably there).
+  Plus
+  | -- | The feature contrasts negatively (it is notably not there).
+  Minus
   deriving (Eq, Show, Generic)
 
 instance Hashable BinaryFeature
