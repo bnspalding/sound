@@ -1,7 +1,9 @@
 # Changelog for sound
 
 ## Unreleased
-- Sets and Maps replaced with HashSets, HashMaps (avoid unnecessary Ord)
+- Distinctive features now have structure: Separation of root features from
+  features with autosegmental behavior; Dependence of some features on other
+  parent features.
 - Sound.Pronunciation has been removed.
 - GenAm exports a phoneme constructor. 
 - Sound has been replaced with Phoneme. Features are now stored on the object 
