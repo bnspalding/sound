@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 -- |
 -- Module: Sound.Feature
 -- Description: distinctive features for describing phonemes
@@ -35,57 +33,60 @@
 -- >                                      |
 -- >                                  X segment
 -- >                              (+/- consonantal)
+-- >                               (+/- syllabic)
 -- >                               (+/- sonorant)
 -- >        _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _
 -- >       |                  |           |             |         |
 -- > [+/-continuant]    [+/-strident]   [lateral]   [nasal]   [laryngeal]
 -- >                                                          /    |    \
 -- >                                                        [SG]  [CG]  [+/-voice]
---
 module Sound.Feature
-  ( -- * Features
-    BinaryFeature (..),
+  ( -- * Segment
     Segment (..),
     RootFeatures (..),
-    AutosegmentalFeature (..),
+
+    -- * Binary Feature
+    BinaryFeature (..),
+    UnaryFeature (..),
+
+    -- * Augosegmental Features and Structure
+    AutosegmentalFeatures (..),
     Place (..),
-    LabialFeature (..),
-    CoronalFeature (..),
-    DorsalFeature (..),
-    PharyngealFeature (..),
-    LaryngealFeature (..),
-    Feature (..),
-    FeatureSet,
+    LabialFeatures (..),
+    CoronalFeatures (..),
+    DorsalFeatures (..),
+    PharyngealFeatures (..),
+    LaryngealFeatures (..),
 
-    -- * Sound Classes from FeatureSets
-    isVoiced,
-    isStop,
-    isFricative,
-    isAffricate,
-    isNasal,
-    isLateral,
-    isApproximant,
-    isGlide,
-    isVowel,
-    isHighVowel,
-    isMidVowel,
-    isLowVowel,
-
-    -- * Set Operations on FeatureSets
-
-    -- | A 'FeatureSet' is just a Set, so any operation from "Data.Set" can be
-    -- applied to a FeatureSet.
-    featureSet,
-    contains,
-    contains1,
-    featuresOrEmpty,
+    -- * Feature Accessors
+    getConsonantal,
+    getSonorant,
+    getSyllabic,
+    getStrident,
+    getContinuant,
+    getLateral,
+    getNasal,
+    getLaryngeal,
+    getSpreadGlottis,
+    getConstrictedGlottis,
+    getVoice,
+    getPlace,
+    getLabial,
+    getCoronal,
+    getAnterior,
+    getDistrib,
+    getHigh,
+    getLow,
+    getBack,
+    getAdvancedTongueRoot,
+    getDorsal,
+    getPharyngeal,
   )
 where
 
-import Data.HashSet as HashSet
-import Data.Hashable
+import Control.Monad ((>=>))
 import qualified Data.Text as T
-import GHC.Generics (Generic)
+import Prelude hiding (round)
 
 -- | A Binary Feature describes a contrastive feature.
 --
@@ -100,12 +101,13 @@ import GHC.Generics (Generic)
 -- for dorsal consonants.
 data BinaryFeature
   = -- | The feature contrasts positively (it is notably there).
-  Plus
+    Plus
   | -- | The feature contrasts negatively (it is notably not there).
-  Minus
-  deriving (Eq, Show, Generic)
+    Minus
+  deriving (Eq, Show)
 
-instance Hashable BinaryFeature
+data UnaryFeature = Marked
+  deriving (Eq, Show)
 
 -- | A segment is a structured collection of phonological features used to
 --  describe a 'Sound.Phoneme.Phoneme'.
@@ -117,12 +119,10 @@ instance Hashable BinaryFeature
 --  transformation.
 data Segment = Segment
   { rootFeatures :: RootFeatures,
-    autosegmentalFeatures :: HashSet.HashSet AutosegmentalFeature,
+    autosegmentalFeatures :: AutosegmentalFeatures,
     symbol :: T.Text
   }
-  deriving (Eq, Show, Generic)
-
-instance Hashable Segment
+  deriving (Eq, Show)
 
 -- | Root Features describe all phonological segments.
 --
@@ -132,11 +132,10 @@ data RootFeatures = RootFeatures
   { -- | Constriction of the vocal tract: consonants (+); vowels (-).
     consonantal :: BinaryFeature,
     -- | Use of vocal tract: nasals, liquids, vowels (+); obstruents (-).
-    sonorant :: BinaryFeature
+    sonorant :: BinaryFeature,
+    syllabic :: BinaryFeature
   }
-  deriving (Eq, Show, Generic)
-
-instance Hashable RootFeatures
+  deriving (Eq, Show)
 
 -- | Autosegmental Features describe phonological segments in a variety of ways.
 --
@@ -145,22 +144,21 @@ instance Hashable RootFeatures
 --
 -- Some features are dependent on the presence of other parent features,
 -- resulting in a tree structure.
-data AutosegmentalFeature
-  = -- | Air passes through the nasal tract: \/n\/, \/m\/, \/ŋ\/.
-    Nasal
-  | -- | Air passes to the sides around the tongue: \/l\/, \/ɹ\/.
-    Lateral
-  | -- | High-amplitude, high-frequence fricatives: sibilants (+).
-    Strident BinaryFeature
-  | -- | Continuous vs stopped airflow: fricatives, approximants (+); stops (-).
-    Continuant BinaryFeature
-  | -- | Place of articulation within the mouth.
-    PlaceNode (HashSet.HashSet Place)
-  | -- | Contrasts and distinctions at the larynx: voicing distinctions.
-    Laryngeal (HashSet.HashSet LaryngealFeature)
-  deriving (Eq, Show, Generic)
-
-instance Hashable AutosegmentalFeature
+data AutosegmentalFeatures = AutosegmentalFeatures
+  { -- | Air passes through the nasal tract: \/n\/, \/m\/, \/ŋ\/.
+    nasal :: Maybe UnaryFeature,
+    -- | Air passes to the sides around the tongue: \/l\/, \/ɹ\/.
+    lateral :: Maybe UnaryFeature,
+    -- | High-amplitude, high-frequence fricatives: sibilants (+).
+    strident :: Maybe BinaryFeature,
+    -- | Continuous vs stopped airflow: fricatives, approximants (+); stops (-).
+    continuant :: Maybe BinaryFeature,
+    -- | Place of articulation within the mouth.
+    place :: Place,
+    -- | Contrasts and distinctions at the larynx: voicing distinctions.
+    laryngeal :: Maybe LaryngealFeatures
+  }
+  deriving (Eq, Show)
 
 -- | Place describes a location of constriction/articulation within the mouth.
 --
@@ -171,233 +169,154 @@ instance Hashable AutosegmentalFeature
 -- The presence of Place with an empty set of child features is still
 -- meaningful, and describes the place of articulation without any further
 -- features specified.
-data Place
-  = -- | Articulation using the lips: \/p\/, \/m\/, vowel rounding.
-    Labial (HashSet.HashSet LabialFeature)
-  | -- | Articulation using the front of the tongue: \/t\/, \/s\/, \/n\/.
-    Coronal (HashSet.HashSet CoronalFeature)
-  | -- | Articulation using the body of the tongue: \/k\/, \/ŋ\/, vowel space.
-    Dorsal (HashSet.HashSet DorsalFeature)
-  | -- | Articulation using the root of the tongue: ATR.
-    Pharyngeal (HashSet.HashSet PharyngealFeature)
-  deriving (Eq, Show, Generic)
-
-instance Hashable Place
+data Place = Place
+  { -- | Articulation using the lips: \/p\/, \/m\/, vowel rounding.
+    labial :: Maybe LabialFeatures,
+    -- | Articulation using the front of the tongue: \/t\/, \/s\/, \/n\/.
+    coronal :: Maybe CoronalFeatures,
+    -- | Articulation using the body of the tongue: \/k\/, \/ŋ\/, vowel space.
+    dorsal :: Maybe DorsalFeatures,
+    -- | Articulation using the root of the tongue: ATR.
+    pharyngeal :: Maybe PharyngealFeatures
+  }
+  deriving (Eq, Show)
 
 -- | Features determined by behavior involving the lips.
-data LabialFeature
-  = -- | Vowel rounding.
-    Round
-  deriving (Eq, Show, Generic)
-
-instance Hashable LabialFeature
+newtype LabialFeatures = LabialFeatures
+  { -- | Vowel rounding.
+    round :: Maybe UnaryFeature
+  }
+  deriving (Eq, Show)
 
 -- | Features determined by behavior involving the front of the tongue.
-data CoronalFeature
-  = -- | Relation of the tongue to the alveolar ridge: dentals, alveolars (+).
-    Anterior BinaryFeature
-  | -- | tongue blade (laminal) vs tongue tip: \/ʃ\/, \/θ\/ (+); \/s\/ (-).
-    Distrib BinaryFeature
-  deriving (Eq, Show, Generic)
-
-instance Hashable CoronalFeature
+data CoronalFeatures = CoronalFeatures
+  { -- | Relation of the tongue to the alveolar ridge: dentals, alveolars (+).
+    anterior :: Maybe BinaryFeature,
+    -- | tongue blade (laminal) vs tongue tip: \/ʃ\/, \/θ\/ (+); \/s\/ (-).
+    distrib :: Maybe BinaryFeature
+  }
+  deriving (Eq, Show)
 
 -- | Features determined by behavior involving the body of the tongue.
 --
 -- Vowel space is defined with both a [+/-high] and a [+/-low], following a
 -- tradition of characterizing high vowels as (+high,-low), low vowels as
 -- (-high,+low), and mid vowels as (-high,-low).
-data DorsalFeature
-  = -- | High tongue position: high vowels (+); mid and low vowels (-).
-    High BinaryFeature
-  | -- | Low tongue position: low vowels (+); mid and high vowels (-).
-    Low BinaryFeature
-  | -- | Tongue is not front: back and central vowels (+); front vowels (-).
-    Back BinaryFeature
-  deriving (Eq, Show, Generic)
-
-instance Hashable DorsalFeature
+data DorsalFeatures = DorsalFeatures
+  { -- | High tongue position: high vowels (+); mid and low vowels (-).
+    high :: Maybe BinaryFeature,
+    -- | Low tongue position: low vowels (+); mid and high vowels (-).
+    low :: Maybe BinaryFeature,
+    -- | Tongue is not front: back and central vowels (+); front vowels (-).
+    back :: Maybe BinaryFeature
+  }
+  deriving (Eq, Show)
 
 -- | Features determined by the behavior at the root of the tongue
-newtype PharyngealFeature
-  = -- | Tongue root is forward. Doubles as [+/-tense]. \/i\/, \/u\/ (+).
+newtype PharyngealFeatures = PharyngealFeatures
+  { -- | Tongue root is forward. Doubles as [+/-tense]. \/i\/, \/u\/ (+).
     -- ATR should be undefined for low vowels.
-    AdvancedTongueRoot BinaryFeature
-  deriving (Eq, Show, Generic)
-
-instance Hashable PharyngealFeature
+    advancedTongueRoot :: Maybe BinaryFeature
+  }
+  deriving (Eq, Show)
 
 -- | Features determined by the behavior of the vocal folds.
-data LaryngealFeature
-  = -- | Open vocal folds: aspirated segments.
-    SpreadGlottis
-  | -- | Constricted vocal folds: ejectives, glottal stops.
-    ConstrictedGlottis
-  | -- | voicing distinction: \/b\/, \/d\/, \/ɡ\/ (+); \/p\/, \/t\/, \/k\/ (-).
-    Voice BinaryFeature
-  deriving (Eq, Show, Generic)
+data LaryngealFeatures = LaryngealFeatures
+  { -- | Open vocal folds: aspirated segments.
+    spreadGlottis :: Maybe UnaryFeature,
+    -- | Constricted vocal folds: ejectives, glottal stops.
+    constrictedGlottis :: Maybe UnaryFeature,
+    -- | voicing distinction: \/b\/, \/d\/, \/ɡ\/ (+); \/p\/, \/t\/, \/k\/ (-).
+    voice :: Maybe BinaryFeature
+  }
+  deriving (Eq, Show)
 
-instance Hashable LaryngealFeature
+-- Feature Accessors
 
--- | contains reports whether a FeatureSet is contained within another
--- FeatureSet ("Data.Set".'Set.isSubsetOf')
-contains :: FeatureSet -> FeatureSet -> Bool
-contains = HashSet.isSubsetOf
+-- | Direct accessor for 'consonantal' feature on a segment.
+getConsonantal :: Segment -> BinaryFeature
+getConsonantal = consonantal . rootFeatures
 
--- | contains1 reports whether a single Feature is contained within a
--- FeatureSet ("Data.Set".'Set.member')
-contains1 :: Feature -> FeatureSet -> Bool
-contains1 = HashSet.member
+-- | Direct accessor for 'sonorant' feature on a segment.
+getSonorant :: Segment -> BinaryFeature
+getSonorant = sonorant . rootFeatures
 
--- | featuresOrEmpty returns either Just the FeatureSet contained in the Maybe,
--- or an empty set.
-featuresOrEmpty :: Maybe FeatureSet -> FeatureSet
-featuresOrEmpty (Just fs) = fs
-featuresOrEmpty Nothing = HashSet.empty
+-- | Direct accessor for 'syllabic' feature on a segment.
+getSyllabic :: Segment -> BinaryFeature
+getSyllabic = syllabic . rootFeatures
 
--- | A Feature is a basic particle or building block out of which a
--- sound is described. See <https://en.wikipedia.org/wiki/Distinctive_feature>
--- as a starting point for more information.
-data Feature
-  = -- | +syllabic sounds can form the nucleus of a syllable
-    PLUS_SYLLABIC
-  | MINUS_SYLLABIC
-  | -- | vocal tract constriction
-    PLUS_CONSONANTAL
-  | MINUS_CONSONANTAL
-  | -- | pressure behind oral constriction
-    PLUS_SONORANT
-  | MINUS_SONORANT
-  | -- | complete closure of oral cavity
-    PLUS_CONTINUANT
-  | MINUS_CONTINUANT
-  | -- | articulated with open velum
-    NASAL
-  | -- | vocal tract closed at center, open at sides
-    LATERAL
-  | -- | delayed release (affricates)
-    DELREL
-  | -- | sounds that have vibrating vocal folds
-    PLUS_VOICE
-  | MINUS_VOICE
-  | -- | spread glottis (large glottal opening gesture)
-    SG
-  | -- | constricted glottis (constricted vocal folds)
-    CG
-  | -- | constriction at lips
-    LABIAL
-  | -- | constriction made with the tongue front
-    CORONAL
-  | -- | constriction made with the tongue body
-    DORSAL
-  | -- | constriction made with tongue root
-    PHARYNGEAL
-  | -- | constriction made at the glottis
-    LARYNGEAL
-  | -- | tongue at front of alveolar ridge
-    PLUS_ANTERIOR
-  | -- | tongue behind alveolar ridge
-    MINUS_ANTERIOR
-  | -- | relatively long constriction
-    PLUS_DISTRIB
-  | MINUS_DISTRIB
-  | -- | high-amplitude, high-pitched fricative
-    PLUS_STRIDENT
-  | MINUS_STRIDENT
-  | -- | vowels: pursing of the lips
-    PLUS_ROUND
-  | MINUS_ROUND
-  | -- | vowels: tongue is raised above neutral
-    PLUS_HIGH
-  | MINUS_HIGH
-  | -- | vowels: tongue is lowered below neutral
-    PLUS_LOW
-  | MINUS_LOW
-  | -- | vowels: tongue is moved back from neutral
-    PLUS_BACK
-  | MINUS_BACK
-  | -- | vowels: tongue root is pulled forward
-    PLUS_ATR
-  | MINUS_ATR
-  | -- | diphthongs: wide vs narrow
-    PLUS_WIDE
-  | MINUS_WIDE
-  | -- | r colored vowels
-    RHOTIC
-  | -- | differentiating between rhotic ə and ɜ (tenuous)
-    PLUS_STRESSED
-  | MINUS_STRESSED
-  deriving (Eq, Show, Generic)
+-- | Direct accessor for 'strident' feature on a segment.
+getStrident :: Segment -> Maybe BinaryFeature
+getStrident = strident . autosegmentalFeatures
 
-instance Hashable Feature
+-- | Direct accessor for 'continuant' feature on a segment.
+getContinuant :: Segment -> Maybe BinaryFeature
+getContinuant = continuant . autosegmentalFeatures
 
--- | A FeatureSet is a "Data.Set".'Set.Set' of Features
-type FeatureSet = HashSet Feature
+-- | Direct accessor for 'lateral' feature on a segment.
+getLateral :: Segment -> Maybe UnaryFeature
+getLateral = lateral . autosegmentalFeatures
 
--- | featureSet constructs a FeatureSet from a list of Features
--- ("Data.Set".'Set.fromList')
-featureSet :: [Feature] -> FeatureSet
-featureSet = HashSet.fromList
+-- | Direct accessor for 'getNasal' feature on a segment.
+getNasal :: Segment -> Maybe UnaryFeature
+getNasal = nasal . autosegmentalFeatures
 
--- | isStop reports whether or not a FeatureSet describes a stop (-sonorant,
--- -continuant, -delrel). See <https://en.wikipedia.org/wiki/Stop_consonant>
-isStop :: FeatureSet -> Bool
-isStop =
-  ((&&) . contains (featureSet [MINUS_SONORANT, MINUS_CONTINUANT]))
-    <*> (not . contains1 DELREL)
+-- | Direct accessor for 'getLaryngeal' feature on a segment.
+getLaryngeal :: Segment -> Maybe LaryngealFeatures
+getLaryngeal = laryngeal . autosegmentalFeatures
 
--- | isVoiced reports whether or not a FeatureSet describes a voiced sound (+voiced).
--- See <https://en.wikipedia.org/wiki/Voice_(phonetics)>
-isVoiced :: FeatureSet -> Bool
-isVoiced = contains1 PLUS_VOICE
+-- | Direct accessor for 'getSpreadGlottis' feature on a segment.
+getSpreadGlottis :: Segment -> Maybe UnaryFeature
+getSpreadGlottis = getLaryngeal >=> spreadGlottis
 
--- | isFricative reports whether or not a FeatureSet describes a fricative
--- (+continuant, -sonorant). See <https://en.wikipedia.org/wiki/Fricative_consonant>
-isFricative :: FeatureSet -> Bool
-isFricative = contains (featureSet [PLUS_CONTINUANT, MINUS_SONORANT])
+-- | Direct accessor for 'getConstrictedGlottis' feature on a segment.
+getConstrictedGlottis :: Segment -> Maybe UnaryFeature
+getConstrictedGlottis = getLaryngeal >=> constrictedGlottis
 
--- | isAffricate reports whether or not a FeatureSet describes an affricate (+delrel)
--- See <https://en.wikipedia.org/wiki/Affricate_consonant>
-isAffricate :: FeatureSet -> Bool
-isAffricate = contains1 DELREL
+-- | Direct accessor for 'getVoice' feature on a segment.
+getVoice :: Segment -> Maybe BinaryFeature
+getVoice = getLaryngeal >=> voice
 
--- | isNasal reports whether or not a FeatureSet describes a nasal sound (+nasal).
--- See <https://en.wikipedia.org/wiki/Nasal_consonant>
-isNasal :: FeatureSet -> Bool
-isNasal = contains1 NASAL
+-- | Direct accessor for 'getPlace' feature on a segment.
+getPlace :: Segment -> Place
+getPlace = place . autosegmentalFeatures
 
--- | isLateral reports whether or not a FeatureSet describes a lateral sound (+lateral).
--- See <https://en.wikipedia.org/wiki/Lateral_consonant>
-isLateral :: FeatureSet -> Bool
-isLateral = contains1 LATERAL
+-- | Direct accessor for 'getLabial' feature on a segment.
+getLabial :: Segment -> Maybe LabialFeatures
+getLabial = labial . getPlace
 
--- | isApproximant reports whether or not a FeatureSet describes an approximant
--- (+continuant, +sonorant, -syllabic) See <https://en.wikipedia.org/wiki/Approximant_consonant>
-isApproximant :: FeatureSet -> Bool
-isApproximant =
-  contains (featureSet [PLUS_CONTINUANT, PLUS_SONORANT, MINUS_SYLLABIC])
+-- | Direct accessor for 'getCoronal' feature on a segment.
+getCoronal :: Segment -> Maybe CoronalFeatures
+getCoronal = coronal . getPlace
 
--- | isGlide reports whether or not a FeatureSet describes a glide (-consonantal,
--- +syllabic). See <https://en.wikipedia.org/wiki/Semivowel>
-isGlide :: FeatureSet -> Bool
-isGlide = contains (featureSet [MINUS_CONSONANTAL, MINUS_SYLLABIC])
+-- | Direct accessor for 'getAnterior' feature on a segment.
+getAnterior :: Segment -> Maybe BinaryFeature
+getAnterior = getCoronal >=> anterior
 
--- | isVowel reports whether or not a FeatureSet describes a vowel (+syllabic)
--- See <https://en.wikipedia.org/wiki/Vowel>
-isVowel :: FeatureSet -> Bool
-isVowel = contains1 PLUS_SYLLABIC
+-- | Direct accessor for 'getDistrib' feature on a segment.
+getDistrib :: Segment -> Maybe BinaryFeature
+getDistrib = getCoronal >=> distrib
 
--- | isHighVowel reports whether or not a FeatureSet describes a high vowel
--- (+syllabic, +high). See <https://en.wikipedia.org/wiki/Vowel#Height>
-isHighVowel :: FeatureSet -> Bool
-isHighVowel = contains (featureSet [PLUS_SYLLABIC, PLUS_HIGH])
+-- | Direct accessor for 'getDorsal' feature on a segment.
+getDorsal :: Segment -> Maybe DorsalFeatures
+getDorsal = dorsal . getPlace
 
--- | isMidVowel reports whether or not a FeatureSet describes a high vowel
--- (+syllabic, -high, -low). See <https://en.wikipedia.org/wiki/Vowel#Height>
-isMidVowel :: FeatureSet -> Bool
-isMidVowel = contains (featureSet [PLUS_SYLLABIC, MINUS_HIGH, MINUS_LOW])
+-- | Direct accessor for 'getHigh' feature on a segment.
+getHigh :: Segment -> Maybe BinaryFeature
+getHigh = getDorsal >=> high
 
--- | isLowVowel reports whether or not a FeatureSet describes a high vowel
--- (+syllabic, +low). See <https://en.wikipedia.org/wiki/Vowel#Height>
-isLowVowel :: FeatureSet -> Bool
-isLowVowel = contains (featureSet [PLUS_SYLLABIC, PLUS_LOW])
+-- | Direct accessor for 'getLow' feature on a segment.
+getLow :: Segment -> Maybe BinaryFeature
+getLow = getDorsal >=> low
+
+-- | Direct accessor for 'getBack' feature on a segment.
+getBack :: Segment -> Maybe BinaryFeature
+getBack = getDorsal >=> back
+
+-- | Direct accessor for 'getPharyngeal' feature on a segment.
+getPharyngeal :: Segment -> Maybe PharyngealFeatures
+getPharyngeal = pharyngeal . getPlace
+
+-- | Direct accessor for 'getAdvancedTongueRoot' feature on a segment.
+getAdvancedTongueRoot :: Segment -> Maybe BinaryFeature
+getAdvancedTongueRoot = getPharyngeal >=> advancedTongueRoot
