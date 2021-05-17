@@ -257,66 +257,66 @@ getContinuant = continuant . autosegmentalFeatures
 getLateral :: Segment -> Maybe UnaryFeature
 getLateral = lateral . autosegmentalFeatures
 
--- | Direct accessor for 'getNasal' feature on a segment.
+-- | Direct accessor for 'nasal' feature on a segment.
 getNasal :: Segment -> Maybe UnaryFeature
 getNasal = nasal . autosegmentalFeatures
 
--- | Direct accessor for 'getLaryngeal' feature on a segment.
+-- | Direct accessor for 'laryngeal' feature on a segment.
 getLaryngeal :: Segment -> Maybe LaryngealFeatures
 getLaryngeal = laryngeal . autosegmentalFeatures
 
--- | Direct accessor for 'getSpreadGlottis' feature on a segment.
+-- | Direct accessor for 'spreadGlottis' feature on a segment.
 getSpreadGlottis :: Segment -> Maybe UnaryFeature
 getSpreadGlottis = getLaryngeal >=> spreadGlottis
 
--- | Direct accessor for 'getConstrictedGlottis' feature on a segment.
+-- | Direct accessor for 'constrictedGlottis' feature on a segment.
 getConstrictedGlottis :: Segment -> Maybe UnaryFeature
 getConstrictedGlottis = getLaryngeal >=> constrictedGlottis
 
--- | Direct accessor for 'getVoice' feature on a segment.
+-- | Direct accessor for 'voice' feature on a segment.
 getVoice :: Segment -> Maybe BinaryFeature
 getVoice = getLaryngeal >=> voice
 
--- | Direct accessor for 'getPlace' feature on a segment.
+-- | Direct accessor for 'place' feature on a segment.
 getPlace :: Segment -> Place
 getPlace = place . autosegmentalFeatures
 
--- | Direct accessor for 'getLabial' feature on a segment.
+-- | Direct accessor for 'labial' feature on a segment.
 getLabial :: Segment -> Maybe LabialFeatures
 getLabial = labial . getPlace
 
--- | Direct accessor for 'getCoronal' feature on a segment.
+-- | Direct accessor for 'coronal' feature on a segment.
 getCoronal :: Segment -> Maybe CoronalFeatures
 getCoronal = coronal . getPlace
 
--- | Direct accessor for 'getAnterior' feature on a segment.
+-- | Direct accessor for 'anterior' feature on a segment.
 getAnterior :: Segment -> Maybe BinaryFeature
 getAnterior = getCoronal >=> anterior
 
--- | Direct accessor for 'getDistrib' feature on a segment.
+-- | Direct accessor for 'distrib' feature on a segment.
 getDistrib :: Segment -> Maybe BinaryFeature
 getDistrib = getCoronal >=> distrib
 
--- | Direct accessor for 'getDorsal' feature on a segment.
+-- | Direct accessor for 'dorsal' feature on a segment.
 getDorsal :: Segment -> Maybe DorsalFeatures
 getDorsal = dorsal . getPlace
 
--- | Direct accessor for 'getHigh' feature on a segment.
+-- | Direct accessor for 'high' feature on a segment.
 getHigh :: Segment -> Maybe BinaryFeature
 getHigh = getDorsal >=> high
 
--- | Direct accessor for 'getLow' feature on a segment.
+-- | Direct accessor for 'low' feature on a segment.
 getLow :: Segment -> Maybe BinaryFeature
 getLow = getDorsal >=> low
 
--- | Direct accessor for 'getBack' feature on a segment.
+-- | Direct accessor for 'back' feature on a segment.
 getBack :: Segment -> Maybe BinaryFeature
 getBack = getDorsal >=> back
 
--- | Direct accessor for 'getPharyngeal' feature on a segment.
+-- | Direct accessor for 'pharyngeal' feature on a segment.
 getPharyngeal :: Segment -> Maybe PharyngealFeatures
 getPharyngeal = pharyngeal . getPlace
 
--- | Direct accessor for 'getAdvancedTongueRoot' feature on a segment.
+-- | Direct accessor for 'advancedTongueRoot' feature on a segment.
 getAdvancedTongueRoot :: Segment -> Maybe BinaryFeature
 getAdvancedTongueRoot = getPharyngeal >=> advancedTongueRoot
