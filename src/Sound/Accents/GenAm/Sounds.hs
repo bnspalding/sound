@@ -12,9 +12,8 @@ module Sound.Accents.GenAm.Sounds where
 
 import qualified Data.HashMap.Strict as HashMap
 import qualified Data.HashSet as HashSet
-import Data.Maybe (fromMaybe)
+import Sound.Accents.Builders.Consonants
 import qualified Data.Text as T
-import Sound.Feature
 import Sound.Phoneme hiding (symbol)
 import Prelude hiding (round)
 
@@ -22,273 +21,17 @@ import Prelude hiding (round)
 featureMap :: HashMap.HashMap T.Text Phoneme
 featureMap = consonants <> vowels
 
-aBase :: AutosegmentalFeatures
-aBase =
-  AutosegmentalFeatures
-    { nasal = Nothing,
-      lateral = Nothing,
-      strident = Nothing,
-      continuant = Nothing,
-      place = pBase,
-      laryngeal = Nothing
-    }
-
-pBase :: Place
-pBase =
-  Place
-    { labial = Nothing,
-      coronal = Nothing,
-      dorsal = Nothing,
-      pharyngeal = Nothing
-    }
-
-vd :: Segment -> Segment
-vd seg =
-  seg
-    { autosegmentalFeatures =
-        aFeats
-          { laryngeal =
-              Just lFeats {voice = Just Plus}
-          }
-    }
-  where
-    aFeats = autosegmentalFeatures seg
-    lFeats = fromMaybe (LaryngealFeatures Nothing Nothing Nothing) (laryngeal aFeats)
-
-vl :: Segment -> Segment
-vl seg =
-  seg
-    { autosegmentalFeatures =
-        aFeats
-          { laryngeal =
-              Just lFeats {voice = Just Minus}
-          }
-    }
-  where
-    aFeats = autosegmentalFeatures seg
-    lFeats = fromMaybe (LaryngealFeatures Nothing Nothing Nothing) (laryngeal aFeats)
-
-stop :: T.Text -> Segment
-stop sym =
-  Segment
-    { rootFeatures =
-        RootFeatures
-          { consonantal = Plus,
-            sonorant = Minus,
-            syllabic = Minus
-          },
-      autosegmentalFeatures =
-        aBase
-          { continuant = Just Minus,
-            place = pBase
-          },
-      symbol = sym
-    }
-
-nasal_ :: T.Text -> Segment
-nasal_ sym =
-  Segment
-    { rootFeatures =
-        RootFeatures
-          { consonantal = Plus,
-            sonorant = Plus,
-            syllabic = Minus
-          },
-      autosegmentalFeatures =
-        aBase
-          { nasal = Just Marked,
-            continuant = Just Minus,
-            place = pBase
-          },
-      symbol = sym
-    }
-
-fricative :: T.Text -> Segment
-fricative sym =
-  Segment
-    { rootFeatures =
-        RootFeatures
-          { consonantal = Plus,
-            sonorant = Minus,
-            syllabic = Minus
-          },
-      autosegmentalFeatures =
-        aBase
-          { continuant = Just Plus,
-            strident = Just Minus,
-            place = pBase
-          },
-      symbol = sym
-    }
-
-glide :: T.Text -> Segment
-glide sym =
-  Segment
-    { rootFeatures =
-        RootFeatures
-          { consonantal = Minus,
-            sonorant = Plus,
-            syllabic = Minus
-          },
-      autosegmentalFeatures =
-        aBase
-          { continuant = Just Plus
-          },
-      symbol = sym
-    }
-
-approximant :: T.Text -> Segment
-approximant sym =
-  Segment
-    { rootFeatures =
-        RootFeatures
-          { consonantal = Plus,
-            sonorant = Plus,
-            syllabic = Minus
-          },
-      autosegmentalFeatures =
-        aBase {continuant = Just Plus},
-      symbol = sym
-    }
-
-sibilant :: Segment -> Segment
-sibilant seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { strident = Just Plus
-          }
-    }
-
-distrib_ :: Segment -> Segment
-distrib_ seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { place =
-              (place (autosegmentalFeatures seg))
-                { coronal =
-                    Just
-                      corFeats
-                        { distrib = Just Plus
-                        }
-                }
-          }
-    }
-  where
-    corFeats =
-      fromMaybe
-        (CoronalFeatures Nothing Nothing)
-        (coronal (place (autosegmentalFeatures seg)))
-
-lateral_ :: Segment -> Segment
-lateral_ seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { lateral = Just Marked
-          }
-    }
-
-bilabial :: Segment -> Segment
-bilabial seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { place =
-              (place (autosegmentalFeatures seg))
-                { labial = Just LabialFeatures {round = Nothing}
-                }
-          }
-    }
-
-labiodental :: Segment -> Segment
-labiodental = bilabial
-
-alveolar :: Segment -> Segment
-alveolar seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { place =
-              (place (autosegmentalFeatures seg))
-                { coronal =
-                    Just
-                      CoronalFeatures
-                        { anterior = Just Plus,
-                          distrib = Just Minus
-                        }
-                }
-          }
-    }
-
-dental :: Segment -> Segment
-dental = alveolar
-
-postalveolar :: Segment -> Segment
-postalveolar seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { place =
-              (place (autosegmentalFeatures seg))
-                { coronal =
-                    Just
-                      CoronalFeatures
-                        { anterior = Just Minus,
-                          distrib = Just Minus
-                        }
-                }
-          }
-    }
-
-velar :: Segment -> Segment
-velar seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { place =
-              (place (autosegmentalFeatures seg))
-                { dorsal =
-                    Just
-                      DorsalFeatures
-                        { high = Nothing,
-                          low = Nothing,
-                          back = Nothing
-                        }
-                }
-          }
-    }
-
-palatal :: Segment -> Segment
-palatal = velar
-
-glottal :: Segment -> Segment
-glottal seg =
-  seg
-    { autosegmentalFeatures =
-        (autosegmentalFeatures seg)
-          { laryngeal =
-              Just lFeats
-          }
-    }
-  where
-    lFeats =
-      fromMaybe
-        (LaryngealFeatures Nothing Nothing Nothing)
-        (laryngeal (autosegmentalFeatures seg))
-
 consonants :: HashMap.HashMap T.Text Phoneme
 consonants =
   HashMap.fromList
     [ ( "m", -- vd bilabial nasal
-        Monosegment $ (vd . bilabial . nasal_) "m"
+        Monosegment $ (vd . bilabial . nasal) "m"
       ),
       ( "n", -- vd alveolar nasal
-        Monosegment $ (vd . alveolar . nasal_) "n"
+        Monosegment $ (vd . alveolar . nasal) "n"
       ),
       ( "ŋ", -- 014B vd velar nasal
-        Monosegment $ (vd . velar . nasal_) "ŋ"
+        Monosegment $ (vd . velar . nasal) "ŋ"
       ),
       ( "p", -- 0070 vl bilabial stop
         Monosegment $ (vl . bilabial . stop) "p"
@@ -311,12 +54,12 @@ consonants =
       ( "t͡ʃ", -- 0074 0361 0283 vl postalveolar affricate
         Disegment
           ((vl . alveolar . stop) "t")
-          ((vl . postalveolar . distrib_ . sibilant . fricative) "ʃ")
+          ((vl . postalveolar . distrib . sibilant . fricative) "ʃ")
       ),
       ( "d͡ʒ", -- 0064 0361 0292, vd postalveolar affricate
         Disegment
           ((vd . alveolar . stop) "d")
-          ((vd . postalveolar . distrib_ . sibilant . fricative) "ʒ")
+          ((vd . postalveolar . distrib . sibilant . fricative) "ʒ")
       ),
       ( "f", -- 0066, vl labiodental fricative,
         Monosegment $ (vl . labiodental . sibilant . fricative) "f"
@@ -325,10 +68,10 @@ consonants =
         Monosegment $ (vd . labiodental . sibilant . fricative) "v"
       ),
       ( "θ", -- 03B8, vl dental fricative,
-        Monosegment $ (vl . dental . distrib_ . fricative) "θ"
+        Monosegment $ (vl . dental . distrib . fricative) "θ"
       ),
       ( "ð", -- 00F0, vd dental fricative
-        Monosegment $ (vd . dental . distrib_ . fricative) "ð"
+        Monosegment $ (vd . dental . distrib . fricative) "ð"
       ),
       ( "s", -- 0073, vl alveolar fricative,
         Monosegment $ (vl . alveolar . sibilant . fricative) "s"
@@ -337,19 +80,19 @@ consonants =
         Monosegment $ (vd . alveolar . sibilant . fricative) "z"
       ),
       ( "ʃ", -- 0283, vl postalveolar fricative,
-        Monosegment $ (vl . postalveolar . distrib_ . sibilant . fricative) "ʃ"
+        Monosegment $ (vl . postalveolar . distrib . sibilant . fricative) "ʃ"
       ),
       ( "ʒ", -- 0292, vd postalveolar fricative
-        Monosegment $ (vd . postalveolar . distrib_ . sibilant . fricative) "ʒ"
+        Monosegment $ (vd . postalveolar . distrib . sibilant . fricative) "ʒ"
       ),
       ( "h", -- 0068, vl glottal fricative,
         Monosegment $ (vl . glottal . fricative) "h"
       ),
       ( "l", -- 006C, vd alveolar lateral approximant,
-        Monosegment $ (vd . alveolar . lateral_ . distrib_ . approximant) "l"
+        Monosegment $ (vd . alveolar . lateral . distrib . approximant) "l"
       ),
       ( "ɹ", -- 0279, vd alveolar approximant
-        Monosegment $ (vd . alveolar . distrib_ . approximant) "ɹ"
+        Monosegment $ (vd . alveolar . distrib . approximant) "ɹ"
       ),
       ( "j", -- 006A, vd palatal approximant,
         Monosegment $ (vd . palatal . glide) "j"
