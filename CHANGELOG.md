@@ -9,3 +9,5 @@
 - Sound has been replaced with Phoneme. Features are now stored on the object 
   rather than in a lookup.
 - versioning has reset to 0.1.0
+- GenAm sounds have been rewritten using a set of vowel and consonant
+  constructors

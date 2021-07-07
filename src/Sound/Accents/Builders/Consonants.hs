@@ -14,6 +14,7 @@ module Sound.Accents.Builders.Consonants
     vl,
     stop,
     nasal,
+    rhotic,
     fricative,
     glide,
     approximant,
@@ -33,8 +34,8 @@ where
 
 import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
-import Sound.Feature hiding (distrib, lateral, nasal)
-import qualified Sound.Feature as F (distrib, lateral, nasal)
+import Sound.Feature hiding (distrib, lateral, nasal, rhotic)
+import qualified Sound.Feature as F (distrib, lateral, nasal, rhotic)
 import Prelude hiding (round)
 
 aBase :: AutosegmentalFeatures
@@ -42,6 +43,7 @@ aBase =
   AutosegmentalFeatures
     { F.nasal = Nothing,
       F.lateral = Nothing,
+      F.rhotic = Nothing,
       strident = Nothing,
       continuant = Nothing,
       place = pBase,
@@ -71,7 +73,7 @@ vd seg =
     aFeats = autosegmentalFeatures seg
     lFeats = fromMaybe (LaryngealFeatures Nothing Nothing Nothing) (laryngeal aFeats)
 
--- | a voiceless segment
+-- | a voiceless segment vl :: Segment -> Segment
 vl :: Segment -> Segment
 vl seg =
   seg
@@ -215,6 +217,16 @@ lateral seg =
           }
     }
 
+-- | a segment marked rhotic
+rhotic :: Segment -> Segment
+rhotic seg =
+  seg
+    { autosegmentalFeatures =
+        (autosegmentalFeatures seg)
+          { F.rhotic = Just Marked
+          }
+    }
+
 -- | a labially articulated segment
 bilabial :: Segment -> Segment
 bilabial seg =
@@ -251,7 +263,7 @@ alveolar seg =
           }
     }
 
--- | a coronally articulated segment marked (+anterior). From the perspective of 
+-- | a coronally articulated segment marked (+anterior). From the perspective of
 -- distinctive features, this is marked the same as 'alveolar'.
 dental :: Segment -> Segment
 dental = alveolar

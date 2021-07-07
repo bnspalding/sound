@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d0d94b132b481b0f40ea3df088c9b8991cc0e59c184e1b0da9cf67f1a10f3448
+-- hash: 014debb4fbf4a29f24bddb358d9faf5798fb8c91c879cdd792ec1a6ede7b554f
 
 name:           sound
 version:        0.1.0
@@ -24,6 +24,7 @@ library
       Rhyme.Strict
       Sound
       Sound.Accents.Builders.Consonants
+      Sound.Accents.Builders.Vowels
       Sound.Accents.GenAm
       Sound.Accents.GenAm.Sounds
       Sound.Feature

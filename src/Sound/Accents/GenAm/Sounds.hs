@@ -11,9 +11,11 @@
 module Sound.Accents.GenAm.Sounds where
 
 import qualified Data.HashMap.Strict as HashMap
-import qualified Data.HashSet as HashSet
-import Sound.Accents.Builders.Consonants
 import qualified Data.Text as T
+import Sound.Accents.Builders.Consonants
+import qualified Sound.Accents.Builders.Consonants as C (rhotic)
+import Sound.Accents.Builders.Vowels
+import qualified Sound.Accents.Builders.Vowels as V (rhotic)
 import Sound.Phoneme hiding (symbol)
 import Prelude hiding (round)
 
@@ -92,7 +94,7 @@ consonants =
         Monosegment $ (vd . alveolar . lateral . distrib . approximant) "l"
       ),
       ( "ɹ", -- 0279, vd alveolar approximant
-        Monosegment $ (vd . alveolar . distrib . approximant) "ɹ"
+        Monosegment $ (vd . alveolar . distrib . C.rhotic . approximant) "ɹ"
       ),
       ( "j", -- 006A, vd palatal approximant,
         Monosegment $ (vd . palatal . glide) "j"
@@ -109,233 +111,64 @@ vowels :: HashMap.HashMap T.Text Phoneme
 vowels =
   HashMap.fromList
     [ ( "i", -- , 0069, close front unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            PLUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            PLUS_ATR
-          ]
+        Monosegment $ (high . front . tense . unrounded . vowel) "i"
       ),
       ( "ɪ", -- , 026A, near-close front unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            PLUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (high . front . unrounded . vowel) "ɪ"
       ),
       ( "ɛ", -- , 025B, open-mid front unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            PLUS_ATR
-          ]
+        Monosegment $ (mid . front . tense . unrounded . vowel) "ɛ"
       ),
       ( "æ", --, 00E6, near-open front unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            PLUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (low . front . unrounded . vowel) "æ"
       ),
       ( "ə", -- , 0259, mid central unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (mid . front . unrounded . vowel) "ə"
       ),
       ( "ʌ", -- , 028C, open-mid back unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            PLUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (mid . back . unrounded . vowel) "ʌ"
       ),
       ( "ɑ", -- , 0251, open back unrounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            PLUS_LOW,
-            PLUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (low . back . unrounded . vowel) "ɑ"
       ),
       ( "u", -- , 0075, close back rounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            PLUS_ROUND,
-            PLUS_HIGH,
-            MINUS_LOW,
-            PLUS_BACK,
-            PLUS_ATR
-          ]
+        Monosegment $ (high . back . rounded . tense . vowel) "u"
       ),
       ( "ʊ", -- , 028A, near-close back rounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            PLUS_ROUND,
-            PLUS_HIGH,
-            MINUS_LOW,
-            PLUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (high . back . rounded . vowel) "ʊ"
       ),
       ( "ɔ", -- , 0254, open-mid back rounded,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            PLUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            PLUS_BACK,
-            MINUS_ATR
-          ]
+        Monosegment $ (mid . back . rounded . vowel) "ɔ"
       ),
       ( "e͡ɪ", -- , 0065 0361 026A,
-        HashSet.fromList -- diphthong, closing mid-to-high narrow front
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            PLUS_ATR,
-            MINUS_WIDE
-          ]
+        Disegment
+          ((mid . front . tense . unrounded . vowel) "e")
+          ((high . front . unrounded . vowel) "ɪ")
       ),
       ( "a͡ɪ", -- , 0061 0361 026A, diphthong closing low-to-high wide,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR,
-            PLUS_WIDE
-          ]
+        Disegment
+          ((low . front . unrounded . vowel) "a")
+          ((high . front . unrounded . vowel) "ɪ")
       ),
       ( "a͡ʊ", -- , 0061 0361 028A, diphthong closing low-to-high backward front-to-back wide,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            PLUS_ROUND,
-            MINUS_HIGH,
-            PLUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR,
-            PLUS_WIDE
-          ]
+        Disegment
+          ((low . front . unrounded . vowel) "a")
+          ((high . back . rounded . vowel) "ʊ")
       ),
       ( "o͡ʊ", -- , 006F 0361 028A, diphthong closing mid-to-high narrow back,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            PLUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            PLUS_BACK,
-            PLUS_ATR,
-            MINUS_WIDE
-          ]
+        Disegment
+          ((mid . back . tense . rounded . vowel) "o")
+          ((high . back . rounded . vowel) "ʊ")
       ),
       ( "ɔ͡ɪ", -- , 0254 0361 026A, diphthong closing mid-to-high forward back-to-front wide,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            PLUS_BACK,
-            MINUS_ATR,
-            PLUS_WIDE
-          ]
+        Disegment
+          ((mid . back . rounded . vowel) "ɔ")
+          ((high . front . unrounded . vowel) "ɪ")
       ),
-      ( "ɜ˞", -- , 025C 02DE, mid central rhotic stressed,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR,
-            RHOTIC,
-            PLUS_STRESSED
-          ]
+      ( "ɜ˞", -- , 025C 02DE, mid central tense rhotic,
+        Monosegment $ (mid . front . tense . unrounded . V.rhotic . vowel) "ɛ"
       ),
-      ( "ə˞", -- , 0259 02DE, mid central rhotic unstressed,
-        HashSet.fromList
-          [ PLUS_SYLLABIC,
-            MINUS_CONSONANTAL,
-            PLUS_SONORANT,
-            PLUS_CONTINUANT,
-            MINUS_ROUND,
-            MINUS_HIGH,
-            MINUS_LOW,
-            MINUS_BACK,
-            MINUS_ATR,
-            RHOTIC,
-            MINUS_STRESSED
-          ]
+      ( "ə˞", -- , 0259 02DE, mid central rhotic,
+        Monosegment $ (mid . front . unrounded . V.rhotic . vowel) "ə"
       )
     ]

@@ -35,11 +35,11 @@
 -- >                              (+/- consonantal)
 -- >                               (+/- syllabic)
 -- >                               (+/- sonorant)
--- >        _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _
--- >       |                  |           |             |         |
--- > [+/-continuant]    [+/-strident]   [lateral]   [nasal]   [laryngeal]
--- >                                                          /    |    \
--- >                                                        [SG]  [CG]  [+/-voice]
+-- >        _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+-- >       |                  |           |             |         |      \
+-- > [+/-continuant]  [+/-strident]  [laryngeal]  [lateral]   [nasal]  [rhotic]
+-- >                                 /    |    \
+-- >                              [SG]  [CG]  [+/-voice]
 module Sound.Feature
   ( -- * Segment
     Segment (..),
@@ -66,6 +66,7 @@ module Sound.Feature
     getContinuant,
     getLateral,
     getNasal,
+    getRhotic,
     getLaryngeal,
     getSpreadGlottis,
     getConstrictedGlottis,
@@ -149,6 +150,8 @@ data AutosegmentalFeatures = AutosegmentalFeatures
     nasal :: Maybe UnaryFeature,
     -- | Air passes to the sides around the tongue: \/l\/, \/ɹ\/.
     lateral :: Maybe UnaryFeature,
+    -- | Any of the different ways that rhoticity is marked.
+    rhotic :: Maybe UnaryFeature,
     -- | High-amplitude, high-frequence fricatives: sibilants (+).
     strident :: Maybe BinaryFeature,
     -- | Continuous vs stopped airflow: fricatives, approximants (+); stops (-).
@@ -260,6 +263,10 @@ getLateral = lateral . autosegmentalFeatures
 -- | Direct accessor for 'nasal' feature on a segment.
 getNasal :: Segment -> Maybe UnaryFeature
 getNasal = nasal . autosegmentalFeatures
+
+-- | Direct accessor for 'rhotic' feature on a segment.
+getRhotic :: Segment -> Maybe UnaryFeature
+getRhotic = rhotic . autosegmentalFeatures
 
 -- | Direct accessor for 'laryngeal' feature on a segment.
 getLaryngeal :: Segment -> Maybe LaryngealFeatures

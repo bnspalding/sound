@@ -7,8 +7,9 @@
 
 - revisit tests to specify new functions/interface for library
 
-- update vowels with new definitions in src/Sound/GenAm/Sounds.hs
-
 - the README needs significant revisions once new feature structure has settled
 
 - add combining character for disegment symbol representations in phonemes
+
+- switch around record names and generalized accessors so that getX is the
+  record accessor and X is the generalized accessor
